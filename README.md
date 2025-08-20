@@ -16,7 +16,7 @@
 
 ## Instructors
 
-The lab sessions to the course Introduction to Data Science by [Simon Munzert](https://simonmunzert.github.io/) at the [Hertie School, Berlin](https://www.hertie-school.org/en/), are taught by [Killian Conyngham](https://github.com/Killian-Conyngham) and [Carol Sobral]().
+The lab sessions to the course Introduction to Data Science by [Simon Munzert](https://simonmunzert.github.io/) at the [Hertie School, Berlin](https://www.hertie-school.org/en/), are taught by [Killian Conyngham](https://github.com/Killian-Conyngham) and [Carol Sobral](https://github.com/cbsobral).
 
 ## Acknowledgements
 
