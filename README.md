@@ -16,11 +16,11 @@
 
 ## Instructors
 
-The lab sessions to the course Introduction to Data Science by [Simon Munzert](https://simonmunzert.github.io/) at the [Hertie School, Berlin](https://www.hertie-school.org/en/), are taught by [Sebastian Ramirez-Ruiz](https://seramirezruiz.github.io/) and [Carmen Garro](https://github.com/cgarroca).
+The lab sessions to the course Introduction to Data Science by [Simon Munzert](https://simonmunzert.github.io/) at the [Hertie School, Berlin](https://www.hertie-school.org/en/), are taught by [Killian Conyngham](https://github.com/Killian-Conyngham) and [Carol Sobral]().
 
 ## Acknowledgements
 
-These materials were drafted by [Tom Arendt](https://github.com/tom-arend) and [Lisa Oswald](https://lfoswald.github.io/), with contributions by [Steve Kerr](https://smkerr.github.io/), [Hiba Ahmad](https://github.com/hiba-ahmad), [Carmen Garro](https://github.com/cgarroca), and [Sebastian Ramirez-Ruiz](https://seramirezruiz.github.io/). 
+These materials were drafted by [Tom Arendt](https://github.com/tom-arend) and [Lisa Oswald](https://lfoswald.github.io/), with contributions by [Steve Kerr](https://smkerr.github.io/), [Hiba Ahmad](https://github.com/hiba-ahmad), [Carmen Garro](https://github.com/cgarroca), [Sebastian Ramirez-Ruiz](https://seramirezruiz.github.io/), [Killian Conyngham](https://github.com/Killian-Conyngham) and [Carol Sobral](). 
 
 ## License
 
