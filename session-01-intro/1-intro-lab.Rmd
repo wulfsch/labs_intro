@@ -364,7 +364,7 @@ tail(penguins_new, 2)  # Look at the last two rows
 ## Adding variables
 We can also create new variables that use information from the existing data. For example, we might want to create a ratio of bill length to bill depth, or convert body mass from grams to kilograms. By using the $ operator, we can directly assign the new variable to the data frame.
 ```{r}
-penguins$bill_ratio <- penguins$culmen_length_mm / penguins$bill_depth_mm
+penguins$bill_ratio <- penguins$bill_length_mm / penguins$bill_depth_mm
 penguins$body_mass_kg <- penguins$body_mass_g / 1000
 
 head(penguins, 3) # prints out the first 3 rows of the data frame
@@ -708,9 +708,9 @@ We can leverage the pipe operator to sequence our code in a logical manner. Can 
 :::
 
 ```{r}
-only_2009 <- dplyr::filter(penguins, year == 2009)
+only_2009 <- dplyr::filter(penguins, rec_year == 2009)
 only_2009_chinstraps <- dplyr::filter(only_2009, species == "Chinstrap")
-only_2009_chinstraps_species_sex_year <- dplyr::select(only_2009_chinstraps, species, sex, year)
+only_2009_chinstraps_species_sex_year <- dplyr::select(only_2009_chinstraps, species, sex, rec_year)
 final_df <- only_2009_chinstraps_species_sex_year
 final_df #to print it in our console
 
@@ -718,7 +718,7 @@ final_df #to print it in our console
 
 ------------------------------------------------------------------------
 
-## `dplyr::mutate()` ``` r emo::ji("closed_umbrella")``r emo::ji("open_umbrella") ```
+## `dplyr::mutate()` `r emo::ji("closed_umbrella")` `r emo::ji("open_umbrella")`
 
 `dplyr::mutate()` lets us create, modify, and delete columns. The most common use for now will be to create new variables based on existing ones. Say we are working with a U.S. American client and they feel more comfortable with assessing the weight of the penguins in pounds. We would utilize `mutate()` as such:
 
@@ -773,7 +773,7 @@ Can you get the weight of the lightest penguin of each species? You can use `min
 
 ------------------------------------------------------------------------
 
-## `dplyr::arrange()` ``` r emo::ji("egg")``r emo::ji("hatching_chick")``r emo::ji("hatched_chick") ```
+## `dplyr::arrange()`r emo::ji("egg")` `r emo::ji("hatching_chick")` `r emo::ji("hatched_chick")`
 
 The `dplyr::arrange()` verb is pretty self-explanatory. `dplyr::arrange()` orders the rows of a data frame by the values of selected columns in ascending order. You can use the `desc()` argument inside to arrange in descending order. The following chunk arranges the data frame based on the length of the penguins' bill. You hint tab contains the code for the descending order alternative.
 

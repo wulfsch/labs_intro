@@ -1518,7 +1518,7 @@ margin-left: 0 !important;
           <ul>
           <li><a href="#the-rstudio-interface" id="toc-the-rstudio-interface">The RStudio interface</a></li>
           <li><a href="#getting-help" id="toc-getting-help">Getting Help
-          🔍</a></li>
+          🔎</a></li>
           <li><a href="#executing-a-line-of-code" id="toc-executing-a-line-of-code">Executing a line of
           code</a></li>
           <li><a href="#objects-in-r" id="toc-objects-in-r">Objects in R
@@ -1526,11 +1526,11 @@ margin-left: 0 !important;
           <li><a href="#r-packages" id="toc-r-packages">R Packages
           📁</a></li>
           <li><a href="#working-directory" id="toc-working-directory">Working directory</a></li>
-          <li><a href="#importing-data" id="toc-importing-data">Importing data</a></li>
           </ul></li>
           <li><a href="#data-frames" id="toc-data-frames">Data
           Frames</a>
           <ul>
+          <li><a href="#data-frame-structure" id="toc-data-frame-structure">Data Frame Structure</a></li>
           <li><a href="#nas-in-r" id="toc-nas-in-r">NAs in
           <code>R</code></a></li>
           <li><a href="#adding-observations" id="toc-adding-observations">Adding observations</a></li>
@@ -1561,19 +1561,18 @@ margin-left: 0 !important;
           <li><a href="#the-pipe-operator" id="toc-the-pipe-operator">The pipe <code>%&gt;%</code>
           operator</a></li>
           <li><a href="#tidy-data" id="toc-tidy-data">Tidy Data
-          🗃</a></li>
+          🗄</a></li>
           </ul></li>
           <li><a href="#data-manipulation-with-dplyr" id="toc-data-manipulation-with-dplyr">Data manipulation with
           <code>dplyr</code></a>
           <ul>
           <li><a href="#dplyrselect" id="toc-dplyrselect"><code>dplyr::select()</code></a></li>
           <li><a href="#dplyrfilter" id="toc-dplyrfilter"><code>dplyr::filter()</code> ☕</a></li>
-          <li><a href="#dplyrmutate-r-emojiclosed_umbrella" id="toc-dplyrmutate-r-emojiclosed_umbrella"><code>dplyr::mutate()</code>
-          `<code>r emo::ji(&quot;closed_umbrella&quot;)`☂️</code></a></li>
+          <li><a href="#dplyrmutate" id="toc-dplyrmutate"><code>dplyr::mutate()</code> 🌂
+          ☂️</a></li>
           <li><a href="#dplyrgroup_by-and-dplyrsummarize" id="toc-dplyrgroup_by-and-dplyrsummarize"><code>dplyr::group_by()</code>
           and <code>dplyr::summarize()</code></a></li>
-          <li><a href="#dplyrarrange-r-emojiegg" id="toc-dplyrarrange-r-emojiegg"><code>dplyr::arrange()</code>
-          `<code>r emo::ji(&quot;egg&quot;)`🐣🐥</code></a></li>
+          <li><a href="#dplyrarrange" id="toc-dplyrarrange">`dplyr::arrange()🥚 🐣 🐥</a></li>
           <li><a href="#optional-other-dplyr-functions" id="toc-optional-other-dplyr-functions">Optional: Other
           <code>dplyr</code> functions</a></li>
           <li><a href="#to-do" id="toc-to-do">To-do!</a></li>
@@ -1681,7 +1680,7 @@ will be displayed here.</p></li>
 <hr />
 </div>
 <div id="getting-help" class="section level2">
-<h2>Getting Help 🔍</h2>
+<h2>Getting Help 🔎</h2>
 <p>The key to learning <code>R</code> is: <strong>Google</strong>! We
 can give you an overview over basic <code>R</code> functions, but to
 really learn <code>R</code> you will have to actively use it yourself,
@@ -1829,90 +1828,117 @@ change your working directory under Session &gt; Set Working Directory
 mess to some degree are R Projects. We highly recommend working in
 Projects because they are easily integrated with Git and GitHub!</p>
 <hr />
-<p>Time for some <em>examples</em>!</p>
-<p>Below, we will use use the <code>foreign</code> package to import a
-.csv file. To make the <code>foreign</code> package available for use,
-install it and then use the <code>library()</code> command to load it.
-While packages need to be installed only once, the
-<code>library()</code> command needs to be run every time you want to
-use a particular package. On many machines, the <code>foreign</code>
-package is pre-installed. We install it above for practice purposes.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">#install.packages(&quot;foreign&quot;) #alternatively use &quot;Install&quot; button </span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">library</span>(foreign)</span></code></pre></div>
-<p>In this example, we will use a subset of data from the <a href="https://www.acleddata.com/">Armed Conflict Location &amp; Event
-Data Project (ACLED)</a>, which offers real-time data and analysis on
-political violence and protests around the world. The
-<code>ACLED_countries.csv</code> dataset includes the count of riot and
-protest events from January 2000 to December 2019 for many countries.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
 </div>
-</div>
-<div id="importing-data" class="section level2">
-<h2>Importing data</h2>
-<p>Most data formats we commonly use are not native to <code>R</code>
-and need to be imported. Luckily, there is a variety of packages
-available to import just about any non-native format. One of the
-essential libraries is called <code>foreign</code> and includes
-functions to import .csv, .dta (Stata), .dat, ,.sav (SPSS), etc.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/ACLED_countries.csv&quot;</span>,</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>                   <span class="at">stringsAsFactors =</span> F)</span></code></pre></div>
 </div>
 </div>
 <div id="data-frames" class="section level1">
 <h1>Data Frames</h1>
-<p>Let’s now go a bit deeper with data frames, a structure you’ll
-probably encounter every time you work with <code>R</code>.</p>
+<p>Let’s now go a bit deeper with data frames using data for penguin
+sizes recorded by Dr. Kristen Gorman and others at several islands in
+the Palmer Archipelago, Antarctica. Data are originally published in:
+Gorman KB, Williams TD, Fraser WR (2014) PLoS ONE 9(3): e90081. <a href="doi:10.1371/journal.pone.0090081" class="uri">doi:10.1371/journal.pone.0090081</a></p>
+<p>The 3 species of penguins in this data set are Adelie, Chinstrap and
+Gentoo. The data set contains 8 variables:</p>
+<ul>
+<li><strong>species:</strong> a factor denoting the penguin species
+(Adelie, Chinstrap, or Gentoo)</li>
+<li><strong>island:</strong> a factor denoting the island (in Palmer
+Archipelago, Antarctica) where observed</li>
+<li><strong>bill_length_mm:</strong> a number denoting length of the
+dorsal ridge of penguin bill (millimeters)</li>
+<li><strong>bill_depth_mm:</strong> a number denoting the depth of the
+penguin bill (millimeters)</li>
+<li><strong>flipper_length_mm:</strong> an integer denoting penguin
+flipper length (millimeters)</li>
+<li><strong>body_mass_g:</strong> an integer denoting penguin body mass
+(grams)</li>
+<li><strong>sex:</strong> a factor denoting penguin sex (MALE,
+FEMALE)</li>
+<li><strong>year</strong> an integer denoting the year of the
+record</li>
+</ul>
+<p>Handily, this data is contained in a package called
+<code>palmerpenguins</code>. To make the <code>palmerpenguins</code>
+package available for use, install it and then use the
+<code>library()</code> command to load it. While packages need to be
+installed only once, the <code>library()</code> command needs to be run
+every time you want to use a particular package.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># install.packages(&quot;palmerpenguins&quot;) # Run this in console only</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins)</span></code></pre></div>
+<div id="loading-the-data" class="section level3">
+<h3>Loading the data</h3>
+<p>Once we have loaded the package we can load the data set by simply
+typing <code>data(penguins)</code>. The data will be stored in a data
+frame called <code>penguins</code>. (Note: Usually, you would load data
+from a file on your computer or from a URL as most datasets are not
+packaged.)</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">data</span>(penguins)</span></code></pre></div>
+</div>
+<div id="data-frame-structure" class="section level2">
+<h2>Data Frame Structure</h2>
 <p>Let’s find out what these data look like. First, use the
 <code>str()</code> function to explore the variable names and which data
 class they are stored in. Note: <code>int</code> stands for
 <code>integer</code> and is a special case of the class
 <code>numeric</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">str</span>(mydata)</span></code></pre></div>
-<pre><code>## &#39;data.frame&#39;:    103 obs. of  5 variables:
-##  $ country                : chr  &quot;Afghanistan&quot; &quot;Albania&quot; &quot;Algeria&quot; &quot;Angola&quot; ...
-##  $ region                 : chr  &quot;Southern Asia&quot; &quot;Europe&quot; &quot;Northern Africa&quot; &quot;Middle Africa&quot; ...
-##  $ nconflicts             : int  40765 582 7362 1108 3118 12627 1861 16802 293 215 ...
-##  $ nconflict_no_fatalities: int  23946 581 5321 728 3110 12578 1846 13114 293 165 ...
-##  $ fatalities             : int  119973 1 8451 13788 8 59 22 4640 0 114 ...</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">str</span>(penguins)</span></code></pre></div>
+<pre><code>## tibble [344 × 8] (S3: tbl_df/tbl/data.frame)
+##  $ species          : Factor w/ 3 levels &quot;Adelie&quot;,&quot;Chinstrap&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ island           : Factor w/ 3 levels &quot;Biscoe&quot;,&quot;Dream&quot;,..: 3 3 3 3 3 3 3 3 3 3 ...
+##  $ bill_length_mm   : num [1:344] 39.1 39.5 40.3 NA 36.7 39.3 38.9 39.2 34.1 42 ...
+##  $ bill_depth_mm    : num [1:344] 18.7 17.4 18 NA 19.3 20.6 17.8 19.6 18.1 20.2 ...
+##  $ flipper_length_mm: int [1:344] 181 186 195 NA 193 190 181 195 193 190 ...
+##  $ body_mass_g      : int [1:344] 3750 3800 3250 NA 3450 3650 3625 4675 3475 4250 ...
+##  $ sex              : Factor w/ 2 levels &quot;female&quot;,&quot;male&quot;: 2 1 1 NA 1 2 1 2 NA NA ...
+##  $ year             : int [1:344] 2007 2007 2007 2007 2007 2007 2007 2007 2007 2007 ...</code></pre>
+<div class="alert-info">
+<p><strong>Exercise 1</strong></p>
+<p>Look at the output from the function adove. How many observations
+(rows) and variables (columns) does the penguins dataset have? What
+different data types do you see?</p>
+</div>
 <p>If we are only interested in what the variables are called, we can
 use the <code>names()</code> function.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">names</span>(mydata)</span></code></pre></div>
-<pre><code>## [1] &quot;country&quot;                 &quot;region&quot;                 
-## [3] &quot;nconflicts&quot;              &quot;nconflict_no_fatalities&quot;
-## [5] &quot;fatalities&quot;</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">names</span>(penguins)</span></code></pre></div>
+<pre><code>## [1] &quot;species&quot;           &quot;island&quot;            &quot;bill_length_mm&quot;   
+## [4] &quot;bill_depth_mm&quot;     &quot;flipper_length_mm&quot; &quot;body_mass_g&quot;      
+## [7] &quot;sex&quot;               &quot;year&quot;</code></pre>
 <p>We can alter the names of vectors by using the <code>names()</code>
 function and indexing. Because data frames are essentially just
 combinations of vectors, we can do the same for variable names inside
 data frames. Suppose we want to change the variable
-<code>nconflicts</code>.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">names</span>(mydata)[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="st">&quot;nconflict&quot;</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">names</span>(mydata)</span></code></pre></div>
-<pre><code>## [1] &quot;country&quot;                 &quot;region&quot;                 
-## [3] &quot;nconflict&quot;               &quot;nconflict_no_fatalities&quot;
-## [5] &quot;fatalities&quot;</code></pre>
+<code>year</code>.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">names</span>(penguins)[<span class="dv">8</span>] <span class="ot">&lt;-</span> <span class="st">&quot;rec_year&quot;</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">names</span>(penguins)</span></code></pre></div>
+<pre><code>## [1] &quot;species&quot;           &quot;island&quot;            &quot;bill_length_mm&quot;   
+## [4] &quot;bill_depth_mm&quot;     &quot;flipper_length_mm&quot; &quot;body_mass_g&quot;      
+## [7] &quot;sex&quot;               &quot;rec_year&quot;</code></pre>
 <p>We can use the <code>summary()</code> function to get a first look at
 the data.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">summary</span>(mydata)</span></code></pre></div>
-<pre><code>##    country             region            nconflict      
-##  Length:103         Length:103         Min.   :    1.0  
-##  Class :character   Class :character   1st Qu.:  315.5  
-##  Mode  :character   Mode  :character   Median : 1250.0  
-##                                        Mean   : 6216.3  
-##                                        3rd Qu.: 5993.5  
-##                                        Max.   :70734.0  
-##  nconflict_no_fatalities   fatalities      
-##  Min.   :    1           Min.   :     0.0  
-##  1st Qu.:  289           1st Qu.:    17.5  
-##  Median : 1037           Median :   236.0  
-##  Mean   : 4667           Mean   :  9543.3  
-##  3rd Qu.: 4536           3rd Qu.:  7020.0  
-##  Max.   :63665           Max.   :119973.0</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">summary</span>(penguins)</span></code></pre></div>
+<pre><code>##       species          island    bill_length_mm  bill_depth_mm  
+##  Adelie   :152   Biscoe   :168   Min.   :32.10   Min.   :13.10  
+##  Chinstrap: 68   Dream    :124   1st Qu.:39.23   1st Qu.:15.60  
+##  Gentoo   :124   Torgersen: 52   Median :44.45   Median :17.30  
+##                                  Mean   :43.92   Mean   :17.15  
+##                                  3rd Qu.:48.50   3rd Qu.:18.70  
+##                                  Max.   :59.60   Max.   :21.50  
+##                                  NA&#39;s   :2       NA&#39;s   :2      
+##  flipper_length_mm  body_mass_g       sex         rec_year   
+##  Min.   :172.0     Min.   :2700   female:165   Min.   :2007  
+##  1st Qu.:190.0     1st Qu.:3550   male  :168   1st Qu.:2007  
+##  Median :197.0     Median :4050   NA&#39;s  : 11   Median :2008  
+##  Mean   :200.9     Mean   :4202                Mean   :2008  
+##  3rd Qu.:213.0     3rd Qu.:4750                3rd Qu.:2009  
+##  Max.   :231.0     Max.   :6300                Max.   :2009  
+##  NA&#39;s   :2         NA&#39;s   :2</code></pre>
 <p>A data frame has two dimensions: rows and columns.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">nrow</span>(mydata) <span class="co"># Number of rows</span></span></code></pre></div>
-<pre><code>## [1] 103</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">ncol</span>(mydata) <span class="co"># Number of columns</span></span></code></pre></div>
-<pre><code>## [1] 5</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">dim</span>(mydata) <span class="co"># Rows first then columns.</span></span></code></pre></div>
-<pre><code>## [1] 103   5</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">nrow</span>(penguins) <span class="co"># Number of rows</span></span></code></pre></div>
+<pre><code>## [1] 344</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">ncol</span>(penguins) <span class="co"># Number of columns</span></span></code></pre></div>
+<pre><code>## [1] 8</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">dim</span>(penguins) <span class="co"># Rows first then columns.</span></span></code></pre></div>
+<pre><code>## [1] 344   8</code></pre>
 <div id="accessing-elements-of-a-data-frame---indexing" class="section level3">
 <h3>Accessing elements of a data frame - Indexing</h3>
 <p>As a rule, whenever we access a dataframe or another object using
@@ -1920,179 +1946,254 @@ two-dimensional indexing in <code>R</code>, the order is:
 <code>[row, column]</code>. To access the first row of the data frame,
 we specify the row we want to see and leave the column slot following
 the comma empty.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>mydata[<span class="dv">1</span>, ]</span></code></pre></div>
-<pre><code>##       country        region nconflict nconflict_no_fatalities fatalities
-## 1 Afghanistan Southern Asia     40765                   23946     119973</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>penguins[<span class="dv">1</span>, ]</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 8
+##   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+## 1 Adelie  Torgersen           39.1          18.7               181        3750
+## # ℹ 2 more variables: sex &lt;fct&gt;, rec_year &lt;int&gt;</code></pre>
 <p>We can use the concatenate function <code>c()</code> to access
 multiple rows (or columns) at once. Below we print out the first and
 second row of the dataframe.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>mydata[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), ]</span></code></pre></div>
-<pre><code>##       country        region nconflict nconflict_no_fatalities fatalities
-## 1 Afghanistan Southern Asia     40765                   23946     119973
-## 2     Albania        Europe       582                     581          1</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>penguins[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), ]</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 8
+##   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+## 1 Adelie  Torgersen           39.1          18.7               181        3750
+## 2 Adelie  Torgersen           39.5          17.4               186        3800
+## # ℹ 2 more variables: sex &lt;fct&gt;, rec_year &lt;int&gt;</code></pre>
 <p>We can also access a range of rows by separating the minimum and
 maximum value with a <code>:</code>. Below we print out the first five
 rows of the dataframe.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>mydata[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,]</span></code></pre></div>
-<pre><code>##       country                    region nconflict nconflict_no_fatalities
-## 1 Afghanistan             Southern Asia     40765                   23946
-## 2     Albania                    Europe       582                     581
-## 3     Algeria           Northern Africa      7362                    5321
-## 4      Angola             Middle Africa      1108                     728
-## 5     Armenia Caucasus and Central Asia      3118                    3110
-##   fatalities
-## 1     119973
-## 2          1
-## 3       8451
-## 4      13788
-## 5          8</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>penguins[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,]</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 8
+##   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+## 1 Adelie  Torgersen           39.1          18.7               181        3750
+## 2 Adelie  Torgersen           39.5          17.4               186        3800
+## 3 Adelie  Torgersen           40.3          18                 195        3250
+## 4 Adelie  Torgersen           NA            NA                  NA          NA
+## 5 Adelie  Torgersen           36.7          19.3               193        3450
+## # ℹ 2 more variables: sex &lt;fct&gt;, rec_year &lt;int&gt;</code></pre>
 <p>If we try to access a data point that is out of bounds,
-<code>R</code> returns the value <code>NULL</code>.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>mydata[<span class="dv">3</span>,<span class="dv">7</span>]</span></code></pre></div>
-<pre><code>## NULL</code></pre>
-<p><strong>Exercise 1</strong> Access the element of the dataframe
-<code>mydata</code> that is stored in row 1, column 1.</p>
-<p><strong>Exercise 2</strong> Access the element of the data frame
-<code>mydata</code> that is stored in column 3, row 100.</p>
+<code>R</code> returns an error.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="co">#penguins[3,10]</span></span></code></pre></div>
+<div class="alert-info">
+<p><strong>Exercise 2</strong></p>
+<p>Access the species information (column 1) for the 10th penguin in the
+dataset using indexing.</p>
+</div>
+<div class="alert-info">
+<p><strong>Exercise 3</strong></p>
+<p>Access rows 15 through 20 and columns 1 through 3 of the penguins
+dataset.</p>
+</div>
 </div>
 <div id="the-operator" class="section level3">
 <h3>The <code>$</code> operator</h3>
 <p>The <code>$</code> operator in <code>R</code> is used to specify a
 variable within a data frame. This is an alternative to indexing.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">which</span>(<span class="fu">colnames</span>(mydata) <span class="sc">==</span> <span class="st">&quot;nconflict&quot;</span>)</span></code></pre></div>
-<pre><code>## [1] 3</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>mydata[,<span class="dv">3</span>]</span></code></pre></div>
-<pre><code>##   [1] 40765   582  7362  1108  3118 12627  1861 16802   293   215   459    52
-##  [13]   765  2105  7760  1919  2621  4625   912   411   312 14519   112 10260
-##  [25]    50   191   190  5122   215   197  1446   858  1312  1121   151 67561
-##  [37]  3371  5708 22354  1580  1838   491   374  6427   289    39   319    41
-##  [49]  2956    83  1294  8857  1365   512   384  3193   598   444   213  2177
-##  [61]  1250  9070   682  5143   971 15011   275     9 54496  6568  9690     5
-##  [73]   243  1134  3734   370  6096   963  1275  1079 29667 11667  6227     2
-##  [85]  3855 12528 70734    68   782  7420   321  5756     1 10334    21  4866
-##  [97] 30131     4   102   503 45298  1148  5891</code></pre>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>mydata<span class="sc">$</span>nconflict</span></code></pre></div>
-<pre><code>##   [1] 40765   582  7362  1108  3118 12627  1861 16802   293   215   459    52
-##  [13]   765  2105  7760  1919  2621  4625   912   411   312 14519   112 10260
-##  [25]    50   191   190  5122   215   197  1446   858  1312  1121   151 67561
-##  [37]  3371  5708 22354  1580  1838   491   374  6427   289    39   319    41
-##  [49]  2956    83  1294  8857  1365   512   384  3193   598   444   213  2177
-##  [61]  1250  9070   682  5143   971 15011   275     9 54496  6568  9690     5
-##  [73]   243  1134  3734   370  6096   963  1275  1079 29667 11667  6227     2
-##  [85]  3855 12528 70734    68   782  7420   321  5756     1 10334    21  4866
-##  [97] 30131     4   102   503 45298  1148  5891</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="fu">which</span>(<span class="fu">colnames</span>(penguins) <span class="sc">==</span> <span class="st">&quot;species&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>penguins[,<span class="st">&#39;species&#39;</span>]</span></code></pre></div>
+<pre><code>## # A tibble: 344 × 1
+##    species
+##    &lt;fct&gt;  
+##  1 Adelie 
+##  2 Adelie 
+##  3 Adelie 
+##  4 Adelie 
+##  5 Adelie 
+##  6 Adelie 
+##  7 Adelie 
+##  8 Adelie 
+##  9 Adelie 
+## 10 Adelie 
+## # ℹ 334 more rows</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>penguins[,<span class="dv">1</span>]</span></code></pre></div>
+<pre><code>## # A tibble: 344 × 1
+##    species
+##    &lt;fct&gt;  
+##  1 Adelie 
+##  2 Adelie 
+##  3 Adelie 
+##  4 Adelie 
+##  5 Adelie 
+##  6 Adelie 
+##  7 Adelie 
+##  8 Adelie 
+##  9 Adelie 
+## 10 Adelie 
+## # ℹ 334 more rows</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>penguins<span class="sc">$</span>species</span></code></pre></div>
+<pre><code>##   [1] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+##   [8] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+##  [15] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+##  [22] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+##  [29] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+##  [36] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+##  [43] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+##  [50] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+##  [57] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+##  [64] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+##  [71] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+##  [78] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+##  [85] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+##  [92] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+##  [99] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+## [106] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+## [113] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+## [120] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+## [127] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+## [134] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+## [141] Adelie    Adelie    Adelie    Adelie    Adelie    Adelie    Adelie   
+## [148] Adelie    Adelie    Adelie    Adelie    Adelie    Gentoo    Gentoo   
+## [155] Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo   
+## [162] Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo   
+## [169] Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo   
+## [176] Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo   
+## [183] Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo   
+## [190] Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo   
+## [197] Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo   
+## [204] Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo   
+## [211] Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo   
+## [218] Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo   
+## [225] Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo   
+## [232] Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo   
+## [239] Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo   
+## [246] Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo   
+## [253] Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo   
+## [260] Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo   
+## [267] Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo    Gentoo   
+## [274] Gentoo    Gentoo    Gentoo    Chinstrap Chinstrap Chinstrap Chinstrap
+## [281] Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap
+## [288] Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap
+## [295] Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap
+## [302] Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap
+## [309] Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap
+## [316] Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap
+## [323] Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap
+## [330] Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap
+## [337] Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap Chinstrap
+## [344] Chinstrap
+## Levels: Adelie Chinstrap Gentoo</code></pre>
 </div>
 <div id="table-function" class="section level3">
 <h3><code>table()</code> function</h3>
 <p>The <code>table()</code> function can be used to tabularize one or
 more variables. For example, let’s find out how many observations
 (i.e. individual countries) we have per region.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="fu">table</span>(mydata<span class="sc">$</span>region)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="fu">table</span>(penguins<span class="sc">$</span>species)</span></code></pre></div>
 <pre><code>## 
-## Caucasus and Central Asia            Eastern Africa                    Europe 
-##                         8                        13                        15 
-##             Middle Africa               Middle East           Northern Africa 
-##                         8                        15                         7 
-##        South-Eastern Asia           Southern Africa             Southern Asia 
-##                         8                         8                         6 
-##            Western Africa 
-##                        15</code></pre>
+##    Adelie Chinstrap    Gentoo 
+##       152        68       124</code></pre>
 <p>Using logical operations, we can create more complex tabularizations.
-For example, below, we show how many countries have above average number
-of conflict events per region.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="fu">summary</span>(mydata<span class="sc">$</span>nconflict)</span></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##     1.0   315.5  1250.0  6216.3  5993.5 70734.0</code></pre>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="fu">table</span>(mydata<span class="sc">$</span>region, mydata<span class="sc">$</span>nconflict <span class="sc">&gt;</span> <span class="fu">mean</span>(mydata<span class="sc">$</span>nconflict))</span></code></pre></div>
-<pre><code>##                            
-##                             FALSE TRUE
-##   Caucasus and Central Asia     7    1
-##   Eastern Africa                9    4
-##   Europe                       14    1
-##   Middle Africa                 7    1
-##   Middle East                  10    5
-##   Northern Africa               3    4
-##   South-Eastern Asia            5    3
-##   Southern Africa               7    1
-##   Southern Asia                 2    4
-##   Western Africa               14    1</code></pre>
-<p><strong>Exercise 3</strong>: How would you access all elements of the
-variable <code>country</code> using indexing rather than the
-<code>$</code> operator?</p>
-<p><strong>Exercise 4</strong>: How would you find the maximum value for
-number of conflict events using the <code>$</code> operator?</p>
-<p><strong>Exercise 5</strong>: Print the country that corresponds to
-the maximum value for conflict events using the <code>$</code> operator
-and indexing!</p>
-<p><strong>Exercise 6</strong>: Print out every second element from the
-variable <code>country</code> using indexing methods and the sequence
-function <code>seq()</code>.</p>
+For example, below, we show how many penguins have above average body
+mass per species.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="fu">summary</span>(penguins<span class="sc">$</span>body_mass_g)</span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##    2700    3550    4050    4202    4750    6300       2</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="fu">table</span>(penguins<span class="sc">$</span>species, penguins<span class="sc">$</span>body_mass_g <span class="sc">&gt;</span> <span class="fu">mean</span>(penguins<span class="sc">$</span>body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>##            
+##             FALSE TRUE
+##   Adelie      126   25
+##   Chinstrap    61    7
+##   Gentoo        6  117</code></pre>
+<div class="alert-info">
+<p><strong>Exercise 4</strong></p>
+<p>Create a table showing the distribution of penguin sex by species.
+What do you notice about the missing values?</p>
+</div>
+</div>
 </div>
 <div id="nas-in-r" class="section level2">
 <h2>NAs in <code>R</code></h2>
 <p><code>NA</code> is how <code>R</code> denotes missing values. For
 certain functions, <code>NA</code>s cause problems.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="cn">NA</span>, <span class="dv">3</span>)</span>
-<span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a><span class="fu">mean</span>(vec) <span class="co">#Result is NA!</span></span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="cn">NA</span>, <span class="dv">3</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" tabindex="-1"></a><span class="fu">mean</span>(vec) <span class="co">#Result is NA!</span></span></code></pre></div>
 <pre><code>## [1] NA</code></pre>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a><span class="fu">sum</span>(vec) <span class="co">#Result is NA!</span></span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a><span class="fu">sum</span>(vec) <span class="co">#Result is NA!</span></span></code></pre></div>
 <pre><code>## [1] NA</code></pre>
 <p>We can tell <code>R</code> to remove the NA and execute the function
 on the remainder of the data.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="fu">mean</span>(vec, <span class="at">na.rm =</span> T)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a><span class="fu">mean</span>(vec, <span class="at">na.rm =</span> T)</span></code></pre></div>
 <pre><code>## [1] 2.5</code></pre>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a><span class="fu">sum</span>(vec, <span class="at">na.rm =</span> T)</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a><span class="fu">sum</span>(vec, <span class="at">na.rm =</span> T)</span></code></pre></div>
 <pre><code>## [1] 10</code></pre>
 </div>
 <div id="adding-observations" class="section level2">
 <h2>Adding observations</h2>
 <p>First, let’s add another observation to the data. Suppose we wanted
-to add an observation for Germany, which will be a missing value. We can
-use the same operations we used for vectors to add data. Here, we will
-use the <code>rbind()</code> function to do so. <code>rbind()</code>
-stands for “row bind.” Save the output in a new data frame!</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Germany&quot;</span>, <span class="st">&quot;Europe&quot;</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>)</span>
-<span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a>mydata_new <span class="ot">&lt;-</span> <span class="fu">rbind</span>(mydata, obs)</span>
-<span id="cb50-3"><a href="#cb50-3" tabindex="-1"></a><span class="fu">dim</span>(mydata_new)</span></code></pre></div>
-<pre><code>## [1] 104   5</code></pre>
+to add a hypothetical observation for a new Adelie penguin. We can use
+the rbind() function to do so. rbind() stands for “row bind.” Save the
+output in a new data frame!</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" tabindex="-1"></a>new_penguin <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb51-2"><a href="#cb51-2" tabindex="-1"></a>  <span class="at">species =</span> <span class="st">&quot;Adelie&quot;</span>,</span>
+<span id="cb51-3"><a href="#cb51-3" tabindex="-1"></a>  <span class="at">island =</span> <span class="st">&quot;Dream&quot;</span>, </span>
+<span id="cb51-4"><a href="#cb51-4" tabindex="-1"></a>  <span class="at">bill_length_mm =</span> <span class="fl">40.5</span>,</span>
+<span id="cb51-5"><a href="#cb51-5" tabindex="-1"></a>  <span class="at">bill_depth_mm =</span> <span class="fl">18.2</span>,</span>
+<span id="cb51-6"><a href="#cb51-6" tabindex="-1"></a>  <span class="at">flipper_length_mm =</span> <span class="dv">195</span>,</span>
+<span id="cb51-7"><a href="#cb51-7" tabindex="-1"></a>  <span class="at">body_mass_g =</span> <span class="dv">3500</span>,</span>
+<span id="cb51-8"><a href="#cb51-8" tabindex="-1"></a>  <span class="at">sex =</span> <span class="st">&quot;male&quot;</span>,</span>
+<span id="cb51-9"><a href="#cb51-9" tabindex="-1"></a>  <span class="at">rec_year =</span> <span class="dv">2020</span></span>
+<span id="cb51-10"><a href="#cb51-10" tabindex="-1"></a>)</span>
+<span id="cb51-11"><a href="#cb51-11" tabindex="-1"></a></span>
+<span id="cb51-12"><a href="#cb51-12" tabindex="-1"></a>penguins_new <span class="ot">&lt;-</span> <span class="fu">rbind</span>(penguins, new_penguin)</span>
+<span id="cb51-13"><a href="#cb51-13" tabindex="-1"></a><span class="fu">dim</span>(penguins_new)  <span class="co"># Check that we added one row</span></span></code></pre></div>
+<pre><code>## [1] 345   8</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" tabindex="-1"></a><span class="fu">tail</span>(penguins_new, <span class="dv">2</span>)  <span class="co"># Look at the last two rows</span></span></code></pre></div>
+<pre><code>## # A tibble: 2 × 8
+##   species   island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##   &lt;fct&gt;     &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+## 1 Chinstrap Dream            50.2          18.7               198        3775
+## 2 Adelie    Dream            40.5          18.2               195        3500
+## # ℹ 2 more variables: sex &lt;fct&gt;, rec_year &lt;dbl&gt;</code></pre>
 </div>
 <div id="adding-variables" class="section level2">
 <h2>Adding variables</h2>
 <p>We can also create new variables that use information from the
-existing data. If we know the number of conflict events without
-fatalities by country, we can calculate the number of conflict events
-<em>with</em> fatalities to generate the variable
-<code>nconflict_fatalities</code>. By using the <code>$</code> operator,
-we can directly assign the new variable to the data frame
-<code>mydata_new</code>.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a>mydata<span class="sc">$</span>nconflict_fatalities <span class="ot">&lt;-</span> mydata<span class="sc">$</span>nconflict <span class="sc">-</span> mydata<span class="sc">$</span>nconflict_no_fatalities</span>
-<span id="cb52-2"><a href="#cb52-2" tabindex="-1"></a><span class="fu">head</span>(mydata, <span class="dv">3</span>) <span class="co">#prints out the first 3 rows of the data frame</span></span></code></pre></div>
-<pre><code>##       country          region nconflict nconflict_no_fatalities fatalities
-## 1 Afghanistan   Southern Asia     40765                   23946     119973
-## 2     Albania          Europe       582                     581          1
-## 3     Algeria Northern Africa      7362                    5321       8451
-##   nconflict_fatalities
-## 1                16819
-## 2                    1
-## 3                 2041</code></pre>
-<p>We could also compute the average number of fatalities per conflict,
-computed as the sum of fatalities (<code>fatalities</code> variable)
-divided by the number of conflicts (<code>nconflict</code>
-variable).</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a>mydata<span class="sc">$</span>av_fatalities <span class="ot">&lt;-</span> mydata<span class="sc">$</span>fatalities<span class="sc">/</span>mydata<span class="sc">$</span>nconflict</span></code></pre></div>
+existing data. For example, we might want to create a ratio of bill
+length to bill depth, or convert body mass from grams to kilograms. By
+using the $ operator, we can directly assign the new variable to the
+data frame.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" tabindex="-1"></a>penguins<span class="sc">$</span>bill_ratio <span class="ot">&lt;-</span> penguins<span class="sc">$</span>bill_length_mm <span class="sc">/</span> penguins<span class="sc">$</span>bill_depth_mm</span>
+<span id="cb55-2"><a href="#cb55-2" tabindex="-1"></a>penguins<span class="sc">$</span>body_mass_kg <span class="ot">&lt;-</span> penguins<span class="sc">$</span>body_mass_g <span class="sc">/</span> <span class="dv">1000</span></span>
+<span id="cb55-3"><a href="#cb55-3" tabindex="-1"></a></span>
+<span id="cb55-4"><a href="#cb55-4" tabindex="-1"></a><span class="fu">head</span>(penguins, <span class="dv">3</span>) <span class="co"># prints out the first 3 rows of the data frame</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 × 10
+##   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+## 1 Adelie  Torgersen           39.1          18.7               181        3750
+## 2 Adelie  Torgersen           39.5          17.4               186        3800
+## 3 Adelie  Torgersen           40.3          18                 195        3250
+## # ℹ 4 more variables: sex &lt;fct&gt;, rec_year &lt;int&gt;, bill_ratio &lt;dbl&gt;,
+## #   body_mass_kg &lt;dbl&gt;</code></pre>
 </div>
 <div id="subsetting-data" class="section level2">
 <h2>Subsetting data</h2>
-<p>Suppose we want to figure out which country in Northern Africa has
-the highest number of riot and protest events. We can figure this out by
-first subsetting our dataset to only include countries in the region,
-then looking up the maximum value for <code>nconflict</code>. Below, we
-assign the output to a new object called <code>mydata_na</code>.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" tabindex="-1"></a>mydata_na <span class="ot">&lt;-</span> mydata[mydata<span class="sc">$</span>region <span class="sc">==</span> <span class="st">&quot;Northern Africa&quot;</span>,]</span>
-<span id="cb55-2"><a href="#cb55-2" tabindex="-1"></a><span class="fu">max</span>(mydata_na<span class="sc">$</span>nconflict)</span></code></pre></div>
-<pre><code>## [1] 12528</code></pre>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" tabindex="-1"></a>mydata_na<span class="sc">$</span>country[mydata_na<span class="sc">$</span>nconflict <span class="sc">==</span> <span class="fu">max</span>(mydata_na<span class="sc">$</span>nconflict)]</span></code></pre></div>
-<pre><code>## [1] &quot;Sudan&quot;</code></pre>
+<p>Suppose we want to figure out which Adelie penguin has the longest
+flipper. We can figure this out by first subsetting our dataset to only
+include Adelie penguins, then looking up the maximum value for
+flipper_length_mm.</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" tabindex="-1"></a>adelie_penguins <span class="ot">&lt;-</span> penguins[penguins<span class="sc">$</span>species <span class="sc">==</span> <span class="st">&quot;Adelie&quot;</span>,]</span>
+<span id="cb57-2"><a href="#cb57-2" tabindex="-1"></a><span class="fu">max</span>(adelie_penguins<span class="sc">$</span>flipper_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## [1] 210</code></pre>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" tabindex="-1"></a><span class="co"># Find which Adelie penguin has the maximum flipper length</span></span>
+<span id="cb59-2"><a href="#cb59-2" tabindex="-1"></a>max_flipper_length <span class="ot">&lt;-</span> <span class="fu">max</span>(adelie_penguins<span class="sc">$</span>flipper_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb59-3"><a href="#cb59-3" tabindex="-1"></a>adelie_penguins[adelie_penguins<span class="sc">$</span>flipper_length_mm <span class="sc">==</span> max_flipper_length, ]</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 10
+##   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+## 1 &lt;NA&gt;    &lt;NA&gt;                NA              NA                NA          NA
+## 2 Adelie  Torgersen           44.1            18               210        4000
+## # ℹ 4 more variables: sex &lt;fct&gt;, rec_year &lt;int&gt;, bill_ratio &lt;dbl&gt;,
+## #   body_mass_kg &lt;dbl&gt;</code></pre>
+<div class="alert-info">
+<p><strong>Exercise 5</strong></p>
+<p>Create a subset containing only female penguins from Biscoe island.
+How many observations are in this subset?</p>
+</div>
 </div>
 </div>
 <div id="working-with-r-ii" class="section level1">
@@ -2114,17 +2215,17 @@ obvious choice.</p>
 <p>Errors in R occur when code is used in a way that it is not intended.
 For example when you try to add two character strings, you will get the
 following error:</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" tabindex="-1"></a><span class="st">&quot;hello&quot;</span> <span class="sc">+</span> <span class="st">&quot;world&quot;</span></span>
-<span id="cb61-2"><a href="#cb61-2" tabindex="-1"></a>Error <span class="cf">in</span> <span class="st">&quot;hello&quot;</span> <span class="sc">+</span> <span class="st">&quot;world&quot;</span><span class="sc">:</span> non<span class="sc">-</span>numeric argument to binary operator</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" tabindex="-1"></a><span class="st">&quot;hello&quot;</span> <span class="sc">+</span> <span class="st">&quot;world&quot;</span></span>
+<span id="cb63-2"><a href="#cb63-2" tabindex="-1"></a>Error <span class="cf">in</span> <span class="st">&quot;hello&quot;</span> <span class="sc">+</span> <span class="st">&quot;world&quot;</span><span class="sc">:</span> non<span class="sc">-</span>numeric argument to binary operator</span></code></pre></div>
 <p>Normally, when something has gone wrong with your program, <em>R</em>
 will notify you of an error in the <strong>console</strong>. There are
 errors that will prevent the code from running, while others will only
 produce <strong>warning</strong> messages. In the following case, the
 code will run, but you will notice that the string
 <strong>“three”</strong> is turned into a NA.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="fu">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;three&quot;</span>))</span>
-<span id="cb62-2"><a href="#cb62-2" tabindex="-1"></a>Warning<span class="sc">:</span> NAs introduced by coercion</span>
-<span id="cb62-3"><a href="#cb62-3" tabindex="-1"></a>[<span class="dv">1</span>]  <span class="dv">1</span>  <span class="dv">2</span> <span class="cn">NA</span></span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="fu">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;three&quot;</span>))</span>
+<span id="cb64-2"><a href="#cb64-2" tabindex="-1"></a>Warning<span class="sc">:</span> NAs introduced by coercion</span>
+<span id="cb64-3"><a href="#cb64-3" tabindex="-1"></a>[<span class="dv">1</span>]  <span class="dv">1</span>  <span class="dv">2</span> <span class="cn">NA</span></span></code></pre></div>
 <p>Since we will be utilizing widely used packages and functions in the
 course of the semester, the errors that you may come across in the
 process of completing your assignments will be common for other R users.
@@ -2146,19 +2247,19 @@ doing data analysis as part of a team further in your careers. Though it
 is likely that this will not be a problem during the course, we can try
 to employ the following convention <code>package_name::function()</code>
 to ensure that we will not encounter errors in our knitting process:</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">select</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">select</span>()</span></code></pre></div>
 <hr />
 <p>Let’s look at what happens when we load <code>tidyverse</code>.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb64-2"><a href="#cb64-2" tabindex="-1"></a></span>
-<span id="cb64-3"><a href="#cb64-3" tabindex="-1"></a><span class="co">#── Attaching packages ──────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 #──</span></span>
-<span id="cb64-4"><a href="#cb64-4" tabindex="-1"></a><span class="co">#✓ ggplot2 3.3.2     ✓ purrr   0.3.4</span></span>
-<span id="cb64-5"><a href="#cb64-5" tabindex="-1"></a><span class="co">#✓ tibble  3.0.3     ✓ dplyr   1.0.2</span></span>
-<span id="cb64-6"><a href="#cb64-6" tabindex="-1"></a><span class="co">#✓ tidyr   1.1.2     ✓ stringr 1.4.0</span></span>
-<span id="cb64-7"><a href="#cb64-7" tabindex="-1"></a><span class="co">#✓ readr   1.3.1     ✓ forcats 0.5.0</span></span>
-<span id="cb64-8"><a href="#cb64-8" tabindex="-1"></a><span class="co">#── Conflicts ─────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() #──</span></span>
-<span id="cb64-9"><a href="#cb64-9" tabindex="-1"></a><span class="co">#x dplyr::filter() masks stats::filter()</span></span>
-<span id="cb64-10"><a href="#cb64-10" tabindex="-1"></a><span class="co">#x dplyr::lag()    masks stats::lag()</span></span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb66-2"><a href="#cb66-2" tabindex="-1"></a></span>
+<span id="cb66-3"><a href="#cb66-3" tabindex="-1"></a><span class="co">#── Attaching packages ──────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 #──</span></span>
+<span id="cb66-4"><a href="#cb66-4" tabindex="-1"></a><span class="co">#✓ ggplot2 3.3.2     ✓ purrr   0.3.4</span></span>
+<span id="cb66-5"><a href="#cb66-5" tabindex="-1"></a><span class="co">#✓ tibble  3.0.3     ✓ dplyr   1.0.2</span></span>
+<span id="cb66-6"><a href="#cb66-6" tabindex="-1"></a><span class="co">#✓ tidyr   1.1.2     ✓ stringr 1.4.0</span></span>
+<span id="cb66-7"><a href="#cb66-7" tabindex="-1"></a><span class="co">#✓ readr   1.3.1     ✓ forcats 0.5.0</span></span>
+<span id="cb66-8"><a href="#cb66-8" tabindex="-1"></a><span class="co">#── Conflicts ─────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() #──</span></span>
+<span id="cb66-9"><a href="#cb66-9" tabindex="-1"></a><span class="co">#x dplyr::filter() masks stats::filter()</span></span>
+<span id="cb66-10"><a href="#cb66-10" tabindex="-1"></a><span class="co">#x dplyr::lag()    masks stats::lag()</span></span></code></pre></div>
 <p>You may notice that <em>R</em> points out some conflicts where some
 functions are being masked. The default in this machine will become the
 <code>filter()</code> from the <code>dplyr</code> package during this
@@ -2247,7 +2348,7 @@ a problem.</li>
 <h2>Tidyverse packages</h2>
 <p>Why is it called the tidy<em>verse</em>? Let’s load the tidyverse
 meta-package and check the output.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
@@ -2265,7 +2366,7 @@ information about the package versions and some <a href="https://raw.githack.com
 conflicts</a>.</p>
 <p>The tidyverse actually comes with a lot more packages than those that
 are just loaded automatically.</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" tabindex="-1"></a><span class="fu">tidyverse_packages</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" tabindex="-1"></a><span class="fu">tidyverse_packages</span>()</span></code></pre></div>
 <pre><code>##  [1] &quot;broom&quot;         &quot;conflicted&quot;    &quot;cli&quot;           &quot;dbplyr&quot;       
 ##  [5] &quot;dplyr&quot;         &quot;dtplyr&quot;        &quot;forcats&quot;       &quot;ggplot2&quot;      
 ##  [9] &quot;googledrive&quot;   &quot;googlesheets4&quot; &quot;haven&quot;         &quot;hms&quot;          
@@ -2296,53 +2397,53 @@ definitions.</li>
 </ul>
 <div id="the-classic-way" class="section level4">
 <h4>The classic way</h4>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" tabindex="-1"></a><span class="fu">hertie</span>(</span>
-<span id="cb69-2"><a href="#cb69-2" tabindex="-1"></a>  <span class="fu">bvg</span>(</span>
-<span id="cb69-3"><a href="#cb69-3" tabindex="-1"></a>    <span class="fu">walk</span>(</span>
-<span id="cb69-4"><a href="#cb69-4" tabindex="-1"></a>      <span class="fu">breakfast</span>(</span>
-<span id="cb69-5"><a href="#cb69-5" tabindex="-1"></a>        <span class="fu">shower</span>(</span>
-<span id="cb69-6"><a href="#cb69-6" tabindex="-1"></a>          <span class="fu">wake_up</span>(</span>
-<span id="cb69-7"><a href="#cb69-7" tabindex="-1"></a>            Alex, <span class="dv">7</span></span>
-<span id="cb69-8"><a href="#cb69-8" tabindex="-1"></a>          ),</span>
-<span id="cb69-9"><a href="#cb69-9" tabindex="-1"></a>          <span class="at">temp =</span> <span class="dv">38</span></span>
-<span id="cb69-10"><a href="#cb69-10" tabindex="-1"></a>        ),</span>
-<span id="cb69-11"><a href="#cb69-11" tabindex="-1"></a>        <span class="fu">c</span>(<span class="st">&quot;coffee&quot;</span>, <span class="st">&quot;croissant&quot;</span>)</span>
-<span id="cb69-12"><a href="#cb69-12" tabindex="-1"></a>      ),</span>
-<span id="cb69-13"><a href="#cb69-13" tabindex="-1"></a>      <span class="fu">step_function</span>()</span>
-<span id="cb69-14"><a href="#cb69-14" tabindex="-1"></a>    ),</span>
-<span id="cb69-15"><a href="#cb69-15" tabindex="-1"></a>    <span class="at">train =</span> <span class="st">&quot;U2&quot;</span>,</span>
-<span id="cb69-16"><a href="#cb69-16" tabindex="-1"></a>    <span class="at">destination =</span> <span class="st">&quot;Stadtmitte&quot;</span></span>
-<span id="cb69-17"><a href="#cb69-17" tabindex="-1"></a>  ),</span>
-<span id="cb69-18"><a href="#cb69-18" tabindex="-1"></a>  <span class="at">course =</span> <span class="st">&quot;Intro to DS&quot;</span></span>
-<span id="cb69-19"><a href="#cb69-19" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" tabindex="-1"></a><span class="fu">hertie</span>(</span>
+<span id="cb71-2"><a href="#cb71-2" tabindex="-1"></a>  <span class="fu">bvg</span>(</span>
+<span id="cb71-3"><a href="#cb71-3" tabindex="-1"></a>    <span class="fu">walk</span>(</span>
+<span id="cb71-4"><a href="#cb71-4" tabindex="-1"></a>      <span class="fu">breakfast</span>(</span>
+<span id="cb71-5"><a href="#cb71-5" tabindex="-1"></a>        <span class="fu">shower</span>(</span>
+<span id="cb71-6"><a href="#cb71-6" tabindex="-1"></a>          <span class="fu">wake_up</span>(</span>
+<span id="cb71-7"><a href="#cb71-7" tabindex="-1"></a>            Alex, <span class="dv">7</span></span>
+<span id="cb71-8"><a href="#cb71-8" tabindex="-1"></a>          ),</span>
+<span id="cb71-9"><a href="#cb71-9" tabindex="-1"></a>          <span class="at">temp =</span> <span class="dv">38</span></span>
+<span id="cb71-10"><a href="#cb71-10" tabindex="-1"></a>        ),</span>
+<span id="cb71-11"><a href="#cb71-11" tabindex="-1"></a>        <span class="fu">c</span>(<span class="st">&quot;coffee&quot;</span>, <span class="st">&quot;croissant&quot;</span>)</span>
+<span id="cb71-12"><a href="#cb71-12" tabindex="-1"></a>      ),</span>
+<span id="cb71-13"><a href="#cb71-13" tabindex="-1"></a>      <span class="fu">step_function</span>()</span>
+<span id="cb71-14"><a href="#cb71-14" tabindex="-1"></a>    ),</span>
+<span id="cb71-15"><a href="#cb71-15" tabindex="-1"></a>    <span class="at">train =</span> <span class="st">&quot;U2&quot;</span>,</span>
+<span id="cb71-16"><a href="#cb71-16" tabindex="-1"></a>    <span class="at">destination =</span> <span class="st">&quot;Stadtmitte&quot;</span></span>
+<span id="cb71-17"><a href="#cb71-17" tabindex="-1"></a>  ),</span>
+<span id="cb71-18"><a href="#cb71-18" tabindex="-1"></a>  <span class="at">course =</span> <span class="st">&quot;Intro to DS&quot;</span></span>
+<span id="cb71-19"><a href="#cb71-19" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <div id="the-classic-way-nightmare-edition" class="section level4">
 <h4>The classic way, nightmare edition</h4>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" tabindex="-1"></a>alex_awake <span class="ot">&lt;-</span> <span class="fu">wake_up</span>(Alex, <span class="dv">7</span>)</span>
-<span id="cb70-2"><a href="#cb70-2" tabindex="-1"></a>alex_showered <span class="ot">&lt;-</span> <span class="fu">shower</span>(alex_awake, </span>
-<span id="cb70-3"><a href="#cb70-3" tabindex="-1"></a>                        <span class="at">temp =</span> <span class="dv">38</span>)</span>
-<span id="cb70-4"><a href="#cb70-4" tabindex="-1"></a>alex_replete <span class="ot">&lt;-</span> <span class="fu">breakfast</span>(alex_showered, </span>
-<span id="cb70-5"><a href="#cb70-5" tabindex="-1"></a>                          <span class="fu">c</span>(<span class="st">&quot;coffee&quot;</span>, <span class="st">&quot;croissant&quot;</span>))</span>
-<span id="cb70-6"><a href="#cb70-6" tabindex="-1"></a>alex_underway <span class="ot">&lt;-</span> <span class="fu">walk</span>(alex_replete, </span>
-<span id="cb70-7"><a href="#cb70-7" tabindex="-1"></a>                      <span class="fu">step_function</span>())</span>
-<span id="cb70-8"><a href="#cb70-8" tabindex="-1"></a>alex_on_train <span class="ot">&lt;-</span> <span class="fu">bvg</span>(alex_underway, </span>
-<span id="cb70-9"><a href="#cb70-9" tabindex="-1"></a>                     <span class="at">train =</span> <span class="st">&quot;U2&quot;</span>, </span>
-<span id="cb70-10"><a href="#cb70-10" tabindex="-1"></a>                     <span class="at">destination =</span> <span class="st">&quot;Stadtmitte&quot;</span>)</span>
-<span id="cb70-11"><a href="#cb70-11" tabindex="-1"></a>alex_hertie <span class="ot">&lt;-</span> <span class="fu">hertie</span>(alex_on_train, </span>
-<span id="cb70-12"><a href="#cb70-12" tabindex="-1"></a>                      <span class="at">course =</span> <span class="st">&quot;Intro to DS&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" tabindex="-1"></a>alex_awake <span class="ot">&lt;-</span> <span class="fu">wake_up</span>(Alex, <span class="dv">7</span>)</span>
+<span id="cb72-2"><a href="#cb72-2" tabindex="-1"></a>alex_showered <span class="ot">&lt;-</span> <span class="fu">shower</span>(alex_awake, </span>
+<span id="cb72-3"><a href="#cb72-3" tabindex="-1"></a>                        <span class="at">temp =</span> <span class="dv">38</span>)</span>
+<span id="cb72-4"><a href="#cb72-4" tabindex="-1"></a>alex_replete <span class="ot">&lt;-</span> <span class="fu">breakfast</span>(alex_showered, </span>
+<span id="cb72-5"><a href="#cb72-5" tabindex="-1"></a>                          <span class="fu">c</span>(<span class="st">&quot;coffee&quot;</span>, <span class="st">&quot;croissant&quot;</span>))</span>
+<span id="cb72-6"><a href="#cb72-6" tabindex="-1"></a>alex_underway <span class="ot">&lt;-</span> <span class="fu">walk</span>(alex_replete, </span>
+<span id="cb72-7"><a href="#cb72-7" tabindex="-1"></a>                      <span class="fu">step_function</span>())</span>
+<span id="cb72-8"><a href="#cb72-8" tabindex="-1"></a>alex_on_train <span class="ot">&lt;-</span> <span class="fu">bvg</span>(alex_underway, </span>
+<span id="cb72-9"><a href="#cb72-9" tabindex="-1"></a>                     <span class="at">train =</span> <span class="st">&quot;U2&quot;</span>, </span>
+<span id="cb72-10"><a href="#cb72-10" tabindex="-1"></a>                     <span class="at">destination =</span> <span class="st">&quot;Stadtmitte&quot;</span>)</span>
+<span id="cb72-11"><a href="#cb72-11" tabindex="-1"></a>alex_hertie <span class="ot">&lt;-</span> <span class="fu">hertie</span>(alex_on_train, </span>
+<span id="cb72-12"><a href="#cb72-12" tabindex="-1"></a>                      <span class="at">course =</span> <span class="st">&quot;Intro to DS&quot;</span>)</span></code></pre></div>
 </div>
 <div id="the-pipe-way" class="section level4">
 <h4>The pipe way</h4>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" tabindex="-1"></a>Alex <span class="sc">%&gt;%</span></span>
-<span id="cb71-2"><a href="#cb71-2" tabindex="-1"></a>  <span class="fu">wake_up</span>(<span class="dv">7</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb71-3"><a href="#cb71-3" tabindex="-1"></a>  <span class="fu">shower</span>(<span class="at">temp =</span> <span class="dv">38</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb71-4"><a href="#cb71-4" tabindex="-1"></a>  <span class="fu">breakfast</span>(<span class="fu">c</span>(<span class="st">&quot;coffee&quot;</span>, <span class="st">&quot;croissant&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb71-5"><a href="#cb71-5" tabindex="-1"></a>  <span class="fu">walk</span>(<span class="fu">step_function</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb71-6"><a href="#cb71-6" tabindex="-1"></a>  <span class="fu">bvg</span>(</span>
-<span id="cb71-7"><a href="#cb71-7" tabindex="-1"></a>    <span class="at">train =</span> <span class="st">&quot;U2&quot;</span>,</span>
-<span id="cb71-8"><a href="#cb71-8" tabindex="-1"></a>    <span class="at">destination =</span> <span class="st">&quot;Stadtmitte&quot;</span></span>
-<span id="cb71-9"><a href="#cb71-9" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb71-10"><a href="#cb71-10" tabindex="-1"></a>  <span class="fu">hertie</span>(<span class="at">course =</span> <span class="st">&quot;Intro to DS&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" tabindex="-1"></a>Alex <span class="sc">%&gt;%</span></span>
+<span id="cb73-2"><a href="#cb73-2" tabindex="-1"></a>  <span class="fu">wake_up</span>(<span class="dv">7</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb73-3"><a href="#cb73-3" tabindex="-1"></a>  <span class="fu">shower</span>(<span class="at">temp =</span> <span class="dv">38</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb73-4"><a href="#cb73-4" tabindex="-1"></a>  <span class="fu">breakfast</span>(<span class="fu">c</span>(<span class="st">&quot;coffee&quot;</span>, <span class="st">&quot;croissant&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb73-5"><a href="#cb73-5" tabindex="-1"></a>  <span class="fu">walk</span>(<span class="fu">step_function</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb73-6"><a href="#cb73-6" tabindex="-1"></a>  <span class="fu">bvg</span>(</span>
+<span id="cb73-7"><a href="#cb73-7" tabindex="-1"></a>    <span class="at">train =</span> <span class="st">&quot;U2&quot;</span>,</span>
+<span id="cb73-8"><a href="#cb73-8" tabindex="-1"></a>    <span class="at">destination =</span> <span class="st">&quot;Stadtmitte&quot;</span></span>
+<span id="cb73-9"><a href="#cb73-9" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb73-10"><a href="#cb73-10" tabindex="-1"></a>  <span class="fu">hertie</span>(<span class="at">course =</span> <span class="st">&quot;Intro to DS&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="piping-etiquette" class="section level3">
@@ -2364,8 +2465,8 @@ usually be followed by a new line.</li>
 that the R core team <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/pipeOp.html">recently
 added</a> a “native” pipe operator to base R (version 4.1), denoted
 <code>|&gt;</code>. Here’s how it works:</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" tabindex="-1"></a>mtcars <span class="sc">|&gt;</span> <span class="fu">subset</span>(cyl <span class="sc">==</span> <span class="dv">4</span>) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span>
-<span id="cb72-2"><a href="#cb72-2" tabindex="-1"></a>mtcars <span class="sc">|&gt;</span> <span class="fu">subset</span>(cyl <span class="sc">==</span> <span class="dv">4</span>) <span class="sc">|&gt;</span> (\(x) <span class="fu">lm</span>(mpg <span class="sc">~</span> disp, <span class="at">data =</span> x))()</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" tabindex="-1"></a>mtcars <span class="sc">|&gt;</span> <span class="fu">subset</span>(cyl <span class="sc">==</span> <span class="dv">4</span>) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span>
+<span id="cb74-2"><a href="#cb74-2" tabindex="-1"></a>mtcars <span class="sc">|&gt;</span> <span class="fu">subset</span>(cyl <span class="sc">==</span> <span class="dv">4</span>) <span class="sc">|&gt;</span> (\(x) <span class="fu">lm</span>(mpg <span class="sc">~</span> disp, <span class="at">data =</span> x))()</span></code></pre></div>
 <p>Now, should we use the <code>magrittr</code> pipe or the native pipe?
 The native pipe might make more sense in the long term, since it avoids
 dependencies and might be more efficient. Check out <a href="https://stackoverflow.com/questions/67633022/what-are-the-differences-between-rs-new-native-pipe-and-the-magrittr-pipe">this
@@ -2378,7 +2479,7 @@ native pipe operator <code>|&gt;</code>.</p>
 </div>
 </div>
 <div id="tidy-data" class="section level2">
-<h2>Tidy Data 🗃</h2>
+<h2>Tidy Data 🗄</h2>
 <p>Generally, we will encounter data in a tidy format. Tidy data refers
 to a way of mapping the structure of a data set. In a tidy data set:</p>
 <ol style="list-style-type: decimal">
@@ -2412,27 +2513,7 @@ their values (reorder rows according to single or multiple
 variables)</li>
 </ul>
 <p>To demonstrate and practice how these verbs (functions) work, we’ll
-use the penguins dataset.</p>
-<p>The 3 species of penguins in this data set are Adelie, Chinstrap and
-Gentoo. The data set contains 8 variables:</p>
-<ul>
-<li><strong>species:</strong> a factor denoting the penguin species
-(Adelie, Chinstrap, or Gentoo)</li>
-<li><strong>island:</strong> a factor denoting the island (in Palmer
-Archipelago, Antarctica) where observed</li>
-<li><strong>culmen_length_mm:</strong> a number denoting length of the
-dorsal ridge of penguin bill (millimeters)</li>
-<li><strong>culmen_depth_mm:</strong> a number denoting the depth of the
-penguin bill (millimeters)</li>
-<li><strong>flipper_length_mm:</strong> an integer denoting penguin
-flipper length (millimeters)</li>
-<li><strong>body_mass_g:</strong> an integer denoting penguin body mass
-(grams)</li>
-<li><strong>sex:</strong> a factor denoting penguin sex (MALE,
-FEMALE)</li>
-<li><strong>year</strong> an integer denoting the year of the
-record</li>
-</ul>
+use the penguins dataset we saw earlier.</p>
 <hr />
 <div id="dplyrselect" class="section level2">
 <h2><code>dplyr::select()</code></h2>
@@ -2443,10 +2524,11 @@ exploration of the data set there were eight variables attached to every
 observation. Do you recall them? If you do not, there is no problem. You
 can utilize <code>names()</code> to retrieve the names of the variables
 in a data frame.</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" tabindex="-1"></a><span class="fu">names</span>(penguins)</span></code></pre></div>
-<pre><code>## [1] &quot;species&quot;           &quot;island&quot;            &quot;bill_length_mm&quot;   
-## [4] &quot;bill_depth_mm&quot;     &quot;flipper_length_mm&quot; &quot;body_mass_g&quot;      
-## [7] &quot;sex&quot;               &quot;year&quot;</code></pre>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" tabindex="-1"></a><span class="fu">names</span>(penguins)</span></code></pre></div>
+<pre><code>##  [1] &quot;species&quot;           &quot;island&quot;            &quot;bill_length_mm&quot;   
+##  [4] &quot;bill_depth_mm&quot;     &quot;flipper_length_mm&quot; &quot;body_mass_g&quot;      
+##  [7] &quot;sex&quot;               &quot;rec_year&quot;          &quot;bill_ratio&quot;       
+## [10] &quot;body_mass_kg&quot;</code></pre>
 <p>Say we are only interested in the species, island, and year variables
 of these data, we can utilize the following syntax:</p>
 <p><code>dplyr::select(data, columns)</code></p>
@@ -2455,7 +2537,7 @@ of these data, we can utilize the following syntax:</p>
 <p>The following code chunk would select the variables we need. Can you
 adapt it, so that we keep the body_mass_g and sex variables as well?</p>
 </div>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">select</span>(penguins, species, island, year)</span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">select</span>(penguins, species, island, year)</span></code></pre></div>
 <p>Good to know: To <strong>drop</strong> variables, use <code>-</code>
 before the variable name, i.e. select(penguins, -year) to drop the year
 column (select everything but the year column).</p>
@@ -2481,48 +2563,47 @@ to</li>
 </ul>
 <p>Say we are interested in retrieving the observations from the year
 2007. We would do:</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">filter</span>(penguins, year <span class="sc">==</span> <span class="dv">2007</span>)</span>
-<span id="cb76-2"><a href="#cb76-2" tabindex="-1"></a></span>
-<span id="cb76-3"><a href="#cb76-3" tabindex="-1"></a><span class="co"># same as writing</span></span>
-<span id="cb76-4"><a href="#cb76-4" tabindex="-1"></a><span class="co"># penguins %&gt;% dplyr::filter(year == 2007)</span></span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">filter</span>(penguins, year <span class="sc">==</span> <span class="dv">2007</span>)</span>
+<span id="cb78-2"><a href="#cb78-2" tabindex="-1"></a></span>
+<span id="cb78-3"><a href="#cb78-3" tabindex="-1"></a><span class="co"># same as writing</span></span>
+<span id="cb78-4"><a href="#cb78-4" tabindex="-1"></a><span class="co"># penguins %&gt;% dplyr::filter(year == 2007)</span></span></code></pre></div>
 <div class="alert-info">
 <p><strong>Exercise 2</strong></p>
 <p>We can leverage the pipe operator to sequence our code in a logical
 manner. Can you adapt the following code chunk with the pipe and
 conditional logical operators we discussed?</p>
 </div>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" tabindex="-1"></a>only_2009 <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(penguins, year <span class="sc">==</span> <span class="dv">2009</span>)</span>
-<span id="cb77-2"><a href="#cb77-2" tabindex="-1"></a>only_2009_chinstraps <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(only_2009, species <span class="sc">==</span> <span class="st">&quot;Chinstrap&quot;</span>)</span>
-<span id="cb77-3"><a href="#cb77-3" tabindex="-1"></a>only_2009_chinstraps_species_sex_year <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(only_2009_chinstraps, species, sex, year)</span>
-<span id="cb77-4"><a href="#cb77-4" tabindex="-1"></a>final_df <span class="ot">&lt;-</span> only_2009_chinstraps_species_sex_year</span>
-<span id="cb77-5"><a href="#cb77-5" tabindex="-1"></a>final_df <span class="co">#to print it in our console</span></span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" tabindex="-1"></a>only_2009 <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(penguins, rec_year <span class="sc">==</span> <span class="dv">2009</span>)</span>
+<span id="cb79-2"><a href="#cb79-2" tabindex="-1"></a>only_2009_chinstraps <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(only_2009, species <span class="sc">==</span> <span class="st">&quot;Chinstrap&quot;</span>)</span>
+<span id="cb79-3"><a href="#cb79-3" tabindex="-1"></a>only_2009_chinstraps_species_sex_year <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(only_2009_chinstraps, species, sex, rec_year)</span>
+<span id="cb79-4"><a href="#cb79-4" tabindex="-1"></a>final_df <span class="ot">&lt;-</span> only_2009_chinstraps_species_sex_year</span>
+<span id="cb79-5"><a href="#cb79-5" tabindex="-1"></a>final_df <span class="co">#to print it in our console</span></span></code></pre></div>
 <pre><code>## # A tibble: 24 × 3
-##    species   sex     year
-##    &lt;fct&gt;     &lt;fct&gt;  &lt;int&gt;
-##  1 Chinstrap female  2009
-##  2 Chinstrap male    2009
-##  3 Chinstrap female  2009
-##  4 Chinstrap male    2009
-##  5 Chinstrap male    2009
-##  6 Chinstrap female  2009
-##  7 Chinstrap female  2009
-##  8 Chinstrap male    2009
-##  9 Chinstrap female  2009
-## 10 Chinstrap male    2009
+##    species   sex    rec_year
+##    &lt;fct&gt;     &lt;fct&gt;     &lt;int&gt;
+##  1 Chinstrap female     2009
+##  2 Chinstrap male       2009
+##  3 Chinstrap female     2009
+##  4 Chinstrap male       2009
+##  5 Chinstrap male       2009
+##  6 Chinstrap female     2009
+##  7 Chinstrap female     2009
+##  8 Chinstrap male       2009
+##  9 Chinstrap female     2009
+## 10 Chinstrap male       2009
 ## # ℹ 14 more rows</code></pre>
 <hr />
 </div>
-<div id="dplyrmutate-r-emojiclosed_umbrella" class="section level2">
-<h2><code>dplyr::mutate()</code>
-`<code>r emo::ji(&quot;closed_umbrella&quot;)`☂️</code></h2>
+<div id="dplyrmutate" class="section level2">
+<h2><code>dplyr::mutate()</code> 🌂 ☂️</h2>
 <p><code>dplyr::mutate()</code> lets us create, modify, and delete
 columns. The most common use for now will be to create new variables
 based on existing ones. Say we are working with a U.S. American client
 and they feel more comfortable with assessing the weight of the penguins
 in pounds. We would utilize <code>mutate()</code> as such:</p>
 <pre><code>dplyr::mutate(new_var_name = manipulated old_var(s))</code></pre>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
-<span id="cb80-2"><a href="#cb80-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">body_mass_lbs =</span> body_mass_g<span class="sc">/</span><span class="fl">453.6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb82-2"><a href="#cb82-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">body_mass_lbs =</span> body_mass_g<span class="sc">/</span><span class="fl">453.6</span>)</span></code></pre></div>
 <hr />
 </div>
 <div id="dplyrgroup_by-and-dplyrsummarize" class="section level2">
@@ -2534,17 +2615,17 @@ in pounds. We would utilize <code>mutate()</code> as such:</p>
 have one (or more) rows for each combination of grouping variables; if
 there are no grouping variables, the output will have a single row
 summarizing all observations in the input. For example:</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" tabindex="-1"></a><span class="co"># compare this output with the one below</span></span>
-<span id="cb81-2"><a href="#cb81-2" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
-<span id="cb81-3"><a href="#cb81-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarize</span>(<span class="at">heaviest_penguin =</span> <span class="fu">max</span>(body_mass_g, <span class="at">na.rm =</span> T)) </span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" tabindex="-1"></a><span class="co"># compare this output with the one below</span></span>
+<span id="cb83-2"><a href="#cb83-2" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb83-3"><a href="#cb83-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarize</span>(<span class="at">heaviest_penguin =</span> <span class="fu">max</span>(body_mass_g, <span class="at">na.rm =</span> T)) </span></code></pre></div>
 <pre><code>## # A tibble: 1 × 1
 ##   heaviest_penguin
 ##              &lt;int&gt;
 ## 1             6300</code></pre>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
-<span id="cb83-2"><a href="#cb83-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
-<span id="cb83-3"><a href="#cb83-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarize</span>(<span class="at">heaviest_penguin =</span> <span class="fu">max</span>(body_mass_g, <span class="at">na.rm =</span> T)) <span class="sc">|&gt;</span></span>
-<span id="cb83-4"><a href="#cb83-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb85-2"><a href="#cb85-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
+<span id="cb85-3"><a href="#cb85-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarize</span>(<span class="at">heaviest_penguin =</span> <span class="fu">max</span>(body_mass_g, <span class="at">na.rm =</span> T)) <span class="sc">|&gt;</span></span>
+<span id="cb85-4"><a href="#cb85-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 2
 ##   species   heaviest_penguin
 ##   &lt;fct&gt;                &lt;int&gt;
@@ -2558,18 +2639,18 @@ groups in a <code>.by</code> argument, passing them directly in the
 whereas the ones used with <code>group_by</code> do. You can read more
 about both these approaches in <a href="https://r4ds.hadley.nz">R for
 Data Science, 2nd edition</a>.</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
-<span id="cb85-2"><a href="#cb85-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">heaviest_penguin =</span> <span class="fu">max</span>(body_mass_g, <span class="at">na.rm =</span> T), <span class="at">.by =</span> species) <span class="sc">|&gt;</span></span>
-<span id="cb85-3"><a href="#cb85-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb87-2"><a href="#cb87-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">heaviest_penguin =</span> <span class="fu">max</span>(body_mass_g, <span class="at">na.rm =</span> T), <span class="at">.by =</span> species) <span class="sc">|&gt;</span></span>
+<span id="cb87-3"><a href="#cb87-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 2
 ##   species   heaviest_penguin
 ##   &lt;fct&gt;                &lt;int&gt;
 ## 1 Adelie                4775
 ## 2 Gentoo                6300
 ## 3 Chinstrap             4800</code></pre>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
-<span id="cb87-2"><a href="#cb87-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">heaviest_penguin =</span> <span class="fu">max</span>(body_mass_g, <span class="at">na.rm =</span> T), <span class="at">.by =</span> <span class="fu">c</span>(species, sex)) <span class="sc">|&gt;</span></span>
-<span id="cb87-3"><a href="#cb87-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb89-2"><a href="#cb89-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">heaviest_penguin =</span> <span class="fu">max</span>(body_mass_g, <span class="at">na.rm =</span> T), <span class="at">.by =</span> <span class="fu">c</span>(species, sex)) <span class="sc">|&gt;</span></span>
+<span id="cb89-3"><a href="#cb89-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 8 × 3
 ##   species   sex    heaviest_penguin
 ##   &lt;fct&gt;     &lt;fct&gt;             &lt;int&gt;
@@ -2597,9 +2678,8 @@ also group by year <code>group_by(species, year)</code>?</p>
 </div>
 <hr />
 </div>
-<div id="dplyrarrange-r-emojiegg" class="section level2">
-<h2><code>dplyr::arrange()</code>
-`<code>r emo::ji(&quot;egg&quot;)`🐣🐥</code></h2>
+<div id="dplyrarrange" class="section level2">
+<h2>`dplyr::arrange()🥚 🐣 🐥</h2>
 <p>The <code>dplyr::arrange()</code> verb is pretty self-explanatory.
 <code>dplyr::arrange()</code> orders the rows of a data frame by the
 values of selected columns in ascending order. You can use the
@@ -2607,10 +2687,10 @@ values of selected columns in ascending order. You can use the
 following chunk arranges the data frame based on the length of the
 penguins’ bill. You hint tab contains the code for the descending order
 alternative.</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
-<span id="cb89-2"><a href="#cb89-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(bill_length_mm)</span></code></pre></div>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
-<span id="cb90-2"><a href="#cb90-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(<span class="fu">desc</span>(bill_length_mm))</span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb91-2"><a href="#cb91-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(bill_length_mm)</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb92-2"><a href="#cb92-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(<span class="fu">desc</span>(bill_length_mm))</span></code></pre></div>
 <div class="alert-info">
 <p><strong>Exercise 4</strong></p>
 <p>Can you create a data frame arranged by body_mass_g of the penguins
@@ -2622,18 +2702,18 @@ observed in the “Dream” island?</p>
 <h2>Optional: Other <code>dplyr</code> functions</h2>
 <p><code>dplyr::slice()</code>: Subset rows by position rather than
 filtering by values.</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">slice</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">slice</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span></code></pre></div>
 <hr />
 <p><code>dplyr::pull()</code>: Extract a column from a data frame as a
 vector or scalar.</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
-<span id="cb92-2"><a href="#cb92-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(sex <span class="sc">==</span> <span class="st">&quot;female&quot;</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb92-3"><a href="#cb92-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(flipper_length_mm)</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb94-2"><a href="#cb94-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(sex <span class="sc">==</span> <span class="st">&quot;female&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb94-3"><a href="#cb94-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(flipper_length_mm)</span></code></pre></div>
 <hr />
 <p><code>dplyr::count()</code> and <code>dplyr::distinct()</code>:
 Number and isolate unique observations.</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">count</span>(species)</span>
-<span id="cb93-2"><a href="#cb93-2" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">distinct</span>(species)</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">count</span>(species)</span>
+<span id="cb95-2"><a href="#cb95-2" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">distinct</span>(species)</span></code></pre></div>
 <p><em>Note:</em> You could also use a combination of
 <code>dplyr::mutate</code>, <code>dplyr::group_by</code>, and
 <code>n()</code>,
@@ -2641,25 +2721,25 @@ e.g. <code>penguins |&gt; dplyr::group_by(species) |&gt; dplyr::summarize(num =
 <hr />
 <p><code>dplyr::where()</code>: Select the variables for which a
 function returns true.</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(dplyr<span class="sc">::</span><span class="fu">where</span>(is.numeric)) <span class="sc">|&gt;</span> <span class="fu">names</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(dplyr<span class="sc">::</span><span class="fu">where</span>(is.numeric)) <span class="sc">|&gt;</span> <span class="fu">names</span>()</span></code></pre></div>
 <hr />
 <p><code>dplyr::across()</code>: Summarize or mutate multiple variables
 in the same way. More information <a href="https://dplyr.tidyverse.org/reference/across.html">here</a>.</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">mutate</span>(dplyr<span class="sc">::</span><span class="fu">across</span>(dplyr<span class="sc">::</span><span class="fu">where</span>(is.numeric), scale)) <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">mutate</span>(dplyr<span class="sc">::</span><span class="fu">across</span>(dplyr<span class="sc">::</span><span class="fu">where</span>(is.numeric), scale)) <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div>
 <hr />
 <p><code>dplyr::case_when()</code>: Vectorize multiple
 <code>if_else()</code> (or base R <code>ifelse()</code>) statements.</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" tabindex="-1"></a><span class="co">#multiple conditional statements</span></span>
-<span id="cb96-2"><a href="#cb96-2" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
-<span id="cb96-3"><a href="#cb96-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>( </span>
-<span id="cb96-4"><a href="#cb96-4" tabindex="-1"></a>    <span class="at">flipper_length_cat =</span> </span>
-<span id="cb96-5"><a href="#cb96-5" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
-<span id="cb96-6"><a href="#cb96-6" tabindex="-1"></a>        flipper_length_mm <span class="sc">&lt;</span> <span class="dv">190</span> <span class="sc">~</span> <span class="st">&quot;small&quot;</span>,</span>
-<span id="cb96-7"><a href="#cb96-7" tabindex="-1"></a>        flipper_length_mm <span class="sc">&gt;=</span> <span class="dv">190</span> <span class="sc">&amp;</span> flipper_length_mm <span class="sc">&lt;</span> <span class="dv">210</span> <span class="sc">~</span> <span class="st">&quot;medium&quot;</span>,</span>
-<span id="cb96-8"><a href="#cb96-8" tabindex="-1"></a>        flipper_length_mm <span class="sc">&gt;=</span> <span class="dv">210</span>  <span class="sc">~</span> <span class="st">&quot;large&quot;</span></span>
-<span id="cb96-9"><a href="#cb96-9" tabindex="-1"></a>      )</span>
-<span id="cb96-10"><a href="#cb96-10" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb96-11"><a href="#cb96-11" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(flipper_length_cat) <span class="sc">|&gt;</span> <span class="fu">table</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" tabindex="-1"></a><span class="co">#multiple conditional statements</span></span>
+<span id="cb98-2"><a href="#cb98-2" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb98-3"><a href="#cb98-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>( </span>
+<span id="cb98-4"><a href="#cb98-4" tabindex="-1"></a>    <span class="at">flipper_length_cat =</span> </span>
+<span id="cb98-5"><a href="#cb98-5" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<span id="cb98-6"><a href="#cb98-6" tabindex="-1"></a>        flipper_length_mm <span class="sc">&lt;</span> <span class="dv">190</span> <span class="sc">~</span> <span class="st">&quot;small&quot;</span>,</span>
+<span id="cb98-7"><a href="#cb98-7" tabindex="-1"></a>        flipper_length_mm <span class="sc">&gt;=</span> <span class="dv">190</span> <span class="sc">&amp;</span> flipper_length_mm <span class="sc">&lt;</span> <span class="dv">210</span> <span class="sc">~</span> <span class="st">&quot;medium&quot;</span>,</span>
+<span id="cb98-8"><a href="#cb98-8" tabindex="-1"></a>        flipper_length_mm <span class="sc">&gt;=</span> <span class="dv">210</span>  <span class="sc">~</span> <span class="st">&quot;large&quot;</span></span>
+<span id="cb98-9"><a href="#cb98-9" tabindex="-1"></a>      )</span>
+<span id="cb98-10"><a href="#cb98-10" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb98-11"><a href="#cb98-11" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(flipper_length_cat) <span class="sc">|&gt;</span> <span class="fu">table</span>()</span></code></pre></div>
 <p><strong>Window functions</strong>: There are also a whole class of <a href="https://cran.r-project.org/web/packages/dplyr/vignettes/window-functions.html">window
 functions</a> for getting leads and lags, ranking, creating cumulative
 aggregates, etc. See <code>vignette(&quot;window-functions&quot;)</code>.</p>
@@ -2694,16 +2774,6 @@ Introduction</em>. Princeton and Oxford: Princeton University Press.</p>
 2010. Introducing ACLED – Armed Conflict Location and Event Data.
 <em>Journal of Peace Research</em> 47(5), 651-660.</p>
 <p>World Bank (2017): <em>Population, total</em>. <a href="https://data.worldbank.org/indicator/sp.pop.totl?end=2016&amp;start=2015" class="uri">https://data.worldbank.org/indicator/sp.pop.totl?end=2016&amp;start=2015</a>.</p>
-</div>
-<div class="footnotes footnotes-end-of-document">
-<hr />
-<ol>
-<li id="fn1"><p>ACLED uses the following definition: “A protest
-describes a non-violent, group public demonstration, often against a
-government institution. Rioting is a violent form of demonstration,” see
-Raleigh, C. and C. Dowd (2015): Armed Conflict Location and Event Data
-Project (ACLED) Codebook.)<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-</ol>
 </div>
 
    
