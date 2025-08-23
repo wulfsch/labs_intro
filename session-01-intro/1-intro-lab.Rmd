@@ -188,88 +188,109 @@ We highly recommend working in Projects because they are easily integrated with 
 
 ---
 
-Time for some *examples*!
-
-Below, we will use use the `foreign` package to import a .csv file. To make the `foreign` package available for use, install it and then use the `library()` command to load it. While packages need to be installed only once, the `library()` command needs to be run every time you want to use a particular package. On many machines, the `foreign` package is pre-installed. We install it above for practice purposes.
-```{r, warning = F}
-#install.packages("foreign") #alternatively use "Install" button 
-library(foreign)
-```
-
-In this example, we will use a subset of data from the [Armed Conflict Location & Event Data Project (ACLED)](https://www.acleddata.com/), which offers real-time data and analysis on political violence and protests around the world. The `ACLED_countries.csv` dataset includes the count of riot and protest events from January 2000 to December 2019 for many countries.[^4] 
-
-[^4]: ACLED uses the following definition: "A protest describes a non-violent, group public demonstration, often against a government institution. Rioting is a violent form of demonstration," see Raleigh, C. and C. Dowd (2015): Armed Conflict Location and Event Data Project (ACLED) Codebook.)
-
-## Importing data
-
-Most data formats we commonly use are not native to `R` and need to be imported. Luckily, there is a variety of packages available to import just about any non-native format. One of the essential libraries is called `foreign` and includes functions to import .csv, .dta (Stata), .dat, ,.sav (SPSS), etc. 
-
-
-```{r}
-mydata <- read.csv("data/ACLED_countries.csv",
-                   stringsAsFactors = F)
-```
 
 # Data Frames 
 
-Let's now go a bit deeper with data frames, a structure you'll probably encounter every time you work with `R`.
+Let's now go a bit deeper with data frames using data for penguin sizes recorded by Dr. Kristen Gorman and others at several islands in the Palmer Archipelago, Antarctica. Data are originally published in: Gorman KB, Williams TD, Fraser WR (2014) PLoS ONE 9(3): e90081. <doi:10.1371/journal.pone.0090081>
+
+The 3 species of penguins in this data set are Adelie, Chinstrap and Gentoo. The data set contains 8 variables:
+
+-   **species:** a factor denoting the penguin species (Adelie, Chinstrap, or Gentoo)
+-   **island:** a factor denoting the island (in Palmer Archipelago, Antarctica) where observed
+-   **bill_length_mm:** a number denoting length of the dorsal ridge of penguin bill (millimeters)
+-   **bill_depth_mm:** a number denoting the depth of the penguin bill (millimeters)
+-   **flipper_length_mm:** an integer denoting penguin flipper length (millimeters)
+-   **body_mass_g:** an integer denoting penguin body mass (grams)
+-   **sex:** a factor denoting penguin sex (MALE, FEMALE)
+-   **year** an integer denoting the year of the record
+
+Handily, this data is contained in a package called `palmerpenguins`. To make the `palmerpenguins` package available for use, install it and then use the `library()` command to load it. While packages need to be installed only once, the `library()` command needs to be run every time you want to use a particular package.
+```{r, warning = F}
+# install.packages("palmerpenguins") # Run this in console only
+library(palmerpenguins)
+```
+
+### Loading the data
+Once we have loaded the package we can load the data set by simply typing `data(penguins)`. The data will be stored in a data frame called `penguins`. (Note: Usually, you would load data from a file on your computer or from a URL as most datasets are not packaged.)
+ 
+```{r}
+data(penguins)
+```
+
+## Data Frame Structure
 
 Let's find out what these data look like. First, use the `str()` function to explore the variable names and which data class they are stored in. Note: `int` stands for `integer` and is a special case of the class `numeric`.
+
 ```{r}
-str(mydata)
+str(penguins)
 ```
+
+:::alert-info
+**Exercise 1**
+
+Look at the output from the function adove. How many observations (rows) and variables (columns) does the penguins dataset have? What different data types do you see?
+:::
 
 If we are only interested in what the variables are called, we can use the `names()` function.
 ```{r}
-names(mydata)
+names(penguins)
 ```
 
-We can alter the names of vectors by using the `names()` function and indexing. Because data frames are essentially just combinations of vectors, we can do the same for variable names inside data frames. Suppose we want to change the variable `nconflicts`.
+We can alter the names of vectors by using the `names()` function and indexing. Because data frames are essentially just combinations of vectors, we can do the same for variable names inside data frames. Suppose we want to change the variable `year`.
 ```{r}
-names(mydata)[3] <- "nconflict"
-names(mydata)
+names(penguins)[8] <- "rec_year"
+names(penguins)
 ```
 
 We can use the `summary()` function to get a first look at the data.
 ```{r}
-summary(mydata)
+summary(penguins)
 ```
 
 A data frame has two dimensions: rows and columns. 
 ```{r}
-nrow(mydata) # Number of rows
-ncol(mydata) # Number of columns
-dim(mydata) # Rows first then columns.
+nrow(penguins) # Number of rows
+ncol(penguins) # Number of columns
+dim(penguins) # Rows first then columns.
 ```
 
 ### Accessing elements of a data frame - Indexing
 As a rule, whenever we access a dataframe or another object using two-dimensional indexing in `R`, the order is: `[row, column]`. To access the first row of the data frame, we specify the row we want to see and leave the column slot following the comma empty.
 ```{r}
-mydata[1, ]
+penguins[1, ]
 ```
 
 We can use the concatenate function `c()` to access multiple rows (or columns) at once. Below we print out the first and second row of the dataframe.
 ```{r}
-mydata[c(1, 2), ]
+penguins[c(1, 2), ]
 ```
 
 We can also access a range of rows by separating the minimum and maximum value with a `:`. Below we print out the first five rows of the dataframe. 
 ```{r}
-mydata[1:5,]
+penguins[1:5,]
 ```
 
-If we try to access a data point that is out of bounds, `R` returns the value `NULL`. 
+If we try to access a data point that is out of bounds, `R` returns an error. 
 ```{r}
-mydata[3,7]
+#penguins[3,10]
 ```
 
-**Exercise 1** Access the element of the dataframe `mydata` that is stored in row 1, column 1.
-```{r, echo = F}
+:::alert-info
+**Exercise 2**
+
+Access the species information (column 1) for the 10th penguin in the dataset using indexing.
+:::
+
+```{r, echo=F}
 
 ```
 
-**Exercise 2** Access the element of the data frame `mydata` that is stored in column 3, row 100.
-```{r, echo=FALSE}
+:::alert-info
+**Exercise 3**
+
+Access rows 15 through 20 and columns 1 through 3 of the penguins dataset.
+:::
+```{r, echo=F}
 
 ```
 
@@ -277,41 +298,32 @@ mydata[3,7]
 
 The `$` operator in `R` is used to specify a variable within a data frame. This is an alternative to indexing.
 ```{r}
-which(colnames(mydata) == "nconflict")
-mydata[,3]
+which(colnames(penguins) == "species")
 
-mydata$nconflict
+penguins[,'species']
+penguins[,1]
+penguins$species
 ```
 
 ### `table()` function
 The `table()` function can be used to tabularize one or more variables. For example, let's find out how many observations (i.e. individual countries) we have per region.
 ```{r}
-table(mydata$region)
+table(penguins$species)
 ```
 
-Using logical operations, we can create more complex tabularizations. For example, below, we show how many countries have above average number of conflict events per region.
+Using logical operations, we can create more complex tabularizations. For example, below, we show how many penguins have above average body mass per species.
 ```{r}
-summary(mydata$nconflict)
-table(mydata$region, mydata$nconflict > mean(mydata$nconflict))
+summary(penguins$body_mass_g)
+table(penguins$species, penguins$body_mass_g > mean(penguins$body_mass_g, na.rm = TRUE))
 ```
 
-**Exercise 3**: How would you access all elements of the variable `country` using indexing rather than the `$` operator?
-```{r, echo = F}
+:::alert-info
+**Exercise 4**
 
-```
+Create a table showing the distribution of penguin sex by species. What do you notice about the missing values?
+:::
 
-**Exercise 4**: How would you find the maximum value for number of conflict events using the `$` operator?
-```{r, echo = F}
-
-```
-
-**Exercise 5**: Print the country that corresponds to the maximum value for conflict events using the `$` operator and indexing!
-```{r, echo = F}
-
-```
-
-**Exercise 6**: Print out every second element from the variable `country` using indexing methods and the sequence function `seq()`.
-```{r, echo = F}
+```{r, echo=F}
 
 ```
 
@@ -330,31 +342,53 @@ sum(vec, na.rm = T)
 ```
 
 ## Adding observations
-First, let's add another observation to the data. Suppose we wanted to add an observation for Germany, which will be a missing value. We can use the same operations we used for vectors to add data. Here, we will use the `rbind()` function to do so. `rbind()` stands for "row bind." Save the output in a new data frame!
+First, let's add another observation to the data. Suppose we wanted to add a hypothetical observation for a new Adelie penguin. We can use the rbind() function to do so. rbind() stands for "row bind." Save the output in a new data frame!
+
 ```{r}
-obs <- c("Germany", "Europe", NA, NA, NA)
-mydata_new <- rbind(mydata, obs)
-dim(mydata_new)
+new_penguin <- data.frame(
+  species = "Adelie",
+  island = "Dream", 
+  bill_length_mm = 40.5,
+  bill_depth_mm = 18.2,
+  flipper_length_mm = 195,
+  body_mass_g = 3500,
+  sex = "male",
+  rec_year = 2020
+)
+
+penguins_new <- rbind(penguins, new_penguin)
+dim(penguins_new)  # Check that we added one row
+tail(penguins_new, 2)  # Look at the last two rows
 ```
 
 ## Adding variables
-We can also create new variables that use information from the existing data. If we know the number of conflict events without fatalities by country, we can calculate the number of conflict events *with* fatalities to generate the variable `nconflict_fatalities`. By using the `$` operator, we can directly assign the new variable to the data frame `mydata_new`.
+We can also create new variables that use information from the existing data. For example, we might want to create a ratio of bill length to bill depth, or convert body mass from grams to kilograms. By using the $ operator, we can directly assign the new variable to the data frame.
 ```{r}
-mydata$nconflict_fatalities <- mydata$nconflict - mydata$nconflict_no_fatalities
-head(mydata, 3) #prints out the first 3 rows of the data frame
-```
+penguins$bill_ratio <- penguins$culmen_length_mm / penguins$bill_depth_mm
+penguins$body_mass_kg <- penguins$body_mass_g / 1000
 
-We could also compute the average number of fatalities per conflict, computed as the sum of fatalities (`fatalities` variable) divided by the number of conflicts (`nconflict` variable).
-```{r}
-mydata$av_fatalities <- mydata$fatalities/mydata$nconflict
+head(penguins, 3) # prints out the first 3 rows of the data frame
 ```
 
 ## Subsetting data 
-Suppose we want to figure out which country in Northern Africa has the highest number of riot and protest events. We can figure this out by first subsetting our dataset to only include countries in the region, then looking up the maximum value for `nconflict`. Below, we assign the output to a new object called `mydata_na`.
+Suppose we want to figure out which Adelie penguin has the longest flipper. We can figure this out by first subsetting our dataset to only include Adelie penguins, then looking up the maximum value for flipper_length_mm.
 ```{r}
-mydata_na <- mydata[mydata$region == "Northern Africa",]
-max(mydata_na$nconflict)
-mydata_na$country[mydata_na$nconflict == max(mydata_na$nconflict)]
+adelie_penguins <- penguins[penguins$species == "Adelie",]
+max(adelie_penguins$flipper_length_mm, na.rm = TRUE)
+
+# Find which Adelie penguin has the maximum flipper length
+max_flipper_length <- max(adelie_penguins$flipper_length_mm, na.rm = TRUE)
+adelie_penguins[adelie_penguins$flipper_length_mm == max_flipper_length, ]
+```
+
+:::alert-info
+**Exercise 5**
+
+Create a subset containing only female penguins from Biscoe island. How many observations are in this subset?
+:::
+
+```{r, echo=F}
+
 ```
 
 # Working with R II
@@ -589,7 +623,7 @@ knitr::include_graphics("pics/rstudio_pipe_settings.png")
 
 ------------------------------------------------------------------------
 
-## Tidy Data `r emo::ji("card_file_box")`
+## Tidy Data `r emo::ji("file_cabinet")`
 
 Generally, we will encounter data in a tidy format. Tidy data refers to a way of mapping the structure of a data set. In a tidy data set:
 
@@ -614,22 +648,7 @@ A second fundamental package of the tidyverse is called `dplyr`. In this section
 -   `dplyr::summarize()`: Collapse multiple rows into a single summary value (summary statistics)
 -   `dplyr::arrange()`: Arrange (i.e. reorder) rows based on their values (reorder rows according to single or multiple variables)
 
-```{r, echo=FALSE}
-library(palmerpenguins)
-```
-
-To demonstrate and practice how these verbs (functions) work, we'll use the penguins dataset.
-
-The 3 species of penguins in this data set are Adelie, Chinstrap and Gentoo. The data set contains 8 variables:
-
--   **species:** a factor denoting the penguin species (Adelie, Chinstrap, or Gentoo)
--   **island:** a factor denoting the island (in Palmer Archipelago, Antarctica) where observed
--   **culmen_length_mm:** a number denoting length of the dorsal ridge of penguin bill (millimeters)
--   **culmen_depth_mm:** a number denoting the depth of the penguin bill (millimeters)
--   **flipper_length_mm:** an integer denoting penguin flipper length (millimeters)
--   **body_mass_g:** an integer denoting penguin body mass (grams)
--   **sex:** a factor denoting penguin sex (MALE, FEMALE)
--   **year** an integer denoting the year of the record
+To demonstrate and practice how these verbs (functions) work, we'll use the penguins dataset we saw earlier.
 
 ------------------------------------------------------------------------
 

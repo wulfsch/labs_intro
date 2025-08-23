@@ -1,7 +1,22 @@
 #Coding Solutions - Session 1
 
+# Base R section
+# Ex 1
 
+# Ex 2
+penguins[10, 1]
+#or
+penguins[10, "species"]
 
+# Ex 3
+penguins[15:20, 1:3]
+
+# Ex 4
+table(penguins$species, penguins$sex, useNA = "always")
+
+# Ex 5
+female_biscoe <- penguins[penguins$sex == "female" & penguins$island == "Biscoe", ]
+nrow(female_biscoe)
 
 # Tidyverse Section
 
