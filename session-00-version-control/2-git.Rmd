@@ -1,8 +1,8 @@
 ---
 title: "Version Control"
 subtitle: "Getting used to Git(Hub) with R"
-author: "Carmen Garro & Sebastian Ramirez-Ruiz"
-date: "(Fall 2024) Introduction to Data Science"
+author: "Killian Conyngham & Carol Sobral"
+date: "(Fall 2025) Introduction to Data Science"
 output: 
     rmdformats::robobook:
     toc: TRUE
@@ -59,11 +59,11 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 
 ------------------------------------------------------------------------
 
-## Welcome back! `r emo::ji("flexed biceps")`
+## Welcome! `r emo::ji("flexed biceps")`
 
-This week we will be looking at a key component of the data science workflow: version control. More specifically, we will create your first repo on GitHub and see how we can use it to keep a record of all the changes that were ever made to your code. This is an essential component of collaborative coding efforts, but can also be immensely beneficial for your own solo projects.
+This is an extra session of the Introduction to Data Science course. In this session, we will be looking at a key component of the data science workflow: version control. More specifically, we will create your first repo on GitHub and see how we can use it to keep a record of all the changes that were ever made to your code. This is an essential component of collaborative coding efforts, but can also be immensely beneficial for your own solo projects.
 
-Today's session will follow the exact recipe suggested in Simon's lecture:
+The structure of this session is as follows:
 
 1.   Create a new repo on GitHub and initialize it
 1.   Clone this repo to your local machine
