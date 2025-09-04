@@ -40,11 +40,13 @@ Welcome to your first lab session of the **Introduction to Data Science** course
 
 There are two tutors for these labs - Killian Conyngham and Carol Sobral. We are here to talk you through the lab each week and help you with any questions you may have.
 
+As there is a variety of experience levels in the room, we will try to go at a pace that fits our schedule and suits as many of you as possible. If we go too fast or too slow, do let us know!
+
 This week's tutorial will be divided in three parts. 
 
 - First, we will recap R basics and the RStudio infrastructure setup. 
-- Second, we will discuss some best practices in R. 
-- Third, we will dive into the Tidyverse, a collection of R packages that are designed to work together to make data science easier and more intuitive.
+- Second, we will dive into the Tidyverse, a collection of R packages that are designed to work together to make data science easier and more intuitive.
+- Third, we will discuss some best practices in R. 
 
 
 But first things first:
@@ -72,13 +74,11 @@ Otherwise, register [here](https://github.com/).
 
 4. **Plots and files**: This area will be where graphic output will be generated. Additionally, if you write a question mark before any function, (i.e. `?mean`) the online documentation will be displayed here.
 
-
-
 ---
 
 ## Getting Help `r emo::ji("search")`
 
-The key to learning `R` is: **Google**! We can give you an overview over basic `R` functions, but to really learn `R` you will have to actively use it yourself, trouble shoot, ask questions, and google! Help pages such as http://stackoverflow.com offer a rich archive of questions and answers by the `R` community. For example, if you google "recode data in r" you will find a variety of useful websites explaining how to do this on the first page of the search results. Also, don't be surprised if you find a variety of different ways to execute the same task.
+The key to learning `R` is: **Google**! We can give you an overview over basic `R` functions, but to really learn `R` you will have to actively use it yourself, trouble shoot, ask questions, and google! Help pages such as http://stackoverflow.com offer a rich archive of questions and answers by the `R` community. For example, if you google "recode data in r" you will find a variety of useful websites explaining how to do this on the first page of the search results. Don't be surprised if you find a variety of different ways to execute the same task.
 
 RStudio also has a useful help menu. In addition, you can get information on any function or integrated data set in `R` through the console, for example:
 ```
@@ -89,7 +89,7 @@ In addition, there are a lot of free `R` comprehensive guides, such as Quick-R a
 
 You are also surrounded by a wealth of knowledge in your classmates around you. Feel free to collaborate or ask your neighbours questions to help you!
 
-As much as possible I recommend you avoid using ChatGPT or any other AI tools for coding help in these labs. The point of these labs is to learn how to code yourself, so make sure you always try each task yourself first and that you understand each line of code.
+I recommend you **avoid using ChatGPT or any other AI tools for coding help in these labs!!** The point of these labs is to learn how to code yourself, so make sure you always try each task yourself first and that you understand each line of code. If you have copilot enabled in your RStudio, please disable it for these labs.
 
 ## Executing a line of code
 To execute a single line of code. In RStudio, with the curser in the line you want `R` to execute, 
@@ -178,6 +178,10 @@ You can also use the `setwd()` function:
 setwd("/path/to/your/directory") #in macOS
 setwd("c:/path/to/your/directory") #in windows
 ```
+---
+
+### R File types
+There are two main file types you will be working with in this course: `.R` files and `.Rmd` files. The former are simply scripts of R code, while the latter are R Markdown files that allow you to combine text and code in a single document. You can "knit" R markdown files to produce outputs in a variety of formats, including HTML, PDF, and Word. This whole lab is just a fancy `.Rmd` file!
 
 ---
 
@@ -218,8 +222,13 @@ data(penguins)
 ```
 
 ## Data Frame Structure
+Let's find out what these data look like. First, we can print out the data frame to the console. If we just type the name of the data frame, `R` will print out the first 10 rows and all columns of the data frame.
+```{r}
+print(penguins)
+```
 
-Let's find out what these data look like. First, use the `str()` function to explore the variable names and which data class they are stored in. Note: `int` stands for `integer` and is a special case of the class `numeric`.
+
+Next we can use the `str()` function to explore the variable names and which data class they are stored in. Note: `int` stands for `integer` and is a special case of the class `numeric`.
 
 ```{r}
 str(penguins)
@@ -296,7 +305,7 @@ Access rows 15 through 20 and columns 1 through 3 of the penguins dataset.
 
 ### The `$` operator
 
-The `$` operator in `R` is used to specify a variable within a data frame. This is an alternative to indexing.
+The `$` operator in `R` is used to specify a variable within a data frame. This is an alternative to indexing. All the following commands will return essentially the same output: the species of all penguins in the dataset.
 ```{r}
 which(colnames(penguins) == "species")
 
@@ -361,48 +370,18 @@ dim(penguins_new)  # Check that we added one row
 tail(penguins_new, 2)  # Look at the last two rows
 ```
 
-## Adding variables
-We can also create new variables that use information from the existing data. For example, we might want to create a ratio of bill length to bill depth, or convert body mass from grams to kilograms. By using the $ operator, we can directly assign the new variable to the data frame.
-```{r}
-penguins$bill_ratio <- penguins$bill_length_mm / penguins$bill_depth_mm
-penguins$body_mass_kg <- penguins$body_mass_g / 1000
-
-head(penguins, 3) # prints out the first 3 rows of the data frame
-```
-
-## Subsetting data 
-Suppose we want to figure out which Adelie penguin has the longest flipper. We can figure this out by first subsetting our dataset to only include Adelie penguins, then looking up the maximum value for flipper_length_mm.
-```{r}
-adelie_penguins <- penguins[penguins$species == "Adelie",]
-max(adelie_penguins$flipper_length_mm, na.rm = TRUE)
-
-# Find which Adelie penguin has the maximum flipper length
-max_flipper_length <- max(adelie_penguins$flipper_length_mm, na.rm = TRUE)
-adelie_penguins[adelie_penguins$flipper_length_mm == max_flipper_length, ]
-```
-
-:::alert-info
-**Exercise 5**
-
-Create a subset containing only female penguins from Biscoe island. How many observations are in this subset?
-:::
-
-```{r, echo=F}
-
-```
-
 # Working with R II
 
 ## Saving data 
-Suppose we wanted to save this newly created data frame. We have multiple options to do so. If we wanted to save it as a native `.RData` format, we would run the following command. 
+Suppose we wanted to save a newly created data frame. We have multiple options to do so. If we wanted to save it as a native `.RData` format, we would run the following command. 
 ```
 # Make sure you specified the right working directory!
-save(mydata, file = "mydata_new.RData")
+save(penguins_new, file = "penguins_new.RData")
 ```
 
 Most of the time, however, we would want to save our data in formats that can be read by other programs as well. `.csv` is an obvious choice.
 ```
-write.csv(mydata_new, file = "mydata_new.csv")
+write.csv(penguins_new, file = "penguins_new.csv")
 ```
 
 ## Dealing with errors in R
@@ -437,7 +416,7 @@ dplyr::select()
 
 Let's look at what happens when we load `tidyverse`.
 
-```r
+```{r, message=TRUE}
 library(tidyverse)
 
 #── Attaching packages ──────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 #──
@@ -473,13 +452,7 @@ Read more on this [here](http://varianceexplained.org/r/teach-tidyverse/) if you
 
 ## Tidyverse packages
 
-Why is it called the tidy*verse*? Let's load the tidyverse meta-package and check the output.
-
-```{r, message=TRUE}
-library(tidyverse)
-```
-
-We see that we have actually loaded a number of packages (which could also be loaded individually): **ggplot2**, **tibble**, **dplyr**, etc. We can also see information about the package versions and some [namespace conflicts](https://raw.githack.com/uo-ec607/lectures/master/04-rlang/04-rlang.html#59).
+Why is it called the tidy*verse*? Well, as we saw above when we loaded the `tidyverse` package, it actually loaded a number of packages (which could also be loaded individually): **ggplot2**, **tibble**, **dplyr**, etc. We can also see information about the package versions and some [namespace conflicts](https://raw.githack.com/uo-ec607/lectures/master/04-rlang/04-rlang.html#59).
 
 The tidyverse actually comes with a lot more packages than those that are just loaded automatically.
 
@@ -567,7 +540,7 @@ Alex %>%
 -   Don't use the pipe when there are **meaningful intermediate objects** that can be given informative names (and that are used later on).
 -   `%>%` should always have a space before it, and should usually be followed by a new line.
 
-### The base R pipe: `|>`
+## The base R pipe: `|>`
 
 The `magrittr` pipe has proven so successful and popular that the R core team [recently added](https://stat.ethz.ch/R-manual/R-devel/library/base/html/pipeOp.html) a "native" pipe operator to base R (version 4.1), denoted `|>`. Here's how it works:
 
@@ -586,7 +559,7 @@ knitr::include_graphics("pics/rstudio_pipe_settings.png")
 
 ------------------------------------------------------------------------
 
-## Tidy Data `r emo::ji("file_cabinet")`
+## Tidy Data
 
 Generally, we will encounter data in a tidy format. Tidy data refers to a way of mapping the structure of a data set. In a tidy data set:
 
@@ -736,7 +709,7 @@ Can you get the weight of the lightest penguin of each species? You can use `min
 
 ------------------------------------------------------------------------
 
-## `dplyr::arrange()`r emo::ji("egg")` `r emo::ji("hatching_chick")` `r emo::ji("hatched_chick")`
+## `dplyr::arrange()` `r emo::ji("egg")` `r emo::ji("hatching_chick")` `r emo::ji("hatched_chick")`
 
 The `dplyr::arrange()` verb is pretty self-explanatory. `dplyr::arrange()` orders the rows of a data frame by the values of selected columns in ascending order. You can use the `desc()` argument inside to arrange in descending order. The following chunk arranges the data frame based on the length of the penguins' bill. You hint tab contains the code for the descending order alternative.
 
@@ -878,11 +851,6 @@ See you next week! `r emo::ji("computer")`
 
 This script was drafted by [Tom Arendt](https://github.com/tom-arend) and [Lisa Oswald](https://lfoswald.github.io/), with contributions by [Steve Kerr](https://smkerr.github.io/), [Hiba Ahmad](https://github.com/hiba-ahmad), [Carmen Garro](https://github.com/cgarroca), [Sebastian Ramirez-Ruiz](https://seramirezruiz.github.io/), [Killian Conyngham](https://github.com/Killian-Conyngham) and [Carol Sobral](https://github.com/cbsobral). It draws heavily on the materials for the Introduction to R workshop within the Data Science Seminar series at Hertie, created by [Therese Anders](http://therese.rbind.io/), Statistical Modeling and Causal Inference by Sebastian Ramirez-Ruiz and Lisa Oswald.
 
-Economist Intelligence Unit (2017): *Democracy Index*. https://infographics.economist.com/2017/DemocracyIndex/.
+Gorman KB, Williams TD, Fraser WR (2014). Ecological sexual dimorphism and environmental variability within a community of Antarctic penguins (genus Pygoscelis). PLoS ONE 9(3):e90081. https://doi.org/10.1371/journal.pone.0090081
 
-Imai, Kosuke (2017): *Quantitative Social Science. An Introduction*. Princeton and Oxford: Princeton University Press.
-
-Raleigh, Clionadh, Andrew Linke, Håvard Hegre and Joakim Karlsen. 2010. Introducing ACLED – Armed Conflict Location and Event Data. *Journal of Peace Research* 47(5), 651-660.
-
-World Bank (2017): *Population, total*. https://data.worldbank.org/indicator/sp.pop.totl?end=2016&start=2015.
 
