@@ -454,43 +454,6 @@ You may notice that *R* points out some conflicts where some functions are being
 
 ---
 
-# Best practices
-
-Let us conclude the tutorial with some notes on best practices in R.
-There is a multitude of collections on best practices online, for example, some very useful ones are [here](https://www.r-bloggers.com/2018/09/r-code-best-practices/).
-
-## Script structure
-
-When structuring your scripts, remember a few things
-
-* Libraries go first
-* Hard coded variables (e.g. when reading in data) go second
-* Relative paths over absolute paths (give your friends and colleagues a chance to execute your scripts without trouble)
-
-## Naming conventions
-
-In summary, we can say: always use easy to interpret names and don’t use whitespaces in file or variable names! Some *good* examples:
-
-* `my_file.R`
-* `my_vector <- c(1,2,3)`
-* `this_function()`
-
-## Spacing
-
-It is somewhat easier to read if you generally leave a space after a comma
-
-* `my_function(1:10, c(2, 4))`
-
-## Repetition
-
-When you start copying and pasting code (creating a lot of redundancy), you might want to consider slimming down your code by creating a function. Functions? Let us leave this as a note of caution and return to functions and efficient code in our next session!
-
-
-## Actually learning R `r emo::ji("backpack")`
-
-Again, the key to learning `R` is: **practice**! We can only give you an overview over basic `R` functions, but to really learn `R` you will have to actively use it yourself, trouble shoot, ask questions, and google! It is very likely that someone else has had the exact same or just *similar enough* issue before and that the R community has answered it with 5+ different solutions years ago. `r emo::ji("wink")`
-
-
 # Tidyverse
 Now, let us leave base R behind and make our lives much easier by introducing you to the tidyverse. `r emo::ji("sparkles")` We think for data cleaning, wrangling, and plotting, the tidyverse really is a no-brainer. A few good reasons for teaching the tidyverse are:
 
@@ -862,6 +825,46 @@ penguins |>
 ```
 
 **Window functions**: There are also a whole class of [window functions](https://cran.r-project.org/web/packages/dplyr/vignettes/window-functions.html) for getting leads and lags, ranking, creating cumulative aggregates, etc. See `vignette("window-functions")`.
+
+
+---
+
+# Best practices
+
+Let us conclude the tutorial with some notes on best practices in R.
+There is a multitude of collections on best practices online, for example, some very useful ones are [here](https://www.r-bloggers.com/2018/09/r-code-best-practices/).
+
+## Script structure
+
+When structuring your scripts, remember a few things
+
+* Libraries go first
+* Hard coded variables (e.g. when reading in data) go second
+* Relative paths over absolute paths (give your friends and colleagues a chance to execute your scripts without trouble)
+
+## Naming conventions
+
+In summary, we can say: always use easy to interpret names and don’t use whitespaces in file or variable names! Some *good* examples:
+
+* `my_file.R`
+* `my_vector <- c(1,2,3)`
+* `this_function()`
+
+## Spacing
+
+It is somewhat easier to read if you generally leave a space after a comma
+
+* `my_function(1:10, c(2, 4))`
+
+## Repetition
+
+When you start copying and pasting code (creating a lot of redundancy), you might want to consider slimming down your code by creating a function. Functions? Let us leave this as a note of caution and return to functions and efficient code in our next session!
+
+
+## Actually learning R `r emo::ji("backpack")`
+
+Again, the key to learning `R` is: **practice**! We can only give you an overview over basic `R` functions, but to really learn `R` you will have to actively use it yourself, trouble shoot, ask questions, and google! It is very likely that someone else has had the exact same or just *similar enough* issue before and that the R community has answered it with 5+ different solutions years ago. `r emo::ji("wink")`
+
 
 ## To-do!
 
