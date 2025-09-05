@@ -315,7 +315,7 @@ penguins$species
 ```
 
 ### `table()` function
-The `table()` function can be used to tabularize one or more variables. For example, let's find out how many observations (i.e. individual countries) we have per region.
+The `table()` function can be used to tabularize one or more variables. For example, let's find out how many observations (i.e. individual penguins) we have per species.
 ```{r}
 table(penguins$species)
 ```
@@ -351,7 +351,7 @@ sum(vec, na.rm = T)
 ```
 
 ## Adding observations
-First, let's add another observation to the data. Suppose we wanted to add a hypothetical observation for a new Adelie penguin. We can use the rbind() function to do so. rbind() stands for "row bind." Save the output in a new data frame!
+Let's add another observation to the data. Suppose we wanted to add a hypothetical observation for a new Adelie penguin. We can use the rbind() function to do so. rbind() stands for "row bind." Save the output in a new data frame!
 
 ```{r}
 new_penguin <- data.frame(
@@ -817,11 +817,11 @@ When structuring your scripts, remember a few things
 
 ## Naming conventions
 
-In summary, we can say: always use easy to interpret names and don’t use whitespaces in file or variable names! Some *good* examples:
+Always use easy to interpret names and don’t use whitespaces in file or variable names! Some *good* examples:
 
-* `my_file.R`
-* `my_vector <- c(1,2,3)`
-* `this_function()`
+* `survey_data_2024.R`
+* `student_ids <- c(101, 102, 103)`
+* `calculate_gpa()`
 
 ## Spacing
 
@@ -841,7 +841,7 @@ Again, the key to learning `R` is: **practice**! We can only give you an overvie
 
 ## To-do!
 
-For those of you who have yet to create a Github account, do so [now](https://github.com/). We will be using Github extensively in this course so make sure you get familiar with version control and project management with Git and Github. Eveyone has their own preferences, but to get started either GitHub Desktop or the RStudio Git interface are good options. While we won't have a lab session on the topic, I have included materials from a previous version of this course under session-00 which you should go through if you still feel unsure about how to use Git and Github.
+For those of you who have yet to create a Github account, do so [now](https://github.com/). We will be using Github extensively in this course so make sure you get familiar with version control and project management with Git and Github. Everyone has their own preferences, but to get started either GitHub Desktop or the RStudio Git interface are good options. While we won't have a full lab session on the topic we will cover it briefly next week, and we have included materials from a previous version of this course under session-00 which you should go through if you still feel unsure about it.
 
 See you next week! `r emo::ji("computer")`
 

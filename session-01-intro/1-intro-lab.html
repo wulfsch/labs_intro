@@ -1524,7 +1524,7 @@ margin-left: 0 !important;
           <li><a href="#objects-in-r" id="toc-objects-in-r">Objects in R
           📦</a></li>
           <li><a href="#r-packages" id="toc-r-packages">R Packages
-          📂</a></li>
+          📁</a></li>
           <li><a href="#working-directory" id="toc-working-directory">Working directory</a></li>
           </ul></li>
           <li><a href="#data-frames" id="toc-data-frames">Data
@@ -1780,7 +1780,7 @@ column can be of a different type, often used for datasets.</li>
 </div>
 </div>
 <div id="r-packages" class="section level2">
-<h2>R Packages 📂</h2>
+<h2>R Packages 📁</h2>
 <p>For the most part, <em>R Packages</em> are collections of code and
 functions that leverage R programming to expand on the basic
 functionalities. There are a plethora of packages in <em>R</em> designed
@@ -2118,7 +2118,7 @@ species of all penguins in the dataset.</p>
 <h3><code>table()</code> function</h3>
 <p>The <code>table()</code> function can be used to tabularize one or
 more variables. For example, let’s find out how many observations
-(i.e. individual countries) we have per region.</p>
+(i.e. individual penguins) we have per species.</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="fu">table</span>(penguins<span class="sc">$</span>species)</span></code></pre></div>
 <pre><code>## 
 ##    Adelie Chinstrap    Gentoo 
@@ -2160,9 +2160,9 @@ on the remainder of the data.</p>
 </div>
 <div id="adding-observations" class="section level2">
 <h2>Adding observations</h2>
-<p>First, let’s add another observation to the data. Suppose we wanted
-to add a hypothetical observation for a new Adelie penguin. We can use
-the rbind() function to do so. rbind() stands for “row bind.” Save the
+<p>Let’s add another observation to the data. Suppose we wanted to add a
+hypothetical observation for a new Adelie penguin. We can use the
+rbind() function to do so. rbind() stands for “row bind.” Save the
 output in a new data frame!</p>
 <div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" tabindex="-1"></a>new_penguin <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
 <span id="cb53-2"><a href="#cb53-2" tabindex="-1"></a>  <span class="at">species =</span> <span class="st">&quot;Adelie&quot;</span>,</span>
@@ -2699,13 +2699,12 @@ a chance to execute your scripts without trouble)</li>
 </div>
 <div id="naming-conventions" class="section level2">
 <h2>Naming conventions</h2>
-<p>In summary, we can say: always use easy to interpret names and don’t
-use whitespaces in file or variable names! Some <em>good</em>
-examples:</p>
+<p>Always use easy to interpret names and don’t use whitespaces in file
+or variable names! Some <em>good</em> examples:</p>
 <ul>
-<li><code>my_file.R</code></li>
-<li><code>my_vector &lt;- c(1,2,3)</code></li>
-<li><code>this_function()</code></li>
+<li><code>survey_data_2024.R</code></li>
+<li><code>student_ids &lt;- c(101, 102, 103)</code></li>
+<li><code>calculate_gpa()</code></li>
 </ul>
 </div>
 <div id="spacing" class="section level2">
@@ -2737,12 +2736,12 @@ answered it with 5+ different solutions years ago. 😉</p>
 <h2>To-do!</h2>
 <p>For those of you who have yet to create a Github account, do so <a href="https://github.com/">now</a>. We will be using Github extensively
 in this course so make sure you get familiar with version control and
-project management with Git and Github. Eveyone has their own
+project management with Git and Github. Everyone has their own
 preferences, but to get started either GitHub Desktop or the RStudio Git
-interface are good options. While we won’t have a lab session on the
-topic, I have included materials from a previous version of this course
-under session-00 which you should go through if you still feel unsure
-about how to use Git and Github.</p>
+interface are good options. While we won’t have a full lab session on
+the topic we will cover it briefly next week, and we have included
+materials from a previous version of this course under session-00 which
+you should go through if you still feel unsure about it.</p>
 <p>See you next week! 💻</p>
 <hr />
 </div>
