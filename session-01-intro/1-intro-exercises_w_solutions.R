@@ -1,17 +1,18 @@
 #Coding Solutions - Session 1
 
 # Base R section
-# Ex 1
+# Ex 1 - Look at the output from the function above. How many observations (rows) and variables (columns) does the penguins dataset have? What different data types do you see?
 
-# Ex 2
+
+# Ex 2 - Access the species information (column 1) for the 10th penguin in the dataset using indexing.
 penguins[10, 1]
 #or
 penguins[10, "species"]
 
-# Ex 3
+# Ex 3 - Access rows 15 through 20 and columns 1 through 3 of the penguins dataset.
 penguins[15:20, 1:3]
 
-# Ex 4
+# Ex 4 - Create a table showing the distribution of penguin sex by species. What do you notice about the missing values?
 table(penguins$species, penguins$sex, useNA = "always")
 
 # Ex 5
@@ -20,105 +21,22 @@ nrow(female_biscoe)
 
 # Tidyverse Section
 
-#Ex 1
+#Ex 1 - The following code chunk would select the variables we need. Can you adapt it, so that we keep the body_mass_g and sex variables as well?
 dplyr::select(penguins, species, island, year, body_mass_g, sex)
 
-#Ex 2
+#Ex 2 - We can leverage the pipe operator to sequence our code in a logical manner. Can you adapt the following code chunk with the pipe and conditional logical operators we discussed?
 penguins |>
   dplyr::filter(year == 2009 & species == "Chinstrap") |>
   dplyr::select(species, sex, year)
 
-#Ex 3
+#Ex 3 - Can you get the weight of the lightest penguin of each species? You can use `min()`. What happens when in addition to species you also group by year `group_by(species, year)`?
 penguins |>
   dplyr::group_by(species, year) |>
   dplyr::summarize(lightest_penguin = min(body_mass_g, na.rm = T))
 
-#Ex 4
+#Ex 4 - Can you create a data frame arranged by body_mass_g of the penguins observed in the "Dream" island?
 
 penguins |>
   dplyr::filter(island == "Dream") |>
   dplyr::arrange(body_mass_g)
-
-# Exercise 5 ####
-# Way 1: base R solution
-get_mode <- function(v) {
-  
-  v <- na.omit(v)
-  uniq_v <- unique(v)
-  
-  return(uniq_v[which.max(tabulate(match(v, uniq_v)))])
-  
-}
-
-get_mode(study$age) #example
-
-# Way 2: tidyverse solution
-get_mode <- function(v) {
-  
-  out <- v |> 
-    janitor::tabyl() |> 
-    filter(n == max(n)) |> 
-    pull(v)
-  
-  return(out)
-  
-}
-
-get_mode(study$age) #example
-
-# Way 3:
-get_mode <- function(x){
-  freq_table <- table(x)
-  my_mode <- as.numeric(names(which.max(freq_table)))
-  return(my_mode)
-}
-
-get_mode(study$age) #example
-
-#Ex 6
-get_mode(study$bmi_3cat) 
-
-
-#Ex 7
-replace_emotions <- function(x) {
-  result <- recode(x, "happy" = ":)", "sad" = ":(", "neutral" = ":|")
-  return(result)
-}
-
-replace_emotions(study$emotions)
-
-#Ex 8
-is.vector(map_dbl(df, mean, na.rm = TRUE))
-
-#Ex 9
-mean_sd <- function(x){
-  if(!(is.numeric(x))) {
-    # stop("x is not a numeric value")
-    return(NULL)
-  } else{ 
-    list("mean" = mean(x, na.rm = TRUE),
-         "sd" = sd(x, na.rm = TRUE))
-  }  
-}
-
-#Ex 10
-#Way 1
-map(study %>% select_if(is.numeric), mean_sd)
-
-
-#Way 2: dataframe
-map_df(study |> select(where(is.numeric)), mean_sd) |> 
-  cbind(
-    'col' = study |> 
-      select(where(is.numeric)) |> 
-      colnames()
-  )
-
-#Way 3: 
-map_vec(study$emotions, replace_w_emoticons)
-
-
-
-#Ex 11
-study |> select(where(is.character)) |> map_df(tolower)
 

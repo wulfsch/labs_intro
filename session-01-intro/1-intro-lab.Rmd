@@ -237,7 +237,7 @@ str(penguins)
 :::alert-info
 **Exercise 1**
 
-Look at the output from the function adove. How many observations (rows) and variables (columns) does the penguins dataset have? What different data types do you see?
+Look at the output from the function above. How many observations (rows) and variables (columns) does the penguins dataset have? What different data types do you see?
 :::
 
 If we are only interested in what the variables are called, we can use the `names()` function.
@@ -707,6 +707,10 @@ penguins |>
 Can you get the weight of the lightest penguin of each species? You can use `min()`. What happens when in addition to species you also group by year `group_by(species, year)`?
 :::
 
+```{r,, eval=F}
+
+```
+
 ------------------------------------------------------------------------
 
 ## `dplyr::arrange()` `r emo::ji("egg")` `r emo::ji("hatching_chick")` `r emo::ji("hatched_chick")`
@@ -731,6 +735,10 @@ penguins |>
 
 Can you create a data frame arranged by body_mass_g of the penguins observed in the "Dream" island?
 :::
+
+```{r,, eval=F}
+
+```
 
 ------------------------------------------------------------------------
 
