@@ -1,5 +1,4 @@
 # Lab Sessions - Introduction to Data Science
-[`Lab Sessions`](#lectures) | [`Instructors`](#instructors) | [`License`](#license)
 
 ## Lab Sessions
 
@@ -19,6 +18,11 @@
 ## Instructors
 
 The lab sessions to the course Introduction to Data Science by [Simon Munzert](https://simonmunzert.github.io/) at the [Hertie School, Berlin](https://www.hertie-school.org/en/), are taught by [Killian Conyngham](https://github.com/Killian-Conyngham) and [Carol Sobral](https://github.com/cbsobral).
+
+## Office hours
+If you have a specific problem you just can't seem to resolve or are feeling behind then feel free to stop by the office hours of your respective TA.
+You can book a slot for Carol's Office hours [here.](https://calendar.app.google/AKJqj7PtEkA1zbCNA)
+You can book a slot for Killian's Office hours [here.](https://calendar.app.google/jL1adZtNHLKJQiq19)
 
 ## Acknowledgements
 
