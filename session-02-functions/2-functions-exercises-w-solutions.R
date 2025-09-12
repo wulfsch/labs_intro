@@ -10,17 +10,15 @@ get_mode <- function(v) {
   
 }
 
-# Way 2: tidyverse solution
+# Way 1: tidyverse solution
+library(tidyverse)
 get_mode <- function(v) {
-  out <- v |> 
-    janitor::tabyl() |> 
-    filter(n == max(n)) |> 
+  as.data.frame(v) |> 
+    filter(!is.na(v)) |> 
+    count(v, sort = TRUE) |> 
+    slice(1) |> 
     pull(v)
-  
-  return(out)
-  
 }
-
 
 # Way 3:
 get_mode <- function(x){
@@ -34,7 +32,7 @@ get_mode(penguins$flipper_length_mm)
 
 
 #Ex 3
-is.vector(purrr::map_dbl(df, mean, na.rm = TRUE))
+purrr::map_dbl(df, mean, na.rm = TRUE)
 
 #Ex 4
 mean_sd <- function(x){
@@ -64,9 +62,8 @@ map_df(penguins |> select(where(is.numeric)), mean_sd) |>
 
 
 # Debugging solutions ####
-## Part of complimentary-functions-material 
 
-# Ex1
+# solutions are now also commented in line
 geod_dist <- function(lat1, lon1, lat2, lon2, earth.radius = 6371) {
   
   # from degrees to radians
@@ -147,6 +144,4 @@ covars <- c("sessions_served", "party", "sex", "age_in_years")
 fmla <- paste("traffic_log", paste(covars, collapse = " + "), sep = " ~ ") 
 summary(log_traffic_model <- lm(fmla, legislator_df))
 
-# plot table
 sjPlot::tab_model(log_traffic_model)
-
