@@ -43,6 +43,7 @@ This week's tutorial will be divided in three parts.
 1.  More Iteration practice
 2.  Automation with R scripts and Scheduling with `cronR` and `taskscheduleR`
 3.  Debugging with `traceback()`, `browser()`, `try()` and `tryCatch()`
+
 ---
 
 # Before we start: GitHub Fork `r emo::ji("fork_and_knife")`
@@ -62,7 +63,7 @@ Note: This is by far the easiest way of doing things, but if you want to do ever
 
 # 1. More Iteration `r emo::ji("repeat")`
 
-We saw some examples of iteration with `purrr::map()` in the last session. Lets do a few more examples to get more comfortable with this approach.
+We saw some examples of iteration with `purrr::map()` in the last session. Now that we have also covered it in the Lectures let's do a few more examples to get more comfortable with this approach.
 
 
 
@@ -106,17 +107,112 @@ To work with this example I have created all the files and folders as above in t
 
 :::alert-info
 **Exercise 1**
-
 Can you add a new script that creates a summary table of the words spoken by Species and Film and saves it to the `outputs/tables/` folder? You can use the `dplyr` package to create the summary table and the `write_tsv()` function to save it as a .tsv file. Don't forget to source your new script in the `Makefile.R` script.
 :::
 
 :::alert-info
 **Exercise 2**
+Update the `Makefile.R` script so that it also clears out the table you created in the exercise above.
+:::
+
+:::alert-info
+**Exercise 3**
 Do your new script and the 03-plot.R script need to be run sequentially? How could we think about these two script in terms of the pipeline graphs you saw in the lecture?
 :::
 
+## Scheduling with `cronR` and `taskscheduleR` `r emo::ji("calendar")`
+Now that we have a working pipeline, let's learn how to schedule it to run automatically!
 
-# 2. Scheduling with `cronR` and `taskscheduleR` `r emo::ji("calendar")`
+Task scheduling allows you to:
+
+- Run your pipeline at specific times (daily, weekly, monthly)
+- Process new data automatically
+- Generate reports on a schedule
+- Perform maintenance tasks
+
+### Aside: Relative vs Absolute Paths `r emo::ji("world_map")`
+
+When working with file paths in R, you can use either relative or absolute paths. So far we have used relative paths as this makes it easier to share code with others. When we schedule tasks however the working directory might not be what we expect, so it is often safer to use absolute paths. A useful package for this is `here` which allows you to construct file paths relative to the root of your project. You will see some examples of this in the code below. (Note that for this reason also, the lotr project as we have set it up above will not work if you just run the `Makefile.R` script, as it uses relative paths. You would have to amend the script to use absulute paths, the `here` package or set your working directory to the lotr_project folder first. Below it is inlcuded just for demonstration.)
+
+## Scheduling with `cronR` on Mac and Linux `r emo::ji("alarm_clock")`
+```{r eval = FALSE}
+# install.packages("cronR")
+library(cronR)
+# define the path to your Master R script
+cmd <- cron_rscript(here::here("session-03-automation","lotr_project","scripts","Makefile.R"))
+# add a new cron job to run the script every day at 1am
+cron_add(
+  command = cmd,
+  frequency = "daily",
+  at = "01:00",
+  id = "lotr_pipeline_daily",
+  description = "Daily LOTR analysis pipeline"
+)
+
+# List all scheduled tasks
+cron_ls()
+
+# To remove a scheduled task
+# cron_rm(id = "lotr_pipeline_daily")
+```
+`
+### Example cron schedule expressions
+```{r eval = FALSE}
+# Every 5 minutes
+cron_add(command = cron_rscript("script.R"), frequency = "*/5 * * * *")
+
+# Every hour
+cron_add(command = cron_rscript("script.R"), frequency = "hourly")
+
+# Every day at 3:30 PM
+cron_add(command = cron_rscript("script.R"), frequency = "daily", at = "15:30")
+
+# Every Monday at 9 AM
+cron_add(command = cron_rscript("script.R"), frequency = "0 9 * * 1")
+
+# First day of every month
+cron_add(command = cron_rscript("script.R"), frequency = "0 9 1 * *")
+```
+
+## Scheduling with `taskscheduleR` on Windows `r emo::ji("alarm_clock")`
+```{r eval = FALSE}
+# install.packages("taskscheduleR")
+library(taskscheduleR)
+# define the path to your Master R script
+makefile_path <- here::here("session-03-automation","lotr_project","scripts","Makefile.R")
+
+# Schedule our LOTR pipeline to run daily at 8 AM
+taskscheduler_create(
+  taskname = "lotr_pipeline_daily",
+  rscript = makefile_path,
+  schedule = "DAILY",
+  starttime = "08:00"
+)
+
+# List all scheduled tasks
+taskscheduler_ls()
+
+# To remove a scheduled task
+# taskscheduler_delete(taskname = "lotr_pipeline_daily")
+```
+
+### Example `taskscheduleR` schedule expressions
+```{r eval = FALSE}
+# Every 5 minutes
+taskscheduler_create(taskname = "lotr_pipeline_5min", rscript = "path/to/your/Makefile.R", schedule = "MINUTE", modifier = 5)
+
+# Every hour
+taskscheduler_create(taskname = "lotr_pipeline_hourly", rscript = "path/to/your/Makefile.R", schedule = "HOURLY")
+
+# Every day at 3:30 PM
+taskscheduler_create(taskname = "lotr_pipeline_daily_1530", rscript = "path/to/your/Makefile.R", schedule = "DAILY", starttime = "15:30")
+
+# Every Monday at 9 AM
+taskscheduler_create(taskname = "lotr_pipeline_weekly", rscript = "path/to/your/Makefile.R", schedule = "WEEKLY", starttime = "09:00", days = "MON")
+
+# First day of every month
+taskscheduler_create(taskname = "lotr_pipeline_monthly", rscript = "path/to/your/Makefile.R", schedule = "MONTHLY", starttime = "09:00", days = 1)
+```
 
 # 3. Debugging `r emo::ji("beetle")`
 

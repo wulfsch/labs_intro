@@ -19,8 +19,23 @@ summary_table <- lotr_dat %>%
 # save summary table
 write_tsv(summary_table, "./session-03-automation/lotr_project/outputs/tables/lotr_summary_table.tsv")
 
+# #**Exercise 2**
+## clean out any previous work
+outputs <- c("./session-03-automation/lotr_project/data/raw/lotr_raw.tsv",
+             "./session-03-automation/lotr_project/data/processed/lotr_clean.tsv",
+             "./session-03-automation/lotr_project/outputs/tables/lotr_summary_table.tsv",
+             list.files(path =  "./session-03-automation/lotr_project/outputs/figures/",pattern = "*.png$", full.names = TRUE))
+file.remove(outputs)
 
+#OR
 
+# clean out any previous work
+files_to_remove <- c(
+  "./session-03-automation/lotr_project/data/raw/lotr_raw.tsv",
+  "./session-03-automation/lotr_project/data/processed/lotr_clean.tsv",
+  list.files(path =  "./session-03-automation/lotr_project/outputs/tables/",pattern = "*.tsv$", full.names = TRUE),
+  list.files(path =  "./session-03-automation/lotr_project/outputs/figures/",pattern = "*.png$", full.names = TRUE))
+)
 
 
 # Take home debugging exercise ####
