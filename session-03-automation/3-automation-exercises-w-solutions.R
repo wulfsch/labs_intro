@@ -1,4 +1,25 @@
 
+# Automation exercises: ####
+# #**Exercise 1**
+
+## import clean data
+lotr_dat <- read_tsv("./session-03-automation/lotr_project/data/processed/lotr_clean.tsv") %>% 
+  # reorder Species based on words spoken
+  mutate(Species = reorder(Species, Words, sum))
+
+# create summary table by species and movie
+summary_table <- lotr_dat %>%
+  group_by(Species, Film) %>%
+  summarize(
+    Characters = n(),
+    Words = sum(Words),
+    .groups = "drop"
+  )
+
+# save summary table
+write_tsv(summary_table, "./session-03-automation/lotr_project/outputs/tables/lotr_summary_table.tsv")
+
+
 
 
 

@@ -1,7 +1,7 @@
 ## clean out any previous work
 outputs <- c("./session-03-automation/lotr_project/data/raw/lotr_raw.tsv",
              "./session-03-automation/lotr_project/data/processed/lotr_clean.tsv",
-             list.files(path =  "./session-03-automation/lotr_project/outputs/figures/",pattern = "*.png$"))
+             list.files(path =  "./session-03-automation/lotr_project/outputs/figures/",pattern = "*.png$", full.names = TRUE))
 file.remove(outputs)
 
 ## run scripts
