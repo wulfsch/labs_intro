@@ -61,21 +61,135 @@ Whenever the original repository is updated, an option to `sync fork` will appea
 
 Note: This is by far the easiest way of doing things, but if you want to do everything properly through the command line, you would set the original  labrepository as an upstream remote to fetch and merge changes from the original repository into your local clone. A full walkthrough of this can be found [here.](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#configuring-git-to-sync-your-fork-with-the-upstream-repository)
 
-# 1. More Iteration `r emo::ji("repeat")`
+# 1. More Iteration with `purrr` `r emo::ji("repeat")`
 
 We saw some examples of iteration with `purrr::map()` in the last session. Now that we have also covered it in the Lectures let's do a few more examples to get more comfortable with this approach.
 
+## Quick Recap
 
+Remember the `map()` family syntax:
+```r
+map(.x, .f, ...)
+```
+-   `purrr::map()` returns a list.
+-   `purrr::map_lgl()` returns a logical vector
+-   `purrr::map_int()` returns an integer vector.
+-   `purrr::map_dbl()` returns a double vector.
+-   `purrr::map_chr()` returns a character vector.
 
+---
+
+## Introduction to Nesting
+
+Sometimes we want to perform the same analysis on different groups in our data. For example, we might want to calculate summary statistics for each species of penguin, or fit a model for each country in a dataset.
+
+**Nesting** is a powerful technique that helps us organize grouped data. When we nest data:
+
+1. We group our data by some variable(s)
+2. All the remaining data for each group gets "packed" into a special list-column
+3. Each row now represents one group, with all that group's data stored in the list-column
+
+```r
+# Before nesting: regular dataframe
+penguins
+#> species    bill_length_mm  bill_depth_mm  ...
+#> Adelie     39.1           18.7           ...  
+#> Adelie     39.5           17.4           ...
+#> Chinstrap  46.5           17.9           ...
+
+# After nesting by species: each species gets one row
+penguins %>% 
+  group_by(species) %>% 
+  nest()
+
+#> species    data              
+#> Adelie     <tibble [152 × 7]>
+#> Chinstrap  <tibble [68 × 7]> 
+#> Gentoo     <tibble [124 × 7]>
+```
+
+The magic happens when we combine nesting with `purrr::map()` - we can apply the same function to each group's data, then unnest the results to get a clean summary table.
+
+## Exercise: Penguin Flipper analysis
+
+Let's look at our penguin dataset again as an example.
+
+```{r}
+library(palmerpenguins)
+library(tidyverse)
+data(penguins)
+```
+
+:::alert-info
+**Exercise 1**
+Group the penguins by species and nest the remaining data into a column called data. Save the result in a new dataframe called `penguins_nested`:
+
+```{r, echo= FALSE, eval= FALSE}
+# Your code here: Use group_by() and nest()
+```
+:::
+:::alert-info
+**Exercise 2**
+Write a function called `summarize_bills` that takes a dataframe and returns:
+- `count`: number of rows
+- `mean_bill_length`: mean bill length (handle NAs)
+- `max_bill_length`: max bill length (handle NAs)
+
+```{r, echo= FALSE, eval= FALSE}
+summarize_bills <- function(df) {
+  # Your code here: use summarise() to create the three variables
+}
+
+# Test your function on the first species
+summarize_bills(penguins_nested$data[[1]])
+```
+:::
+:::alert-info
+**Exercise 3**
+Add a new column called `bill_stats` to `penguins_nested` that applies your `summarize_bills` function to each nested dataframe using `map()`:
+
+```{r, echo= FALSE, eval= FALSE}
+penguins_nested <- penguins_nested %>%
+  # Your code here: mutate() with map()
+
+# Look at the result
+penguins_nested
+```
+
+:::
+:::alert-info
+**Exercise 4**
+Create a clean summary table by selecting just `species` and `bill_stats`, then unnesting:
+
+```{r, echo= FALSE, eval= FALSE}
+penguins_summary <- penguins_nested %>%
+  # Your code here: select() and unnest()
+
+penguins_summary
+```
+:::
+:::alert-info
+**Exercise 5**
+
+Write the complete pipeline from the original `penguins` data to the final summary in one go:
+
+```{r, echo= FALSE, eval= FALSE}
+final_summary <- penguins %>%
+  # Your complete pipeline here
+
+final_summary
+```
+:::
 # 2. Automation of Projects `r emo::ji("robot_face")`
 
 When working on a data science project, you will often have to repeat the same steps multiple times. For example, you might have to:
--   import data
--   clean data
--   run analyses
--   create visualizations
--   generate reports
--   etc.
+
+- import data
+- clean data
+- run analyses
+- create visualizations
+- generate reports
+- etc.
 
 To avoid doing these steps manually every time, you can automate them using pipelines. We already saw pipelines in the context of the `dplyr` package using the pipe operator (`%>%` or `|>`), now we will look at how to automate entire workflows of R scripts using the `source()` function.
 
@@ -576,5 +690,4 @@ sjPlot::tab_model(log_traffic_model)
 
 This script was drafted by [Tom Arendt](https://github.com/tom-arend) and [Lisa Oswald](https://lfoswald.github.io/), with contributions by [Steve Kerr](https://smkerr.github.io/), [Hiba Ahmad](https://github.com/hiba-ahmad), [Carmen Garro](https://github.com/cgarroca), [Sebastian Ramirez-Ruiz](https://seramirezruiz.github.io/), [Killian Conyngham](https://github.com/Killian-Conyngham) and [Carol Sobral](https://github.com/cbsobral). It draws heavily on the materials for the Introduction to R workshop within the Data Science Seminar series at Hertie, created by [Therese Anders](http://therese.rbind.io/), Statistical Modeling and Causal Inference by Sebastian Ramirez-Ruiz and Lisa Oswald.
 
-
-
+The Lord of the Rings dialogue analysis example is based on an the Github for STAT545 at UBC. You can find their version [here](https://github.com/STAT545-UBC/STAT545-UBC-original-website/blob/master/automation01_slides/slides.md).

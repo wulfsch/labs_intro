@@ -1,3 +1,42 @@
+# Iteration recap exercises: ####
+
+# Exercise 1: Nest the Data
+penguins_nested <- penguins %>%
+  group_by(species) %>%
+  nest()
+
+# Exercise 2: Create Summary Function
+summarize_bills <- function(df) {
+  df %>%
+    summarise(
+      count = n(),
+      mean_bill_length = mean(bill_length_mm, na.rm = TRUE),
+      max_bill_length = max(bill_length_mm, na.rm = TRUE)
+    )
+}
+
+# Test
+summarize_bills(penguins_nested$data[[1]])
+
+# Exercise 3: Apply with map()
+penguins_nested <- penguins_nested %>%
+  mutate(bill_stats = map(data, summarize_bills))
+
+# Exercise 4: Unnest Results
+penguins_summary <- penguins_nested %>%
+  select(species, bill_stats) %>%
+  unnest(bill_stats)
+
+# Exercise 5: Complete Pipeline
+final_summary <- penguins %>%
+  group_by(species) %>%
+  nest() %>%
+  mutate(bill_stats = map(data, summarize_bills)) %>%
+  select(species, bill_stats) %>%
+  unnest(bill_stats)
+
+final_summary
+
 
 # Automation exercises: ####
 # #**Exercise 1**
