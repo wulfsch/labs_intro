@@ -1,3 +1,12 @@
+# Stringr Excercise
+
+# 1.
+stringr::str_replace_all(words, "ing", "er")
+
+# 2.
+stringr::str_detect(stringr::words, "ise") |> sum()
+
+# Regular Expressions Excercises
 
 # 1.a.
 # "\\$[0-9]+" will match one or more numbers followed by a dollar sign. For example, "\\$[0-9]+": c(c("$150", "$690", "$75").

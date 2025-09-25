@@ -69,7 +69,7 @@ library(stringr)
 
 `stringr` and `stringi` are the two most common libraries for string manipulation in R. Before we look into regular expressions, let us quickly look into some of th core functionalities of `stringr` and how you can use them.   
 
-Here is a quick overview of the most useful functions in the `stringr` package:
+Here is a quick overview of the most useful functions in the `stringr` package. Firstly, `stringr::str_detect()` allows you to detect the presence or absence of a pattern in a string. It returns a vector of TRUE and FALSE values depending on if the pattern was found or not.
 
 ```{r}
 x <- c("apple", "banana", "pear")
@@ -78,6 +78,11 @@ stringr::str_detect(x, "e")
 ```
 
 To extract the actual text of a match, use `stringr::str_extract()`. Note that `stringr::str_extract()` only extracts the first match. To get all matches, use `stringr::str_extract_all()`, which returns a list.
+
+
+```{r}
+stringr::str_extract(x, 'a')
+```
 
 ```{r}
 stringr::str_extract_all(x, 'a')
@@ -95,56 +100,248 @@ stringr::str_replace_all(x, c("a" = "A", "b" = "B", "p" = "P"))
 stringr::str_locate_all(x, 'a')
 ```
 
----
+`stringr::str_view()` and `stringr::str_view_all()` are useful for visualizing matches. They display the strings with the matched patterns highlighted.
+
+```{r, echo}
+stringr::str_view(x, "a")
+```
+
+:::alert-info
+**Excercise 1**: Can you find all words in that contain the sequence "ing" in the list below, and change them to be "er" instead?
+```{r, echo=FALSE}
+words <- c("running", "jumps", "swimming", "biking", "skates", "hiking", "fishing", "reading")
+
+# Your code here
+```
+:::
+
+:::alert-info
+**Excercise 2**: Can you find how many words in the inbuilt `stringr::words` vector contain the sequence "ise"?
+```{r, echo=FALSE}
+# Your code here
+```
+:::
+
 
 # 2. Regular expressions `r emo::ji('memo')`
+
+### Definition
+
+Regular expressions a.k.a. *regex* or *RegExp* is a tool - a little language of it's own really - that lets you describe patterns in text/strings.
+
+Funnily, a regular expression itself is a sequence of characters, some with special, some with literal meaning.
+
+Regular expressions are widely applicable and implemented in many programming languages, including R, as well as search engines, search and replace dialogs, etc.
 
 ```{r, fig.align='center', echo=F, out.width = "90%"}
 knitr::include_graphics("pics/xkcd_regex.png")
 ```
 
-Regular expressions (Regex) allow us to manipulate strings based on pattern matching. Regex patterns specify a sequence of strings, either explicitly or by meta characters. While they can be a hard nut to crack, they are extremely useful.
+### Why is this useful for web scraping?
 
+Information on the web can often be described by patterns (think email addresses, numbers, cells in HTML tables, ...).
+
+If the data of interest follow specific patterns, we can match and extract them - regardless of page layout and HTML overhead.
+
+Whenever the information of interest is (stored in) text, regular expressions are useful for extraction and tidying purposes.
+
+### An Example
+
+Below you see a string that contains unstructured phone book entries. The goal is to clean it up and extract the entries. The problem is that the text is really messy, and to find a pattern that helps us describe names on the one hand and phone numbers on the other is difficult. But: regular expressions FTW!
+
+```{r}
+phone_vec <- 
+"555-1239Moe Szyslak(636) 555-0113Burns, C. Montgomery
+555-6542Rev. Timothy Lovejoy555 8904Ned Flanders636-555-3226
+Simpson,Homer5553642Dr. Julius Hibbert"
+```
+
+:::alert-info
+**Excercise**:
+Can you describe in words a pattern to use which could extract only names and only phone numbers from the string above?
+:::
+
+```{r}
+names_vec <- unlist(str_extract_all(phone_vec, "[[:alpha:]., ]{2,}"))
+names_vec
+```
+
+```{r}
+numbers_vec <- unlist(str_extract_all(phone_vec, 
+                                      "\\(?([:digit:]{3})?\\)?(-| )?[:digit:]{3}(-| )?[:digit:]{4}"))
+numbers_vec
+```
+
+
+## Basic regex syntax
+
+```{r}
+example.obj <- "1. A small sentence. - 2. Another tiny sentence."
+```
+
+### Strings match themselves
+```{r}
+str_extract(example.obj, "small")
+str_extract(example.obj, "banana")
+```
+
+### Character matching is case sensitive
+
+```{r}
+str_extract(example.obj, "small")
+str_extract(example.obj, "SMALL")
+str_extract(example.obj, 
+            regex("SMALL", ignore_case = TRUE))
+```
+
+### We can match arbitrary combinations of characters
+
+```{r}
+str_extract(example.obj, "mall sent")
+```
+
+## Meta-characters
 Meta characters allow us to abstract from explicit patterns. These meta characters are `. \ | ( ) [ { ^ $ * + ?`. 
 
+### Wildcards `r emo::ji('mag')`
 For example, `.` is called a wildcard, as it matches any character, except for line breaks (`\n`). 
 
 ```{r}
-stringr::str_view(x, "a.")
+str_extract(example.obj, "sm.ll")
 ```
 
----
-
-## Quantifiers `r emo::ji('asterisk')`
-
-`? * + {n} {n,} {n,m}` are so-called *quantifiers*, that allow us to match the preceding character either zero or one `?`,  zero or more `*`, or one or more `+` times. `{n}` allows us to match a pattern exactly n times. To match n times and more, we add a comma in the curly brackets `{n,}` and to match between n and m times, we use `{n,m}`.
+### Anchors `r emo::ji('anchor')`
+Next to character classes and quantifiers, *anchors* match the start `^` or end `$` of a string.
+```{r}
+str_extract(example.obj, "^1")
+str_extract(example.obj, "^2")
+```
 
 ```{r}
-stringr::str_view(x, "p?")
-stringr::str_view(x, "p*")
-stringr::str_view(x, "p+")
+str_extract(example.obj, "sentence$")
+str_extract(example.obj, "sentence.$")
 ```
 
-We can also match for specific *character classes*: If you would like to match whitespaces (spaces, linebreaks, tabs) you can use `\\s`. To match any digit, simply use `\\d`, for word character (digits and alphabetic characters) you can use `\\w`. We can negate those character classes by using them in uppercase (e.g. `\\D` matching all non-digits).
+### Alternates `r emo::ji('thought_balloon')`
 
 ```{r}
-y <- "1. A small sentence. - 2. Another tiny sentence."
-stringr::str_view(y, "\\s(\\w{4,5})\\s")
-stringr::str_view(y, "\\d\\W")
+unlist(str_extract_all(example.obj, "tiny|sentence"))
 ```
 
-R's regex implmentation also ships with a number of predefined character classes, like `[:upper:]`, `[:lower:]` and `[:punct:]`.
-They are usually simpler and much easier to remember than corresponding regex patterns. Note however, that these will require double squared brackets in many of the base R functions.
+### Matching of meta-characters
 
----
+- As we have seen, some symbols have a special meaning in the regex syntax: `.`, `|`, `(`, `)`, `[`, `]`, `{`, `}`, `^`, `$`, `*`, `+`, `?`, and `-`.
+- If we want to match them literally, we have to use an escape sequence: `\symbol`
+- As `\` is a meta character itself in R, we have to escape it with `\`, so we always write `\\`.
+- Alternatively, use `fixed("symbols")` to let the parser interpret a chain of symbols literally.
+
+```{r}
+unlist(str_extract_all(example.obj, "\\."))
+unlist(str_extract_all(example.obj, fixed(".")))
+```
+
+## Character classes
+
+### Square brackets `[]` define character classes
+
+- Character classes help define special wild cards. 
+- The idea is that any of the characters within the brackets can be matched.
+
+```{r}
+str_extract(example.obj, "sm[abc]ll")
+```
+
+- The hyphen defines a range of characters.
+
+```{r}
+str_extract(example.obj, "sm[a-p]ll")
+```
+
+Some character classes are pre-defined. They are very convenient to efficiently describe specific string patterns.
+
+| Specification | Meaning |
+  |---|---|
+  | `[:digit:]`  | Digits: 0 1 2 3 4 5 6 7 8 9 |
+  | `[:lower:]`  | Lower-case characters: a-z |
+  | `[:upper:]`  | Upper-case characters: A-Z |
+  | `[:alpha:]`  | Alphabetic characters: a-z and A-Z |
+  | `[:alnum:]`  | Digits and alphabetic characters |
+  | `[:punct:]`  | Punctuation characters: `.`, `,`, `;`, etc. |
+  | `[:graph:]`  | Graphical characters: `[:alnum:]` and `[:punct:]` |
+  | `[:blank:]`  | Blank characters: Space and tab |
+  | `[:space:]`  | Space characters: Space, tab, newline, and others |
+  | `[:print:]`  | Printable characters: `[:alnum:]`, `[:punct:]` and `[:space:]`|
+
+
+
+### Character classes in action
+
+Pre-defined character classes are useful because they are efficient and let us
+- combine different kinds of characters
+- facilitate reading of an expression
+- include special characters, e.g., ß, ö, æ, ...
+- can be extended
+
+```{r}
+unlist(str_extract_all(example.obj, "[[:punct:]ABC]"))
+unlist(str_extract_all(example.obj, "[^[:alnum:]]"))
+```
+
+### Meta symbols in character classes
+
+Within a character class, most meta-characters lose their special meaning. There are exceptions though: 
+
+- `^` becomes "not":  `[^abc]` matches any character other than "a", "b", or "c".
+- `-` becomes a range specifier: `[a-d]` matches any character from a to d. However, `-` at the beginning or the end of a character class matches the hyphen. 
+
+```{r}
+unlist(str_extract_all(example.obj, "[1-2]"))
+unlist(str_extract_all(example.obj, "[12-]"))
+```
+
+## Quantifiers
+
+Quantifiers are meta-characters that allow you to specify how often a certain string pattern should be allowed to appear.
+
+| Quantifier | Meaning |
+  |---|---|
+  | `?`  | The preceding item is optional and will be matched at most once |
+  | `*`  | The preceding item will be matched zero or more times |
+  | `+`  | The preceding item will be matched one or more times |
+  | `{n}`  | The preceding item is matched exactly n times |
+  | `{n,}`  | The preceding item is matched n or more times |
+  | `{n,m}`  |  The preceding item is matched between n and m times |
+
+```{r}
+str_extract(example.obj, "s[[:alpha:]]{3}l")
+str_extract(example.obj, "A.+sentence")
+```
+
+### Greedy quantification
+
+The use of `.+` results in "greedy" matching, i.e. the parser tries to match as many characters as possible. This is not always desired. However, the meta-character `? ` helps avoid greedy quantification. More generally, it re-interprets the quantifiers `*`, `+`, `?` or `{m,n}` to match as few times as possible.
+
+```{r}
+str_extract(example.obj, "A.+sentence")
+str_extract(example.obj, "A.+?sentence")
+```
+
+
+## Backreferencing
+
+Sometimes it's useful to induce some "memory" into regex, as in: "Find something that matches a certain pattern, and then again a repeated match of previously matched pattern. 
+
+The first pattern is defined with round brackets, as in `(pattern)`. We then refer to the it using `\1` (or with `\2` for the second pattern, etc.).
+
+**Example:** Match the first letter, then anything until you ﬁnd the first letter again (not greedy).
+
+```{r}
+str_extract(example.obj, "([[:alpha:]]).+?\\1")
+```
 
 ## Anchors & alternates `r emo::ji('anchor')`
 
 Next to character classes and quantifiers, *anchors* match the start `^` or end `$` of a string. *Alternates* allow us to handle multiple cases in our pattern. As in R `|`, is equivalent to an "or". With `[qwert]` we are creating a "one of" pattern that matches any of the strings in the squared brackets. To negate this and get "anything but" we use `[^qwert]`. Parenthesis in regex are used to create groups and establish an order of evaluation. 
-
-```{r}
-stringr::str_view(x, "^(a|b)")
-```
 
 ```{r}
 fruits <- c("apple", "orange", "pear")
@@ -152,16 +349,9 @@ fruit_match <- stringr::str_c(fruits, collapse = "|")
 stringr::str_subset(stringr::sentences, fruit_match) |> head(3)
 ```
 
-At this point you may be wondering to yourself, how we match those characters that are used as meta characters in regex. This is where it gets complicated. Theoretically, we only use `\` as an escape character. However, we also use regular characters, like `\d` for instance, to match digits or `\s` to match white spaces. Therefore, we add another backward slash to escape the meta character `\\`. To match a question mark, we would use `\\?`.
-
-```{r}
-z <- c('abc?defg', '123456?89', "[?.{!]\\")
-stringr::str_view(z, '\\?')
-```
-
 For more info on regex in R, check out the documentation:
 
-```{r}
+```{r, eval=FALSE}
 ?base::regex
 ```
 
@@ -235,7 +425,7 @@ secret <- "clcopCow1zmstc0d87wnkig7OvdicpNuggvhryn92Gjuwczi8hqrfpRxs5Aj5dwpn0Tan
 ```
 
 
-# 4. HTML structure `r emo::ji('deciduous_tree')`
+# 4. HTML structure (Bonus) `r emo::ji('deciduous_tree')`
 
 HTML is the standard markup language for creating Web pages. It is thus important to understand the basic structure of html documents to be able to scrape particular parts of a website. HTML describes the structure of a Web page and consists of a series of elements. Elements tell the browser how to display the content, for example they label pieces of content such as "this is a heading", "this is a paragraph", "this is a link", etc.
 
@@ -289,7 +479,7 @@ parsed_doc <- rvest::read_html("http://www.r-datacollection.com/materials/ch-4-x
 
 ---
 
-# 5. Xpath Basics `r emo::ji('woman_technologist')`
+# 5. Xpath Basics (Bonus) `r emo::ji('woman_technologist')`
 
 While HTML displays data and describes the structure of a webpage, XML stores and transfers data. XML is a standard language which can define other computer languages. XPath uses path expressions to select nodes or node-sets in an XML document. HTML and Xpath can thus be exploited in conjunction to interact with the stored HTML structure of a website. 
 
