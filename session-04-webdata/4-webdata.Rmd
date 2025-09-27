@@ -57,7 +57,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ***
 ## Welcome to Week 4! `r emo::ji("wave")`
 
-Today's session will focus on regular expressions, a powerful tool for extracting information from unstructured text data and the `stringr` package, which provides a cohesive set of functions designed to make string manipulation easier in R. There is also material on Html structure and Xpath, for you to work through after the Lecture. While some of these tools may seem abstract at fiest, locating data in unstructured text and nested html structures is particularly useful when it comes to scraping data from the wed, which we will cover in our next session.
+Today's session will focus on regular expressions, a powerful tool for extracting information from unstructured text data and the `stringr` package, which provides a cohesive set of functions designed to make string manipulation easier in R. There is also material on Html structure and Xpath, for you to work through after the Lecture. While some of these tools may seem abstract at fiest, locating data in unstructured text and nested html structures is particularly useful when it comes to scraping data from the web, which we will cover in our next session.
 
 ***
 
@@ -119,6 +119,8 @@ words <- c("running", "jumps", "swimming", "biking", "skates", "hiking", "fishin
 **Excercise 2**: Can you find how many words in the inbuilt `stringr::words` vector contain the sequence "ise"?
 ```{r, echo=FALSE}
 # Your code here
+
+# You can access the words vector with: stringr::words
 ```
 :::
 
@@ -161,6 +163,8 @@ Simpson,Homer5553642Dr. Julius Hibbert"
 Can you describe in words a pattern to use which could extract only names and only phone numbers from the string above?
 :::
 
+---
+
 ```{r}
 names_vec <- unlist(str_extract_all(phone_vec, "[[:alpha:]., ]{2,}"))
 names_vec
@@ -171,7 +175,7 @@ numbers_vec <- unlist(str_extract_all(phone_vec,
                                       "\\(?([:digit:]{3})?\\)?(-| )?[:digit:]{3}(-| )?[:digit:]{4}"))
 numbers_vec
 ```
-
+---
 
 ## Basic regex syntax
 
@@ -239,6 +243,20 @@ unlist(str_extract_all(example.obj, "tiny|sentence"))
 unlist(str_extract_all(example.obj, "\\."))
 unlist(str_extract_all(example.obj, fixed(".")))
 ```
+:::alert-info
+**Exercise 1**: Can you find all the words in `stringr::words` that end in "ing" or "ise"?
+```{r}
+# Your code here
+```
+:::
+
+:::alert-info
+**Exercise 2**: Can you find every letter or number followed by a dot in `example.obj`?
+
+```{r}
+# Your code here
+```
+:::
 
 ## Character classes
 
@@ -259,19 +277,18 @@ str_extract(example.obj, "sm[a-p]ll")
 
 Some character classes are pre-defined. They are very convenient to efficiently describe specific string patterns.
 
-| Specification | Meaning |
+| Specification | Meaning | Shorthand version |
   |---|---|
-  | `[:digit:]`  | Digits: 0 1 2 3 4 5 6 7 8 9 |
-  | `[:lower:]`  | Lower-case characters: a-z |
-  | `[:upper:]`  | Upper-case characters: A-Z |
-  | `[:alpha:]`  | Alphabetic characters: a-z and A-Z |
-  | `[:alnum:]`  | Digits and alphabetic characters |
-  | `[:punct:]`  | Punctuation characters: `.`, `,`, `;`, etc. |
-  | `[:graph:]`  | Graphical characters: `[:alnum:]` and `[:punct:]` |
-  | `[:blank:]`  | Blank characters: Space and tab |
-  | `[:space:]`  | Space characters: Space, tab, newline, and others |
-  | `[:print:]`  | Printable characters: `[:alnum:]`, `[:punct:]` and `[:space:]`|
-
+  | `[:digit:]`  | Digits: 0 1 2 3 4 5 6 7 8 9 | \\d |
+  | `[:lower:]`  | Lower-case characters: a-z | \\l |
+  | `[:upper:]`  | Upper-case characters: A-Z | \\u |
+  | `[:alpha:]`  | Alphabetic characters: a-z and A-Z | \\w |
+  | `[:alnum:]`  | Digits and alphabetic characters | |
+  | `[:punct:]`  | Punctuation characters: `.`, `,`, `;`, etc. | |
+  | `[:graph:]`  | Graphical characters: `[:alnum:]` and `[:punct:]` | |
+  | `[:blank:]`  | Blank characters: Space and tab | \s |
+  | `[:space:]`  | Space characters: Space, tab, newline, and others | \_s |
+  | `[:print:]`  | Printable characters: `[:alnum:]`, `[:punct:]` and `[:space:]`| \p |
 
 
 ### Character classes in action
@@ -299,6 +316,20 @@ unlist(str_extract_all(example.obj, "[1-2]"))
 unlist(str_extract_all(example.obj, "[12-]"))
 ```
 
+:::alert-info
+**Exercise 3**: Can you make a regex that matches only numbers followed by a dot in `example.obj`? How about letters followed by a dot?
+```{r}
+# Your code here
+```
+:::
+
+:::alert-info
+**Exercise 4**: Can you find all words in `stringr::words` that end with "ed" but not with "eed"?
+```{r}
+# Your code here
+```
+:::
+
 ## Quantifiers
 
 Quantifiers are meta-characters that allow you to specify how often a certain string pattern should be allowed to appear.
@@ -325,7 +356,19 @@ The use of `.+` results in "greedy" matching, i.e. the parser tries to match as 
 str_extract(example.obj, "A.+sentence")
 str_extract(example.obj, "A.+?sentence")
 ```
+:::alert-info
+**Exercise 5** In the example sentence can you find all the words that are less than 6 characters long?
+```{r}
+# Your code here
+```
+:::
+:::alert-info
+**Exercise 6** How many words are there in `stringr::words` that end with a "y" and are exactly 3 characters long?
 
+```{r}
+# Your code here
+```
+:::
 
 ## Backreferencing
 
@@ -339,16 +382,7 @@ The first pattern is defined with round brackets, as in `(pattern)`. We then ref
 str_extract(example.obj, "([[:alpha:]]).+?\\1")
 ```
 
-## Anchors & alternates `r emo::ji('anchor')`
-
-Next to character classes and quantifiers, *anchors* match the start `^` or end `$` of a string. *Alternates* allow us to handle multiple cases in our pattern. As in R `|`, is equivalent to an "or". With `[qwert]` we are creating a "one of" pattern that matches any of the strings in the squared brackets. To negate this and get "anything but" we use `[^qwert]`. Parenthesis in regex are used to create groups and establish an order of evaluation. 
-
-```{r}
-fruits <- c("apple", "orange", "pear")
-fruit_match <- stringr::str_c(fruits, collapse = "|")
-stringr::str_subset(stringr::sentences, fruit_match) |> head(3)
-```
-
+## Useful links
 For more info on regex in R, check out the documentation:
 
 ```{r, eval=FALSE}
@@ -356,6 +390,8 @@ For more info on regex in R, check out the documentation:
 ```
 
 The stringr package also provides a [vignette](https://stringr.tidyverse.org/articles/regular-expressions.html) on working with regex.
+
+Here is a [cheat sheet](https://github.com/rstudio/cheatsheets/blob/main/strings.pdf) for stringr and regex.
 
 Finally a word of caution at the end: Since regular expressions are extremely powerful in string manipulation, it is easy to try and solve every problem with a single regex. Do not forget that you have other tools available in a programming language and you can break down the problem by writing a series of simpler regexes. 
 
@@ -386,23 +422,7 @@ str_view(
 
 ---
 
-2. How many words are there in `stringr::words` that end with a "y" and are exactly 3 characers long?
-
-```{r}
-
-```
-
----
-
-3. Now, try to find all words that end with "-ed" but not with "eed"!
-
-```{r}
-
-```
-
----
-
-4. Let us now write a pattern that matches both emails in the vector below. 
+2. Let us now write a pattern that matches both emails in the vector below. 
 
 ```{r}
 emails <- c('456123@students.hertie-school.org', 'h.simpson@students.hertie-school.org')
@@ -410,7 +430,7 @@ emails <- c('456123@students.hertie-school.org', 'h.simpson@students.hertie-scho
 
 ---
 
-5. Now try to extract all names and corresponding phone numbers from the string below.
+3. Now try to extract all names and corresponding phone numbers from the string below.
 
 ```{r}
 ex_string <- "555-1239Moe Szyslak(636) 555-0113Burns, C. Montgomery555-6542Rev. Timothy Lovejoy555 8904Ned Flanders636-555-3226Simpson, Homer5553642Dr. Julius Hibbert"
@@ -418,7 +438,7 @@ ex_string <- "555-1239Moe Szyslak(636) 555-0113Burns, C. Montgomery555-6542Rev. 
 
 ---
 
-6. The following code hides a secret message. Crack it with R and regular expressions. Once you have cracked it, try to collapse the solution in one single string. *Hint: Some of the characters are more revealing than others!*
+4. The following code hides a secret message. Crack it with R and regular expressions. Once you have cracked it, try to collapse the solution in one single string using `str_c()`. *Hint: Some of the characters are more revealing than others!*
 
 ```{r}
 secret <- "clcopCow1zmstc0d87wnkig7OvdicpNuggvhryn92Gjuwczi8hqrfpRxs5Aj5dwpn0TanwoUwisdij7Lj8kpf03AT5Idr3coc0bt7yczjatOaootj55t3Nj3ne6c4Sfek.r1w1YwwojigOd6vrfUrbz2.2bkSnbhzgv4O9i05zLcropwVgnbEqoD65fa1otf.b7wIm24k6t3s9zqe5fy89n6Td5t9kc4f905gmc4gxo5nhk!gr"
@@ -557,73 +577,5 @@ This script was drafted by [Tom Arendt](https://github.com/tom-arend) and [Lisa 
 ---
 
 # Appendix
-
-Here's a reference guide for regex expressions:
-
-```{r}
-# create example
-example.obj <- "1. A small sentence. - 2. Another tiny sentence."
-```
-
-### Wildcard `.`
-```{r}
-stringr::str_extract(example.obj, "sm.ll")
-```
-
-### Character class
-```{r}
-stringr::str_extract(example.obj, "sm[abc]ll")
-
-# range
-stringr::str_extract(example.obj, "sm[a-p]ll")
-
-# additional characters
-unlist(stringr::str_extract_all(example.obj, "[uvw. ]"))
-
-# pre-defined character classes
-unlist(stringr::str_extract_all(example.obj, "[:punct:]"))
-unlist(stringr::str_extract_all(example.obj, "[[:punct:]ABC]"))
-unlist(stringr::str_extract_all(example.obj, "[^[:alnum:]]"))
-
-# additional shortcuts
-unlist(stringr::str_extract_all(example.obj, "\\w+"))
-```
-
-### Word edges
-```{r}
-unlist(stringr::str_extract_all(example.obj, "e\\b")) 
-unlist(stringr::str_extract_all(example.obj, "e\\B"))
-```
-
-### Quantifiers
-```{r}
-stringr::str_extract(example.obj, "s[:alpha:][:alpha:][:alpha:]l")
-stringr::str_extract(example.obj, "s[:alpha:]{3}l")
-stringr::str_extract(example.obj, "A.+sentence")
-
-# greedy quantification
-stringr::str_extract(example.obj, "A.+sentence")
-stringr::str_extract(example.obj, "A.+?sentence")
-
-# quantifier with pattern sequence
-unlist(stringr::str_extract_all(example.obj, "(.en){1,5}"))
-unlist(stringr::str_extract_all(example.obj, ".en{1,5}"))
-```
-
-### Meta characters
-```{r}
-unlist(stringr::str_extract_all(example.obj, "\\."))
-unlist(stringr::str_extract_all(example.obj, fixed(".")))
-
-# meta characters in character classes
-unlist(stringr::str_extract_all(example.obj, "[1-2]"))
-unlist(stringr::str_extract_all(example.obj, "[12-]"))
-```
-
-### Backreferencing
-```{r}
-stringr::str_extract(example.obj, "([:alpha:]).+?\\1")
-stringr::str_extract(example.obj, "(\\b[a-z]+\\b).+?\\1")
-```
 
 Do you think you've mastered regular expressions? Maybe [think again](http://stackoverflow.com/questions/201323/using-a-regular-expression-to-validate-an-email-address/201378#201378). `r emo::ji("exploding_head")`
