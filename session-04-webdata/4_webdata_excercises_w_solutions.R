@@ -21,12 +21,19 @@ str_extract_all(example.obj, "[[:alpha:]]\\.")
 str_subset(stringr::words, "[^e]ed$")
 
 # 5.
-str_view(example.obj, "\\b[[:alpha:]]{1,5}\\b")
+str_detect(stringr::words, '^[:alpha:]{2}y$') |> sum()
 
 # 6.
-str_detect(stringr::words, '^\\w{2}y$') |> sum()
+# Note `\\b` indicates a word boundary, i.e. the start or end of a word.
+str_view(example.obj, "\\b[[:alpha:]]{1,5}\\b")
 
-# Regular Expressions Excercises
+# Solution using str_split() and str_subset()
+str_split_1(example.obj, pattern = "\\b") |> 
+  str_subset("^[[:alpha:]]{1,5}$") |>
+  print()
+# Note you can use `str_c()` to recombine the words into a single string if you want.
+# 
+# Regular Expressions Exercises
 # 
 # 1.a.
 # "\\$[0-9]+" will match one or more numbers followed by a dollar sign. For example, "\\$[0-9]+": c(c("$150", "$690", "$75").

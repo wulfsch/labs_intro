@@ -1833,67 +1833,74 @@ matched.</li>
 </ul>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="fu">str_extract</span>(example.obj, <span class="st">&quot;sm[abc]ll&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;small&quot;</code></pre>
-<ul>
-<li>The hyphen defines a range of characters.</li>
-</ul>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="fu">str_extract</span>(example.obj, <span class="st">&quot;sm[a-p]ll&quot;</span>)</span></code></pre></div>
-<pre><code>## [1] &quot;small&quot;</code></pre>
 <p>Some character classes are pre-defined. They are very convenient to
 efficiently describe specific string patterns.</p>
 <table>
 <colgroup>
-<col width="50%" />
-<col width="50%" />
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th>Specification</th>
 <th>Meaning</th>
+<th>Shorthand version</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><code>[:digit:]</code></td>
 <td>Digits: 0 1 2 3 4 5 6 7 8 9</td>
+<td>\d</td>
 </tr>
 <tr class="even">
 <td><code>[:lower:]</code></td>
 <td>Lower-case characters: a-z</td>
+<td>\l</td>
 </tr>
 <tr class="odd">
 <td><code>[:upper:]</code></td>
 <td>Upper-case characters: A-Z</td>
+<td>\u</td>
 </tr>
 <tr class="even">
 <td><code>[:alpha:]</code></td>
 <td>Alphabetic characters: a-z and A-Z</td>
+<td>\w</td>
 </tr>
 <tr class="odd">
 <td><code>[:alnum:]</code></td>
 <td>Digits and alphabetic characters</td>
+<td></td>
 </tr>
 <tr class="even">
 <td><code>[:punct:]</code></td>
 <td>Punctuation characters: <code>.</code>, <code>,</code>,
 <code>;</code>, etc.</td>
+<td></td>
 </tr>
 <tr class="odd">
 <td><code>[:graph:]</code></td>
 <td>Graphical characters: <code>[:alnum:]</code> and
 <code>[:punct:]</code></td>
+<td></td>
 </tr>
 <tr class="even">
 <td><code>[:blank:]</code></td>
 <td>Blank characters: Space and tab</td>
+<td>\s</td>
 </tr>
 <tr class="odd">
 <td><code>[:space:]</code></td>
 <td>Space characters: Space, tab, newline, and others</td>
+<td>\_s</td>
 </tr>
 <tr class="even">
 <td><code>[:print:]</code></td>
 <td>Printable characters: <code>[:alnum:]</code>, <code>[:punct:]</code>
 and <code>[:space:]</code></td>
+<td>\p</td>
 </tr>
 </tbody>
 </table>
@@ -1904,9 +1911,9 @@ and <code>[:space:]</code></td>
 and let us - combine different kinds of characters - facilitate reading
 of an expression - include special characters, e.g., ß, ö, æ, … - can be
 extended</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a><span class="fu">unlist</span>(<span class="fu">str_extract_all</span>(example.obj, <span class="st">&quot;[[:punct:]ABC]&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="fu">unlist</span>(<span class="fu">str_extract_all</span>(example.obj, <span class="st">&quot;[[:punct:]ABC]&quot;</span>))</span></code></pre></div>
 <pre><code>## [1] &quot;.&quot; &quot;A&quot; &quot;.&quot; &quot;-&quot; &quot;.&quot; &quot;A&quot; &quot;.&quot;</code></pre>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a><span class="fu">unlist</span>(<span class="fu">str_extract_all</span>(example.obj, <span class="st">&quot;[^[:alnum:]]&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a><span class="fu">unlist</span>(<span class="fu">str_extract_all</span>(example.obj, <span class="st">&quot;[^[:alnum:]]&quot;</span>))</span></code></pre></div>
 <pre><code>##  [1] &quot;.&quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot;.&quot; &quot; &quot; &quot;-&quot; &quot; &quot; &quot;.&quot; &quot; &quot; &quot; &quot; &quot; &quot; &quot;.&quot;</code></pre>
 </div>
 <div id="meta-symbols-in-character-classes" class="section level3">
@@ -1920,6 +1927,8 @@ character other than “a”, “b”, or “c”.</li>
 any character from a to d. However, <code>-</code> at the beginning or
 the end of a character class matches the hyphen.</li>
 </ul>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a><span class="fu">str_extract</span>(example.obj, <span class="st">&quot;sm[a-p]ll&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;small&quot;</code></pre>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a><span class="fu">unlist</span>(<span class="fu">str_extract_all</span>(example.obj, <span class="st">&quot;[1-2]&quot;</span>))</span></code></pre></div>
 <pre><code>## [1] &quot;1&quot; &quot;2&quot;</code></pre>
 <div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a><span class="fu">unlist</span>(<span class="fu">str_extract_all</span>(example.obj, <span class="st">&quot;[12-]&quot;</span>))</span></code></pre></div>
@@ -1996,14 +2005,16 @@ match as few times as possible.</p>
 <div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" tabindex="-1"></a><span class="fu">str_extract</span>(example.obj, <span class="st">&quot;A.+?sentence&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;A small sentence&quot;</code></pre>
 <div class="alert-info">
-<p><strong>Exercise 5</strong> In the example sentence can you find all
-the words that are less than 6 characters long?</p>
+<p><strong>Exercise 5</strong> How many words are there in
+<code>stringr::words</code> that end with a “y” and are exactly 3
+characters long?</p>
 <div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" tabindex="-1"></a><span class="co"># Your code here</span></span></code></pre></div>
 </div>
 <div class="alert-info">
-<p><strong>Exercise 6</strong> How many words are there in
-<code>stringr::words</code> that end with a “y” and are exactly 3
-characters long?</p>
+<p><strong>Exercise 6</strong> In the example sentence can you find all
+the words that are less than 6 characters long?</p>
+<p>Hint: <code>\\b</code> can be use to match a word boundary, i.e. the
+start or end of a word.</p>
 <div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" tabindex="-1"></a><span class="co"># Your code here</span></span></code></pre></div>
 </div>
 </div>
