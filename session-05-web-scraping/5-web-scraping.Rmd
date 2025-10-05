@@ -281,6 +281,22 @@ summary <- nypl100 |>
 knitr::kable(data.frame(title, author, summary) |> head(3))
 ```
 
+
+:::{.alert-info .pad-box}
+
+****Exercise 1**** 🏋 
+
+Your task is to extract the second paragraph from the "Roman Cologne" section of the Wikipedia page on Cologne any way you like. Use the `parsed_url` object we created earlier. 
+::: 
+
+```{r}
+# YOUR ANSWER HERE
+
+```
+
+
+
+
 ---
 
 ## Scraping HTML tables `r emo::ji("rocket")`
@@ -321,7 +337,7 @@ head(spotify_table)
 
 :::{.alert-info .pad-box}
 
-🏋 **Let's do an exercise**
+**Exercise 2**
 
 Can you tell us:
 

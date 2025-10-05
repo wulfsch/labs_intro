@@ -2,6 +2,22 @@
 library(tidyverse)
 library(rvest)
 
+
+# Exercise 1
+# Precise XPath from Chrome
+parsed_url |> 
+  rvest::html_element(xpath = '//*[@id="mw-content-text"]/div[1]/p[8]') |> 
+  rvest::html_text2()
+
+
+# More flexible, getting the second paragraph of the header Roman Cologne
+parsed_url |> 
+  rvest::html_element(xpath = '//h3[@id="Roman_Cologne"]/following::p[2]') |> 
+  rvest::html_text2()
+
+
+
+# Exercise 2
 ## Exercise a: What does it take to be within the top-100 most streamed songs on Spotify? 
 ## (i.e., how many streams?)
 
