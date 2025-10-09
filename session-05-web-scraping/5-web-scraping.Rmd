@@ -125,6 +125,7 @@ library(rvest)
 library(stringr)
 library(tidyverse)
 library(here)
+library(purrr)
 ```
 
 **Step 2.** Parse the page source. If encoding is necessary, you can add it in the reading html step.
@@ -226,7 +227,10 @@ Your task is to extract the second paragraph from the "Roman Cologne" section of
 
 ```{r}
 # YOUR ANSWER HERE
-
+parsed_url |> 
+  rvest::html_elements(xpath = '/html/body/div[2]/div/div[3]/main/div[3]/div[3]/div[1]/p[7]') |> 
+  rvest::html_text() |> 
+  str_trim()
 ```
 
 
@@ -267,6 +271,26 @@ spotify_table <- spotify_table_raw |>
   dplyr::select(-ref) # drop ref col
 
 head(spotify_table)
+
+# Function for exercise 2b
+
+split_artists <- function(str) {
+  parts <- strsplit(str, ", | and | with")[[1]] |> 
+    str_remove_all("I") |> 
+    str_replace("Tones", "Tones and I") |> 
+    trimws()
+  return(parts)
+}
+spotify_artists <- spotify_table |> 
+  mutate(unique_artists = map(artist_s, split_artists)) |> 
+  select(unique_artists) |> 
+  unnest_wider(col = unique_artists, names_sep = "_")
+
+spotify_artists |> 
+  pivot_longer(cols = everything(), values_to = "uniqueness") |> 
+  group_by(uniqueness) |> 
+  summarise(count = n()) |> 
+  arrange(desc(count))
 ```
 
 
@@ -277,7 +301,9 @@ head(spotify_table)
 Can you tell us:
 
 a) What does it take to be within the top-100 most streamed songs on Spotify? (i.e., how many streams?)
+2.421 billion streams
 b) Which artists have the highest number of most streamed songs? (Note that the `artist_s` string might contain multiple unique artists)
+
 
 
 *Bonus at home 🏠*
@@ -287,6 +313,15 @@ c) Which artists have the most cumulative streams?
 
 ```{r}
 # YOUR ANSWER HERE
+new_spotify <- spotify_table |> 
+  separate_rows(artist_s, sep = ", | with | and") |> 
+  filter(str_trim(artist_s) != "I") |> 
+  mutate(artist_s = ifelse(artist_s == "Tones", "Tones and I", artist_s)) |> 
+  group_by(artist_s) |> 
+  summarise(total_streams = sum(streams_billions, na.rm = T), .groups = "drop") |> 
+  arrange(desc(total_streams))
+
+head(new_spotify)
 ```
 
 ---
@@ -349,6 +384,8 @@ folder <- paste0(tempwd, "/html_articles/")
 #concatenate the tempwd path with "/html_articles/" to create another path
 
 dir.create(folder, recursive = TRUE)
+
+# Remember adding them to .gitignore!!!
 
 for (i in seq_along(urls_list)) {
   # only update, don't replace

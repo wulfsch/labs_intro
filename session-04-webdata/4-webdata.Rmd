@@ -562,7 +562,8 @@ Can you find all links in on our example document?
 
 
 ```{r}
-
+rvest::html_elements(parsed_doc, xpath = "//a") |> 
+  html_attr("href")
 ```
 
 ---
