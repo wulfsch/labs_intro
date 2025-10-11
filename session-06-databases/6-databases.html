@@ -1535,7 +1535,22 @@ margin-left: 0 !important;
           <li><a href="#more-advanced-operations" id="toc-more-advanced-operations">More advanced
           operations</a></li>
           <li><a href="#joins" id="toc-joins">Joins</a></li>
+          <li><a href="#working-with-joins" id="toc-working-with-joins">Working with joins</a></li>
           </ul></li>
+          <li><a href="#a-look-under-the-hood" id="toc-a-look-under-the-hood">A look under the Hood</a>
+          <ul>
+          <li><a href="#inspecting-queries" id="toc-inspecting-queries">Inspecting queries</a></li>
+          <li><a href="#from-remote-to-local-storage" id="toc-from-remote-to-local-storage">From remote to local
+          storage</a></li>
+          <li><a href="#using-sql-directly-in-r" id="toc-using-sql-directly-in-r">Using SQL directly in
+          R</a></li>
+          <li><a href="#disconnect-from-database" id="toc-disconnect-from-database">Disconnect from
+          database</a></li>
+          <li><a href="#exercises-on-databases" id="toc-exercises-on-databases">Exercises on
+          Databases</a></li>
+          </ul></li>
+          <li><a href="#advanced-bigquery" id="toc-advanced-bigquery">(Advanced) BigQuery</a></li>
+          <li><a href="#acknowledgements" id="toc-acknowledgements"><b style="color:#2f1a61">Acknowledgements</b></a></li>
           </ul>
         </nav>
         <ul class="authors">
@@ -2018,8 +2033,8 @@ couple more:</p>
 <span id="cb26-25"><a href="#cb26-25" tabindex="-1"></a>)</span></code></pre></div>
 <div class="alert-info pad-box">
 <p><strong>Exercise 2</strong> 🏋</p>
-<p>Now it’s your turn! Before we add the <code>airports</code> table to
-our database, we need to de</p>
+<p>Now it’s your turn! Let’s now add the <code>airports</code> table to
+our database.</p>
 <p><strong>Your task:</strong></p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Inspect the <code>nycflights13::airports</code> dataset (use
@@ -2028,6 +2043,7 @@ Which column uniquely identifies each airport?</p></li>
 <li><p>Add the <code>airports</code> table to the database with the
 appropriate index.</p></li>
 </ol>
+</div>
 <p>Now let us call <code>DBI::dbListTables()</code> again on our “con”
 database connection. As you can see, there are several more tables
 now.</p>
@@ -2035,6 +2051,7 @@ now.</p>
 <pre><code>## [1] &quot;airlines&quot;     &quot;flights&quot;      &quot;planes&quot;       &quot;sqlite_stat1&quot; &quot;sqlite_stat1&quot;
 ## [6] &quot;sqlite_stat4&quot; &quot;sqlite_stat4&quot; &quot;weather&quot;</code></pre>
 <hr />
+</div>
 <div id="working-with-joins" class="section level2">
 <h2>Working with joins</h2>
 <p>The <code>join</code> syntax has its origin in SQL. Unsurprisingly,
@@ -2067,6 +2084,7 @@ how you perform a left join:</p>
 ## # ℹ 1 more variable: model &lt;chr&gt;</code></pre>
 <p>This should all feel very <strong>familiar</strong> right? 😁</p>
 <hr />
+</div>
 </div>
 <div id="a-look-under-the-hood" class="section level1">
 <h1>A look under the Hood</h1>
@@ -2149,6 +2167,19 @@ works.</p>
 ## 10 N22971   24.7   230
 ## # ℹ 1,191 more rows</code></pre>
 <hr />
+<div class="alert-info pad-box">
+<p>** (Optional) Exercise 3** 🏋</p>
+<p>You want to find the full airline names (not just the carrier codes)
+for all flights on January 1st.</p>
+<p><strong>Your task:</strong></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Join <code>flights_db</code> with <code>airlines_db</code> and
+filter for flights on January 1st. Select the carrier code, airline
+name, and flight number.</p></li>
+<li><p>Collect the results into a local dataframe.</p></li>
+</ol>
+</div>
+<hr />
 </div>
 <div id="using-sql-directly-in-r" class="section level2">
 <h2>Using SQL directly in R</h2>
@@ -2230,9 +2261,6 @@ McDermott.</p>
 Arendt</a> and <a href="https://lfoswald.github.io/">Lisa Oswald</a>,
 with contributions by <a href="https://smkerr.github.io/">Steve
 Kerr</a>, <a href="https://github.com/hiba-ahmad">Hiba Ahmad</a>, <a href="https://github.com/cgarroca">Carmen Garro</a>, <a href="https://seramirezruiz.github.io/">Sebastian Ramirez-Ruiz</a>, <a href="https://github.com/Killian-Conyngham">Killian Conyngham</a> and <a href="https://github.com/cbsobral">Carol Sobral</a>.</p>
-</div>
-</div>
-</div>
 </div>
 
    

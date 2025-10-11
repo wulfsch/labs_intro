@@ -28,3 +28,18 @@ dplyr::copy_to(
   temporary = FALSE, 
   indexes = "faa"
 )
+
+
+# Exercise 3
+# Create reference to airlines table
+airlines_db <- dplyr::tbl(con, "airlines")
+
+# a) Join, filter, and limit (all happens on database)
+jan1_flights <- flights_db |>
+  dplyr::filter(month == 1, day == 1) |>
+  dplyr::left_join(airlines_db, by = "carrier") |>
+  dplyr::select(carrier, name, flight) 
+
+# b) Now collect into local dataframe
+jan1_flights_local <- jan1_flights |> dplyr::collect()
+jan1_flights_local

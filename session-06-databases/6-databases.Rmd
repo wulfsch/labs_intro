@@ -398,14 +398,14 @@ dplyr::copy_to(
 **Exercise 2** 🏋 
 
 
-Now it's your turn! Before we add the `airports` table to our database, we need to de
+Now it's your turn! Let's now add the `airports` table to our database.
 
 **Your task:**
 
 a) Inspect the `nycflights13::airports` dataset (use `head()`, `glimpse()`, or `View()`). Which column uniquely identifies each airport?
 
 b) Add the `airports` table to the database with the appropriate index. 
-
+:::
 
 ```{r}
 
@@ -505,6 +505,28 @@ If you then want to pull the data into a local data frame, use `dplyr::collect()
 tailnum_delay <- tailnum_delay_db |> dplyr::collect()
 tailnum_delay
 ```
+
+
+------------------------------------------------------------------------
+
+
+:::{.alert-info .pad-box}
+** (Optional) Exercise 3** 🏋 
+
+You want to find the full airline names (not just the carrier codes) for all flights on January 1st.
+
+**Your task:**
+
+a) Join `flights_db` with `airlines_db` and filter for flights on January 1st. Select the carrier code, airline name, and flight number. 
+
+b) Collect the results into a local dataframe.
+:::
+
+```{r}
+
+```
+
+
 
 ------------------------------------------------------------------------
 
