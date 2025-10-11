@@ -1535,22 +1535,7 @@ margin-left: 0 !important;
           <li><a href="#more-advanced-operations" id="toc-more-advanced-operations">More advanced
           operations</a></li>
           <li><a href="#joins" id="toc-joins">Joins</a></li>
-          <li><a href="#working-with-joins" id="toc-working-with-joins">Working with joins</a></li>
           </ul></li>
-          <li><a href="#a-look-under-the-hood" id="toc-a-look-under-the-hood">A look under the Hood</a>
-          <ul>
-          <li><a href="#inspecting-queries" id="toc-inspecting-queries">Inspecting queries</a></li>
-          <li><a href="#from-remote-to-local-storage" id="toc-from-remote-to-local-storage">From remote to local
-          storage</a></li>
-          <li><a href="#using-sql-directly-in-r" id="toc-using-sql-directly-in-r">Using SQL directly in
-          R</a></li>
-          <li><a href="#disconnect-from-database" id="toc-disconnect-from-database">Disconnect from
-          database</a></li>
-          <li><a href="#exercises-on-databases" id="toc-exercises-on-databases">Exercises on
-          Databases</a></li>
-          </ul></li>
-          <li><a href="#advanced-bigquery" id="toc-advanced-bigquery">(Advanced) BigQuery</a></li>
-          <li><a href="#acknowledgements" id="toc-acknowledgements"><b style="color:#2f1a61">Acknowledgements</b></a></li>
           </ul>
         </nav>
         <ul class="authors">
@@ -1915,9 +1900,9 @@ you want to interact with.</p>
 source</strong>; the table is not stored in our RStudio environment. Nor
 should you need to transfer the entire table to your RStudio
 environment. You can perform operations directly on the remote source.
-What is more, you can rely on the <code>dplyr</code> syntax from last
-week to formulate your queries. R will automatically translate it into
-SQL (more on that below).</p>
+What is more, you can rely on the <code>dplyr</code> syntax to formulate
+your queries. R will automatically translate it into SQL (more on that
+below).</p>
 <hr />
 </div>
 <div id="selecting-columns" class="section level2">
@@ -2024,29 +2009,32 @@ couple more:</p>
 <span id="cb26-16"><a href="#cb26-16" tabindex="-1"></a></span>
 <span id="cb26-17"><a href="#cb26-17" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">copy_to</span>(</span>
 <span id="cb26-18"><a href="#cb26-18" tabindex="-1"></a>  <span class="at">dest =</span> con, </span>
-<span id="cb26-19"><a href="#cb26-19" tabindex="-1"></a>  <span class="at">df =</span> nycflights13<span class="sc">::</span>airports, </span>
-<span id="cb26-20"><a href="#cb26-20" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">&quot;airports&quot;</span>, <span class="co"># we create the &quot;airports&quot; table</span></span>
+<span id="cb26-19"><a href="#cb26-19" tabindex="-1"></a>  <span class="at">df =</span> nycflights13<span class="sc">::</span>weather, </span>
+<span id="cb26-20"><a href="#cb26-20" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">&quot;weather&quot;</span>, <span class="co"># we create the &quot;weather&quot; table</span></span>
 <span id="cb26-21"><a href="#cb26-21" tabindex="-1"></a>  <span class="at">temporary =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb26-22"><a href="#cb26-22" tabindex="-1"></a>  <span class="at">indexes =</span> <span class="st">&quot;faa&quot;</span></span>
-<span id="cb26-23"><a href="#cb26-23" tabindex="-1"></a>)</span>
-<span id="cb26-24"><a href="#cb26-24" tabindex="-1"></a></span>
-<span id="cb26-25"><a href="#cb26-25" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">copy_to</span>(</span>
-<span id="cb26-26"><a href="#cb26-26" tabindex="-1"></a>  <span class="at">dest =</span> con, </span>
-<span id="cb26-27"><a href="#cb26-27" tabindex="-1"></a>  <span class="at">df =</span> nycflights13<span class="sc">::</span>weather, </span>
-<span id="cb26-28"><a href="#cb26-28" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">&quot;weather&quot;</span>, <span class="co"># we create the &quot;weather&quot; table</span></span>
-<span id="cb26-29"><a href="#cb26-29" tabindex="-1"></a>  <span class="at">temporary =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb26-30"><a href="#cb26-30" tabindex="-1"></a>  <span class="at">indexes =</span> <span class="fu">list</span>(</span>
-<span id="cb26-31"><a href="#cb26-31" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;day&quot;</span>, <span class="st">&quot;hour&quot;</span>, <span class="st">&quot;origin&quot;</span>)</span>
-<span id="cb26-32"><a href="#cb26-32" tabindex="-1"></a>  )</span>
-<span id="cb26-33"><a href="#cb26-33" tabindex="-1"></a>)</span></code></pre></div>
-<p>Let us call <code>DBI::dbListTables()</code> again on our “con”
+<span id="cb26-22"><a href="#cb26-22" tabindex="-1"></a>  <span class="at">indexes =</span> <span class="fu">list</span>(</span>
+<span id="cb26-23"><a href="#cb26-23" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;day&quot;</span>, <span class="st">&quot;hour&quot;</span>, <span class="st">&quot;origin&quot;</span>)</span>
+<span id="cb26-24"><a href="#cb26-24" tabindex="-1"></a>  )</span>
+<span id="cb26-25"><a href="#cb26-25" tabindex="-1"></a>)</span></code></pre></div>
+<div class="alert-info pad-box">
+<p><strong>Exercise 2</strong> 🏋</p>
+<p>Now it’s your turn! Before we add the <code>airports</code> table to
+our database, we need to de</p>
+<p><strong>Your task:</strong></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Inspect the <code>nycflights13::airports</code> dataset (use
+<code>head()</code>, <code>glimpse()</code>, or <code>View()</code>).
+Which column uniquely identifies each airport?</p></li>
+<li><p>Add the <code>airports</code> table to the database with the
+appropriate index.</p></li>
+</ol>
+<p>Now let us call <code>DBI::dbListTables()</code> again on our “con”
 database connection. As you can see, there are several more tables
 now.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>DBI<span class="sc">::</span><span class="fu">dbListTables</span>(con)</span></code></pre></div>
-<pre><code>## [1] &quot;airlines&quot;     &quot;airports&quot;     &quot;flights&quot;      &quot;planes&quot;       &quot;sqlite_stat1&quot;
-## [6] &quot;sqlite_stat1&quot; &quot;sqlite_stat4&quot; &quot;sqlite_stat4&quot; &quot;weather&quot;</code></pre>
+<pre><code>## [1] &quot;airlines&quot;     &quot;flights&quot;      &quot;planes&quot;       &quot;sqlite_stat1&quot; &quot;sqlite_stat1&quot;
+## [6] &quot;sqlite_stat4&quot; &quot;sqlite_stat4&quot; &quot;weather&quot;</code></pre>
 <hr />
-</div>
 <div id="working-with-joins" class="section level2">
 <h2>Working with joins</h2>
 <p>The <code>join</code> syntax has its origin in SQL. Unsurprisingly,
@@ -2080,7 +2068,6 @@ how you perform a left join:</p>
 <p>This should all feel very <strong>familiar</strong> right? 😁</p>
 <hr />
 </div>
-</div>
 <div id="a-look-under-the-hood" class="section level1">
 <h1>A look under the Hood</h1>
 <p>As you saw, you can conduct your analyses in a database, the same way
@@ -2094,7 +2081,7 @@ SQL and executed in the database on the remote server, not in R on your
 local machine.</p>
 <p>This has the following implications. When working with databases,
 <code>dplyr</code> tries to be as <strong>lazy as possible</strong>
-🛏:</p>
+😪:</p>
 <ul>
 <li>It never pulls data into R unless you explicitly ask for it.</li>
 <li>It delays doing any work until the last possible moment: it collects
@@ -2243,6 +2230,9 @@ McDermott.</p>
 Arendt</a> and <a href="https://lfoswald.github.io/">Lisa Oswald</a>,
 with contributions by <a href="https://smkerr.github.io/">Steve
 Kerr</a>, <a href="https://github.com/hiba-ahmad">Hiba Ahmad</a>, <a href="https://github.com/cgarroca">Carmen Garro</a>, <a href="https://seramirezruiz.github.io/">Sebastian Ramirez-Ruiz</a>, <a href="https://github.com/Killian-Conyngham">Killian Conyngham</a> and <a href="https://github.com/cbsobral">Carol Sobral</a>.</p>
+</div>
+</div>
+</div>
 </div>
 
    
