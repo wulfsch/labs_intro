@@ -170,7 +170,17 @@ b) Which airline has the most flights with unregistered planes?
 :::
 
 ```{r}
+unregistered <- anti_join(flights, planes, by = "tailnum") |> 
+  select(tailnum, carrier)
 
+nrow(unregistered)
+
+unregistered |> 
+  group_by(carrier) |> 
+  summarise(flights = n()) |> 
+  left_join(airlines) |> 
+  select(flights, name) |> 
+  relocate(name)
 ```
 
 
@@ -391,6 +401,7 @@ dplyr::copy_to(
     c("year", "month", "day", "hour", "origin")
   )
 )
+
 ```
 
 
@@ -408,7 +419,15 @@ b) Add the `airports` table to the database with the appropriate index.
 :::
 
 ```{r}
-
+head(airports)
+dplyr::copy_to(
+  dest = con,
+  df = nycflights13::airports,
+  name = "airports",
+  temporary = F,
+  indexes = "faa",
+  overwrite = T
+)
 ```
 
 
@@ -435,6 +454,8 @@ dplyr::left_join(
 ) |>
   dplyr::select(year, month, day, dep_time, arr_time, carrier, flight, tailnum,
          year_built, type, model) 
+
+# If we wanted to write this back to the database, we could add another pipe operator with copy_to, leaving out the df variable.
 ```
 
 This should all feel very **familiar** right? `r emo::ji("grin")`
@@ -523,7 +544,14 @@ b) Collect the results into a local dataframe.
 :::
 
 ```{r}
+airlines_db <- tbl(con, "airlines")
+new_year <- left_join(flights_db, airlines_db, by = "carrier") |> 
+  filter(month == 1, day == 1) |> 
+  select(carrier, name, flight) |> 
+  collect()
 
+head(new_year)
+nrow(new_year)
 ```
 
 
