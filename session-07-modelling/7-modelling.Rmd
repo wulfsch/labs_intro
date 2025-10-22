@@ -150,7 +150,7 @@ Running a model with a formula is straightforward. Note that we don't even have 
 lm(life_expectancy ~ gdp, data = life_expec_dat)
 ```
 
-Note: Both sides of this equation go by many names. The left-hand side, often written as y, may be called the dependent variable, response variable, or target variable, depending on context.The right-hand side, often written as X, may be referred to as the independent variables, explanatory variables, or regressors. These terms have subtle differences in meaning depending on the context, but for our purposes today it’s enough to know that they all refer to one of the two sides of a regression equation.
+Note: Both sides of this equation go by many names. The left-hand side, often written as y, may be called the dependent variable, response variable, or target variable, depending on context. The right-hand side, often written as X, may be referred to as the independent variables, explanatory variables, or regressors. These terms have subtle differences in meaning depending on the context, but for our purposes today it’s enough to know that they all refer to one of the two sides of a regression equation.
 
 ## Syntax
 
@@ -209,6 +209,17 @@ Using the two-step approach, create formulas that perform the following regressi
 
 ```{r, echo= FALSE}
 # your code here
+paste("life_expectancy ~", "gdp +", "population +", "alcohol") |> 
+  as.formula() |> 
+  lm(data = life_expec_dat)
+
+paste("life_expectancy ~", "gdp *", "population +", "alcohol") |> 
+  as.formula() |> 
+  lm(data = life_expec_dat)
+
+paste("life_expectancy ~", "gdp +", "I(gdp^2) +", "I(log(population))") |> 
+  as.formula() |> 
+  lm(data = life_expec_dat)
 ```
 :::
 
@@ -332,6 +343,9 @@ Look at the `multiv_model_out` object that you have just created. Try to get a s
 
 ```{r, echo= FALSE}
 # your code here
+for (i in 1:3) {
+  print(summary(multiv_model_out[[i]]))
+}
 ```
 :::
 
@@ -578,7 +592,7 @@ mod_table <- modelsummary::modelsummary(multiv_model_out[29:31],
                                         estimate  = "{estimate}",
                                         statistic = "conf.int",
                                         coef_omit = "Intercept",
-                                        coef_rename=c("gdp"="Gdp", 
+                                        coef_rename=c("gdp"="GDP", 
                                                       "bmi"="Avg. BMI", 
                                                       "alcohol" = "Alcohol Consum.",
                                                       "hiv_aids"= "HIV cases", 
@@ -609,7 +623,26 @@ Our implementation of `modelsummary` above is good, but it can be improved furth
 
 
 ```{r, echo= FALSE}
+options(scipen = 999)
+my_table <- modelsummary::modelsummary(multiv_model_out[29:31], 
+                                        output = "kableExtra",
+                                        fmt = fmt_significant(1),
+                                        estimate  = "{estimate}",
+                                        statistic = "conf.int",
+                                        coef_omit = "Intercept",
+                                        coef_rename=c("gdp"="GDP", 
+                                                      "bmi"="Avg. BMI", 
+                                                      "alcohol" = "Alcohol Consum.",
+                                                      "hiv_aids"= "HIV cases", 
+                                                      "percentage_expenditure" = "Health Expenditure (% of GDP)",
+                                                      "life_expectancy" = "Life Expectancy"),
+                                        gof_omit = 'DF|Deviance|Log.Lik|AIC|BIC',
+                                        title = 'An Improved Regression Table',
+                                        notes = 'Data Source: WHO',
+                                        escape = FALSE) |> 
+  kable_styling(bootstrap_options = "striped")
 
+my_table
 ```  
 :::
 ---
