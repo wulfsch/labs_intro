@@ -207,6 +207,10 @@ ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
 
 ```{r}
 # YOUR CODE HERE
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point() + 
+  labs(title = "Basic plot", y = "Body Mass", x = "Flipper length") +
+  theme_minimal()
 ```
 
 
@@ -255,6 +259,8 @@ What would happen if we specified 5 bins? Try it out.
 
 ```{r}
 # YOUR CODE HERE
+ggplot(df, aes(x = lifeExp)) +
+  geom_histogram(bins = 5)
 ```
 
 
@@ -331,13 +337,22 @@ Create a histogram showing the distribution of penguin body mass using the `peng
 
 ```{r}
 # YOUR CODE HERE
-
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_density(fill = "red")
 ```
 
 1. Now, look for a variable in the dataset that can be used to meaningfully group body mass. Use that variable to create a box plot or violin plot of body mass.
 
 ```{r}
 # YOUR CODE HERE
+ggplot(penguins, aes(x = species, y = body_mass_g)) +
+  geom_violin() +
+  labs(title = "Distribution of body masses",
+       subtitle = "Data source: palmerpenguins package",
+       x = "Species",
+       y = "Body mass in grams") +
+  theme_bw() +
+  coord_flip()
 ```
 
 
@@ -671,6 +686,9 @@ Create a scatter plot to explore the relationship between `flipper_length_mm` an
 
 ```{r}
 # YOUR CODE HERE
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, colour = island)) +
+  geom_point() +
+  geom_smooth(method = "lm")
 ```
 
 ---
@@ -855,7 +873,7 @@ Sometimes, we want to compare distributions across different groups in our data 
 table(df$continent)
 ```
 
-We pass a separate color to the distribution of the `lifeExp` for each continent by specifying the `color` parameter within the aesthetics. Remember, to remove the `color` parameter from the `geom_line()` function. The ability to pass a second variable to the graph with just one aesthetic (here: color) is where the true power of `ggplot2` for data visualization lies.
+We pass a separate color to the distribution of the `lifeExp` for each continent by specifying the `color` parameter within the aesthetics. Remember to remove the `color` parameter from the `geom_line()` function. The ability to pass a second variable to the graph with just one aesthetic (here: color) is where the true power of `ggplot2` for data visualization lies.
 
 ```{r, warning = F, message = F}
 ggplot(df, aes(x = lifeExp, color = continent)) +
@@ -965,7 +983,15 @@ Create a plot to compare the GDP per capita development of the BRICS countries (
 
 ```{r}
 # YOUR CODE HERE
-
+ggplot(subset(df, country == "Brazil" | country == "India" | country == "China" | country == "South Africa"),
+       aes(y = lifeExp, x = year)) +
+  geom_line() +
+  labs(title = "Distribution of life expectancy 1952-2007 for BRICS countries",
+       subtitle = "Data source: Gapminder package",
+       x = "Life expectancy in years",
+       y = "Density") +
+  theme_bw() +
+  facet_grid(~ country)
 ```
 
 ---
