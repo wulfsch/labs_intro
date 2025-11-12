@@ -2,6 +2,7 @@ pacman::p_load(ggplot2, plotly, dplyr)
 if (FALSE) {
   library(RSQLite)
   library(dbplyr)
+  library(legendry)
 }
 
 
@@ -19,7 +20,7 @@ all_movies <- dplyr::inner_join(omdb, tomatoes, by = "ID") %>%
   dplyr::select(ID, imdbID, Title, Year, Rating_m = Rating.x, Runtime, Released,
                 Director, Writer, imdbRating, imdbVotes, Language, Country, Oscars,
                 Rating = Rating.y, Meter, Reviews, Fresh, Rotten, userMeter, userRating, userReviews,
-                BoxOffice, Production, Cast)
+                BoxOffice, Production, Cast, Genre)
 
 # Variables that can be put on the x and y axes
 axis_vars <- c(
@@ -63,8 +64,9 @@ ui <- fluidPage(
                          0, 4, 0, step = 1),
              sliderInput("boxoffice", "Dollars at Box Office (millions)",
                          0, 800, c(0, 800), step = 1),
-             textInput("director", "Director name contains (e.g., Miyazaki)"),
-             textInput("cast", "Cast names contains (e.g. Tom Hanks)")
+             textInput("director", "Director name contains", placeholder = "Miyazaki"),
+             textInput("cast", "Cast names contains", placeholder = "Tom Hanks"),
+             textInput("genre", "Genre contains", placeholder = "Horror")
            ),
            
            # Plot axis selector
@@ -131,6 +133,10 @@ server <- function(input, output, session) {
       cast <- paste0("%", input$cast, "%")
       m <- m %>% filter(Cast %like% cast)
     }
+    if (!is.null(input$genre) && input$genre != "") {
+      genre <- paste0("%", input$genre, "%")
+      m <- m %>% filter(Genre %like% genre)
+    }
     
     # return m
     m <- as.data.frame(m)
@@ -180,14 +186,19 @@ server <- function(input, output, session) {
       )"
       )
     ) +
-      geom_point(shape = 21, alpha = 0.7) +
+      geom_point(shape = 21, alpha = 0.7, aes(size = BoxOffice)) +
       scale_fill_manual(values = c("Yes" = "orange", "No" = "gray"),name = "Won an Oscar") +
       scale_color_manual(values = c("Yes" = "orange", "No" = "gray"),guide = "none") +
       labs(
         x = xvar_name,
-        y = yvar_name
+        y = yvar_name,
+        title = paste("Movies by", xvar_name, "and", yvar_name),
+        size = ""
       ) +
       theme_minimal()
+      # scale_size_area(max_size = 10,
+      #                limits = c(0, NA),
+      #                breaks = c(0, 2, 5, 7))
     
     # Convert to plotly
     ggplotly(p, tooltip = "text", height = 400)
