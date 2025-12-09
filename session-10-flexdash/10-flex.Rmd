@@ -189,6 +189,8 @@ renderPlot({
 
 Let's look at a complete flexdashboard to see how these pieces work together. This dashboard visualizes nuclear waste sites across the United States, showing their cleanup status and locations.
 
+When creating a new RMarkdown file, there is a template for flexdashboard.
+
 ### What This Dashboard Does
 
 The dashboard has three main components:

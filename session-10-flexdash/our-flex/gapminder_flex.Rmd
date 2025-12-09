@@ -14,22 +14,50 @@ library(rnaturalearth)
 library(dplyr)
 library(sf)
 library(shiny)
+library(gapminder)
 
 # Color palette
-pal <- colorNumeric("YlOrRd", domain = NULL)
+pal <- colorNumeric("YlOrRd", domain = range(gapminder |> 
+                                               filter(continent == "Africa") |> 
+                                               select(pop)))
+```
 
-# Load African country boundaries
-africa <- ne_countries(continent = "Africa", returnclass = "sf")
+Column {.sidebar}
+---------------------------------------------------------------------------------------------------------------------
+### Selection
+```{r}
+selectInput("year", "Select Year:", choices = unique(gapminder$year))
 ```
 
 
-
+Column
+---
 ### African Countries 
 ```{r}
+renderLeaflet({
+# Load African country boundaries
+africa <- ne_countries(continent = "Africa", returnclass = "sf")
+
+# Wrangling data
+conditions <- c("Cote d'Ivoire", "Congo, Dem. Rep.", "Congo, Rep.", "Swaziland")
+replacement <- c("Ivory Coast", "Democratic Republic of the Congo", "Republic of the Congo", "Eswatini")
+value_range <- range(filter(gapminder, continent == "Africa") |> 
+                 select(pop))
+out_of_africa <- filter(gapminder, continent == "Africa", year == input$year)
+out_of_africa$country <- as.character(out_of_africa$country)
+out_of_africa$country <- replace(out_of_africa$country, out_of_africa$country %in% conditions, replacement)
+africa <- left_join(africa, out_of_africa, by = c("name_en" = "country"))
+
 # Plot 
 leaflet(africa) |>
   addTiles() |>
-  addPolygons()
+  addPolygons(fillColor = ~pal(pop), fillOpacity = 0.7,
+              label = ~format(pop, big.mark = " ")) |> 
+  addLegend("bottomleft",
+            values = ~value_range,
+            pal = pal,
+            title = "Population by country")
+})
 ```
 
 

@@ -337,6 +337,7 @@ Create a histogram showing the distribution of penguin body mass using the `peng
 
 ```{r}
 # YOUR CODE HERE
+options(scipen = 999)
 ggplot(penguins, aes(x = body_mass_g)) +
   geom_density(fill = "red")
 ```

@@ -497,6 +497,10 @@ Can you write a function to calculate the mode for a variable in the data? Let's
 # you might want to 
 # a) count how many times each value appears in a vector
 # b) find which value(s) appear most frequently
+get_mode <- function(vec) {
+  mode <- names(which.max(table(vec)))
+  return(mode)
+}
 ```
 :::
 
@@ -508,7 +512,7 @@ Can you write a function to calculate the mode for a variable in the data? Let's
 What is the mode for the variable `flipper_length_mm`?
 
 ```{r}
-
+get_mode(penguins$flipper_length_mm)
 ```
 :::
 
@@ -683,7 +687,7 @@ Go back to the example above. Since all of the means are numeric, it makes more 
 :::
 
 ```{r}
-
+map_int(.x = df, ~ mean(.x, na.rm = TRUE))
 ```
 
 
@@ -711,7 +715,16 @@ Write a function that returns both the mean and the standard deviation for the n
 :::
 
 ```{r}
-
+amazing_fun <- function(palmer){
+  means <- palmer |> 
+    select(where(is.numeric)) |> 
+    map(~ mean(.x, na.rm = TRUE))
+  sds <- palmer |> 
+    select(where(is.numeric)) |> 
+    map(~ sd(.x, na.rm = TRUE))
+    
+  return(c(means, sds))
+}
 ```
 
 
@@ -726,7 +739,7 @@ Iterate over the relevant columns.
 
 
 ```{r}
-
+amazing_fun(penguins)
 ```
 
 
